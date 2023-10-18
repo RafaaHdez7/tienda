@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "DetallesPedido")
+@Table(name = "detallespedido")
 public class DetallesPedido {
 
     @Id
