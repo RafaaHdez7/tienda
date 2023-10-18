@@ -1,5 +1,5 @@
 -- Insertar datos de ejemplo en la tabla de Usuarios
-INSERT INTO Usuarios (nombre_usuario, contrasena, rol)
+INSERT INTO tfg.Usuarios (nombre, contrasena, rol)
 VALUES
     ('admin', 'contrasena_admin', 'admin'),
     ('empleado1', 'contrasena_empleado1', 'empleado'),
@@ -8,14 +8,14 @@ VALUES
     ('cliente2', 'contrasena_cliente2', 'cliente');
 
 -- Insertar datos de ejemplo en la tabla de Categorías
-INSERT INTO Categorias (nombre_categoria, descripcion)
+INSERT INTO tfg.Categorias (nombre_categoria, descripcion)
 VALUES
     ('Electrónica', 'Productos electrónicos y gadgets'),
     ('Ropa', 'Ropa y accesorios de moda'),
     ('Alimentos', 'Productos alimenticios y comestibles');
 
 -- Insertar datos de ejemplo en la tabla de Productos
-INSERT INTO Productos (nombre_producto, descripcion, precio, stock_disponible, categoria_id)
+INSERT INTO tfg.Productos (nombre_producto, descripcion, precio, stock_disponible, categoria_id)
 VALUES
     ('Smartphone Modelo X', 'Smartphone de alta gama', 699.99, 50, 1),
     ('Camiseta de Manga Corta', 'Camiseta de algodón', 19.99, 100, 2),
@@ -24,13 +24,13 @@ VALUES
     ('Chocolate Negro', 'Tableta de chocolate gourmet', 5.99, 200, 3);
 
 -- Insertar datos de ejemplo en la tabla de Pedidos
-INSERT INTO Pedidos (usuario_id, fecha_hora, estado_pedido)
+INSERT INTO tfg.Pedidos (usuario_id, fecha_hora, estado_pedido)
 VALUES
     (4, CURRENT_TIMESTAMP, 'en proceso'),
     (5, CURRENT_TIMESTAMP, 'enviado');
 
 -- Insertar datos de ejemplo en la tabla de Detalles del Pedido
-INSERT INTO DetallesPedido (pedido_id, producto_id, cantidad, precio_unitario)
+INSERT INTO tfg.DetallesPedido (pedido_id, producto_id, cantidad, precio_unitario)
 VALUES
     (1, 1, 2, 699.99),
     (2, 3, 1, 249.99);
