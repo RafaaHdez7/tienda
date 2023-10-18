@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.rafhergom.tfg.model.entity.Usuario;
 import backend.rafhergom.tfg.service.UsuarioService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 
 
 @RestController
+@Api(tags = "UsuarioController")
 @RequestMapping("/api/usuarios")
 @Slf4j // Agrega anotación Lombok para el registro
 public class UsuarioController {
