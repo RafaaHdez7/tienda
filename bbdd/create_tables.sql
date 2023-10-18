@@ -1,7 +1,7 @@
 -- Crear la tabla de Usuarios
 CREATE TABLE tfg.Usuarios (
     id serial PRIMARY KEY,
-    nombre_usuario VARCHAR(50) NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
     contrasena VARCHAR(100) NOT NULL,
     rol VARCHAR(20) NOT NULL
 );

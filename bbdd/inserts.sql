@@ -1,5 +1,5 @@
 -- Insertar datos de ejemplo en la tabla de Usuarios
-INSERT INTO tfg.Usuarios (nombre_usuario, contrasena, rol)
+INSERT INTO tfg.Usuarios (nombre, contrasena, rol)
 VALUES
     ('admin', 'contrasena_admin', 'admin'),
     ('empleado1', 'contrasena_empleado1', 'empleado'),
