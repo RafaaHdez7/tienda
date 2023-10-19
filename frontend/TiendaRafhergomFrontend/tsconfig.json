@@ -3,6 +3,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "@shop/*" : ["src/app/@public/*"],
+      "@admin/*" : ["src/app/@admin/*"],
+      "@shop-core/*" : ["src/app/@public/core/*"],
+      "@admin-core/*" : ["src/app/@admin/core/*"],
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
