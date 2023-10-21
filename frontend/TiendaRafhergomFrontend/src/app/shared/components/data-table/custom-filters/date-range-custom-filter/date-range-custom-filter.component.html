@@ -1,0 +1,36 @@
+<p-columnFilter
+  [field]="field"
+  [hideOnClear]="true"
+  [showAddButton]="false"
+  [showMatchModes]="false"
+  [showOperator]="false"
+  matchMode="dateRange"
+  display="menu"
+>
+  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-6">
+        <p-calendar
+          [(ngModel)]="dateFrom"
+          [showButtonBar]="true"
+          [showClear]="true"
+          (ngModelChange)="onModelChange($event)"
+          placeholder="F. Desde"
+          inputId="dateFrom"
+          styleClass="w-full"
+        ></p-calendar>
+      </div>
+      <div class="field col-12 md:col-6">
+        <p-calendar
+          [(ngModel)]="dateTo"
+          [showButtonBar]="true"
+          [showClear]="true"
+          (ngModelChange)="onModelChange($event)"
+          placeholder="F. Hasta"
+          inputId="dateTo"
+          styleClass="w-full"
+        ></p-calendar>
+      </div>
+    </div>
+  </ng-template>
+</p-columnFilter>

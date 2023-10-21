@@ -1,0 +1,63 @@
+<p-confirmDialog
+  [style]="{ width: '50vw' }"
+  #confirmDialog
+  rejectButtonStyleClass="p-button-text"
+  defaultFocus="reject"
+>
+  <ng-template pTemplate="footer">
+    <p-button
+      (onClick)="confirmDialog.accept()"
+      styleClass="p-confirm-dialog-accept"
+      icon="pi pi-check"
+      label="Sí"
+    ></p-button>
+    <p-button
+      (onClick)="confirmDialog.reject()"
+      styleClass="p-button-text p-confirm-dialog-reject"
+      icon="pi pi-times"
+      label="No"
+    ></p-button>
+  </ng-template>
+</p-confirmDialog>
+<div class="flex flex-column justify-content-center m-3">
+    <p-messages></p-messages>
+    <div class="flex flex-grow-1 md:flex-row">
+      <h1 class="text-red-800">Atc Structure List</h1>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-2">
+        <label for="addReportButton" style="visibility: hidden">_</label>
+        <button
+          id="addReportButton"
+          class="w-full"
+          (click)="showAddDialog()"
+          pButton
+          label="New Producto"
+          icon="pi pi-plus"
+        ></button>
+      </div>
+    </div>
+
+    <div id="tableContent" class="mt-2">
+      <app-data-table
+        id="reportsTable"
+        exportFilename="Grupos_Elementos"
+        [(selected)]="selectedProductos"
+        [dataKey]="dataKey"
+        [lazy]="false"
+        [columns]="columns"
+        [loading]="loadingDataTable"
+        [value]="productos"
+        (onRefreshData)="handleRefreshData()"
+        #reportsTable
+        [showDetailsButton]="false"
+        [exportable]="false"
+        (onDeleteRows)="handleDeleteEvent($event)"
+        (onRowEdit)="showEditDialog($event)"
+        [loadingDelete]="loadingDelete"
+        [loadingEdit]="loadingEditDialog"
+      >
+      </app-data-table>
+    </div>
+  </div>
