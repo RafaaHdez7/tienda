@@ -1,4 +1,5 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
@@ -14,22 +15,31 @@ export class ProductoService {
 
   private crudURL = environment.productoURL;
 
+   // Importa el interceptor aquí
+   private addCustomHeader(request: HttpRequest<any>): HttpRequest<any> {
+    return request.clone({
+      setHeaders: {
+        'Mi-Cabecera': 'Valor de mi cabecera'
+      }
+    });
+  }
+
   getViews(): Observable<Producto[]> {
     return this.http.get<Producto[]>(
-      this.crudURL + 'all'
+      this.crudURL + ''
     );
   }
 
   get(id: string): Observable<Producto> {
     return this.http.get<Producto>(
-      this.crudURL + 'api/productos' + '/' + id
+      this.crudURL +'/' + id
     );
   }
 
   create(producto: Producto, isEdit: boolean): Observable<Producto> {
     if (isEdit) {
       return this.http.put<Producto>(
-        this.crudURL + 'create',
+        this.crudURL ,
         producto
       );
     }

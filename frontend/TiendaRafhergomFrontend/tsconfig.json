@@ -7,6 +7,10 @@
       "@admin/*" : ["src/app/@admin/*"],
       "@shop-core/*" : ["src/app/@public/core/*"],
       "@admin-core/*" : ["src/app/@admin/core/*"],
+      "@ui/*" : ["src/app/ui/*"],
+       "@assets": [
+        "src/assets"
+      ]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

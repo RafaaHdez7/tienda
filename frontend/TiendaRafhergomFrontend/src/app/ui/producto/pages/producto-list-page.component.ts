@@ -32,10 +32,11 @@ export class ProductoListPageComponent implements OnInit, OnDestroy {
 
   columns: DataTableColumn[] = [
     { field: 'id', header: 'Id' },
-    { field: 'status', header: 'Status' },
-    { field: 'name', header: 'Name' },
-    { field: 'atcCode', header: 'AtcCode' },
-    { field: 'parentId', header: 'ParentId' },
+    { field: 'nombreProducto', header: 'nombreProducto' },
+    { field: 'descripcion', header: 'descripcion' },
+    { field: 'categoriaId', header: 'categoriaId' },
+    { field: 'stockDisponible', header: 'stockDisponible' },
+    { field: 'precio', header: 'precio' },
   ];
 
   constructor(

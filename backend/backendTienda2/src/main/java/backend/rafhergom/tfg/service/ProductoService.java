@@ -32,6 +32,7 @@ public class ProductoService {
             productoDTO.setDescripcion(producto.getDescripcion());
             productoDTO.setPrecio(producto.getPrecio());
             productoDTO.setStockDisponible(producto.getStockDisponible());
+            productoDTO.setCategoriaId(producto.getCategoria().getId());
             // También puedes configurar otros campos según sea necesario
             productoDTOs.add(productoDTO);
         }
@@ -49,6 +50,7 @@ public class ProductoService {
             productoDTO.setDescripcion(producto.getDescripcion());
             productoDTO.setPrecio(producto.getPrecio());
             productoDTO.setStockDisponible(producto.getStockDisponible());
+            productoDTO.setCategoriaId(producto.getCategoria().getId());
             // También puedes configurar otros campos según sea necesario
             return productoDTO;
         }).orElse(null);
@@ -61,6 +63,7 @@ public class ProductoService {
         nuevoProducto.setDescripcion(productoDTO.getDescripcion());
         nuevoProducto.setPrecio(productoDTO.getPrecio());
         nuevoProducto.setStockDisponible(productoDTO.getStockDisponible());
+        productoDTO.setCategoriaId(productoDTO.getCategoriaId());
         // También puedes necesitar configurar otros campos
 
         // Guarda el nuevo producto en la base de datos utilizando el repository
@@ -73,6 +76,7 @@ public class ProductoService {
         nuevoProductoDTO.setDescripcion(nuevoProducto.getDescripcion());
         nuevoProductoDTO.setPrecio(nuevoProducto.getPrecio());
         nuevoProductoDTO.setStockDisponible(nuevoProducto.getStockDisponible());
+        nuevoProductoDTO.setCategoriaId(nuevoProducto.getCategoria().getId());
         // También puedes configurar otros campos según sea necesario
 
         return nuevoProductoDTO;
@@ -90,6 +94,7 @@ public class ProductoService {
             productoExistente.setDescripcion(productoDTO.getDescripcion());
             productoExistente.setPrecio(productoDTO.getPrecio());
             productoExistente.setStockDisponible(productoDTO.getStockDisponible());
+//            productoExistente.setCategoria(productoDTO.getCategoriaId());  TODO 
             // También puedes necesitar actualizar otros campos
 
             // Guarda la actualización en la base de datos

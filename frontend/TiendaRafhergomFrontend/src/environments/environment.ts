@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   url_frontend: 'http://localhost:4200/',
   url_backend: 'http://localhost:8088/tfg/',
-  _productoURL: 'http://localhost:8088/tfg/producto/',
+  _productoURL: 'http://localhost:8088/tfg/api/productos/',
   get productoURL() {
     return this._productoURL;
   },
