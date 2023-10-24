@@ -10,6 +10,8 @@ export const environment = {
   _usuarioURL: 'http://localhost:8088/tfg/api/usuarios/',
   _categoriaURL: 'http://localhost:8088/tfg/api/categorias/',
   _pedidosURL: 'http://localhost:8088/tfg/api/pedidos/',
+  _detallesPedidosURL: 'http://localhost:8088/tfg/api/detalles-pedido/',
+
   get productoURL() {
     return this._productoURL;
   },
@@ -33,6 +35,12 @@ export const environment = {
   },
   set pedidosURL(value) {
     this._pedidosURL = value;
+  },
+  get detallesPedidosURL() {
+    return this._detallesPedidosURL;
+  },
+  set detallesPedidosURL(value) {
+    this._detallesPedidosURL = value;
   },
 };
 

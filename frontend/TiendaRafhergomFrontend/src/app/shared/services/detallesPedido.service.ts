@@ -3,47 +3,47 @@ import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
-import { Categoria } from '../model';
+import { DetallesPedido } from '../model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriaService {
+export class DetallesPedidoService {
 
 
   constructor(private http: HttpClient) { }
 
-  private crudURL = environment.categoriaURL;
+  private crudURL = environment.detallesPedidosURL;
 
-  getViews(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(
+  getViews(): Observable<DetallesPedido[]> {
+    return this.http.get<DetallesPedido[]>(
       this.crudURL + ''
     );
   }
 
-  get(id: string): Observable<Categoria> {
-    return this.http.get<Categoria>(
+  get(id: string): Observable<DetallesPedido> {
+    return this.http.get<DetallesPedido>(
       this.crudURL +'/' + id
     );
   }
 
-  create(categoria: Categoria, isEdit: boolean): Observable<Categoria> {
+  create(categoria: DetallesPedido, isEdit: boolean): Observable<DetallesPedido> {
     if (isEdit) {
-      return this.http.put<Categoria>(
+      return this.http.put<DetallesPedido>(
         this.crudURL ,
         categoria
       );
     }
     else {
-      return this.http.post<Categoria>(
+      return this.http.post<DetallesPedido>(
         this.crudURL + 'create',
         categoria
       );
     }
   }
 
-  modify(categoria: Categoria): Observable<Categoria> {
-    return this.http.put<Categoria>(
+  modify(categoria: DetallesPedido): Observable<DetallesPedido> {
+    return this.http.put<DetallesPedido>(
       this.crudURL + 'edit',
       categoria
     );

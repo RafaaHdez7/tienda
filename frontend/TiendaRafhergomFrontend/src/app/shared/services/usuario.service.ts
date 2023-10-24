@@ -15,15 +15,6 @@ export class UsuarioService {
 
   private crudURL = environment.usuarioURL;
 
-   // Importa el interceptor aquí
-   private addCustomHeader(request: HttpRequest<any>): HttpRequest<any> {
-    return request.clone({
-      setHeaders: {
-        'Mi-Cabecera': 'Valor de mi cabecera'
-      }
-    });
-  }
-
   getViews(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(
       this.crudURL + ''
