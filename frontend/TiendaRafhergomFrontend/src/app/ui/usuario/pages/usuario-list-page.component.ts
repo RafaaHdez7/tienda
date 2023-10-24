@@ -3,16 +3,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { Producto } from 'src/app//shared/model';
-import { ProductoService } from 'src/app//shared/services';
-import { AddProductoDialogComponent } from '../components/add-producto-dialog/add-producto-dialog.component';
+import { Usuario } from 'src/app//shared/model';
+import { UsuarioService } from 'src/app/shared/services';
+import { AddUsuarioDialogComponent } from '../components/add-usuario-dialog/add-usuario-dialog.component';
 
 @Component({
-  selector: 'app-producto-list-page',
-  templateUrl: './producto-list-page.component.html',
+  selector: 'app-usuario-list-page',
+  templateUrl: './usuario-list-page.component.html',
   providers: [MessageService, DialogService, ConfirmationService],
 })
-export class ProductoListPageComponent implements OnInit, OnDestroy {
+export class UsuarioListPageComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
@@ -24,30 +24,29 @@ export class ProductoListPageComponent implements OnInit, OnDestroy {
 
   dataKey = "id";
 
-  productos: Producto[] = [];
+  usuarios: Usuario[] = [];
 
-  selectedProductos: Producto[] = [];
+  selectedUsuarios: Usuario[] = [];
 
   private refDialog: any;
 
   columns: DataTableColumn[] = [
     { field: 'id', header: 'Id' },
-    { field: 'nombreProducto', header: 'nombreProducto' },
-    { field: 'descripcion', header: 'descripcion' },
-    { field: 'categoriaId', header: 'categoriaId' },
-    { field: 'stockDisponible', header: 'stockDisponible' },
-    { field: 'precio', header: 'precio' },
+    { field: 'nombre', header: 'nombre' },
+    { field: 'contrasena', header: 'contrasena' },
+    { field: 'rol', header: 'Rol' },
+
   ];
 
   constructor(
-    private productoService: ProductoService,
+    private usuarioService: UsuarioService,
     private messageService: MessageService,
     private dialogService: DialogService,
     private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
-    this.getProductoViews();
+    this.getUsuarioViews();
   }
 
   ngOnDestroy(): void {
@@ -55,12 +54,12 @@ export class ProductoListPageComponent implements OnInit, OnDestroy {
   }
 
   handleRefreshData() {
-    this.getProductoViews();
+    this.getUsuarioViews();
   }
 
   showAddDialog() {
-    this.refDialog = this.dialogService.open(AddProductoDialogComponent, {
-      header: 'New Producto',
+    this.refDialog = this.dialogService.open(AddUsuarioDialogComponent, {
+      header: 'New Usuario',
       style: { 'min-width': '80vw', 'min-height': '30vh' },
       modal: true,
       contentStyle: {
@@ -72,40 +71,40 @@ export class ProductoListPageComponent implements OnInit, OnDestroy {
       },
     });
     this.subscriptions.add(
-      this.refDialog.onClose.subscribe((addedProducto: any) => {
-        if (addedProducto) {
+      this.refDialog.onClose.subscribe((addedUsuario: any) => {
+        if (addedUsuario) {
           this.onCreate();
         }
       })
     );
   }
 
-  showEditDialog(selectedRow: Producto) {
+  showEditDialog(selectedRow: Usuario) {
     this.loadingEditDialog = true;
     this.subscriptions.add(
-      this.productoService
+      this.usuarioService
         .get(selectedRow.id)
         .subscribe({
-          next: (producto: Producto) => {
+          next: (usuario: Usuario) => {
             this.refDialog = this.dialogService.open(
-              AddProductoDialogComponent,
+              AddUsuarioDialogComponent,
               {
-                header: 'editar Producto',
+                header: 'editar Usuario',
                 style: { 'min-width': '80vw', 'min-height': '30vh' },
                 modal: true,
                 contentStyle: {
                   'padding-bottom': '50px',
                 },
                 data: {
-                  productoToEdit: producto,
+                  usuarioToEdit: usuario,
                   saveOnAccept: true,
                   isEdit: true
                 },
               }
             );
             this.subscriptions.add(
-              this.refDialog.onClose.subscribe((updatedProducto: any) => {
-                if (updatedProducto) {
+              this.refDialog.onClose.subscribe((updatedUsuario: any) => {
+                if (updatedUsuario) {
                   this.onCreate();
                 }
               })
@@ -123,15 +122,15 @@ export class ProductoListPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  handleDeleteEvent(selectedRow: Producto) {
+  handleDeleteEvent(selectedRow: Usuario) {
       this.confirmationService.confirm({
-        message: 'Would you want to delete the selected Producto?',
+        message: 'Would you want to delete the selected Usuario?',
         header: 'Confirm',
         icon: 'pi pi-question-circle',
         accept: () => {
           this.loadingDelete = true;
           this.subscriptions.add(
-            this.productoService
+            this.usuarioService
               .delete(selectedRow.id)
               .subscribe({
                 next: () => {
@@ -154,10 +153,10 @@ export class ProductoListPageComponent implements OnInit, OnDestroy {
     this.scrollToTop();
     this.messageService.add({
       severity: 'success',
-      detail: 'Producto has been saved correctly',
+      detail: 'Usuario has been saved correctly',
       life: 10000,
     });
-    this.getProductoViews();
+    this.getUsuarioViews();
   }
 
   private onDeleted(): void {
@@ -165,22 +164,22 @@ export class ProductoListPageComponent implements OnInit, OnDestroy {
     this.scrollToTop();
     this.messageService.add({
       severity: 'success',
-      detail: 'Producto has been deleted correctly',
+      detail: 'Usuario has been deleted correctly',
       life: 10000,
     });
-    this.getProductoViews();
+    this.getUsuarioViews();
   }
 
-  private getProductoViews() {
-    this.selectedProductos = [];
+  private getUsuarioViews() {
+    this.selectedUsuarios = [];
     this.loadingDataTable = true;
 
     this.subscriptions.add(
-      this.productoService
+      this.usuarioService
         .getViews()
         .subscribe({
-          next: (respProductoView: Producto[]) => {
-            this.productos = respProductoView;
+          next: (respUsuarioView: Usuario[]) => {
+            this.usuarios = respUsuarioView;
           },
           error: () => {
             this.showErrorMessage(

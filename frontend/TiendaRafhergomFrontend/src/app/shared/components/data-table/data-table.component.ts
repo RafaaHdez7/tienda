@@ -16,7 +16,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { PageableFilter } from 'src/app//shared/model';
+import { PageableFilter } from 'src/app/shared/model';
 import { DateRangeCustomFilterComponent } from './custom-filters/date-range-custom-filter/date-range-custom-filter.component';
 import { SelectCustomFilterComponent } from './custom-filters/select-custom-filter/select-custom-filter.component';
 import { DataTableColumn, DataTableType } from './data-table-column';

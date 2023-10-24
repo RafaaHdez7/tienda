@@ -1,0 +1,63 @@
+<div id="dialog-content" class="flex flex-column justify-content-center m-3">
+  <p-messages></p-messages>
+  <div class="formgrid grid">
+    <div *ngIf="!isEdit" class="field col-12 md:col-5">
+      <label class="text-red-800" for="id">IdUsuario</label>
+      <input
+        id="id"
+        class="w-full"
+        [formControl]="idControl"
+        type="text"
+        #IdUsuario
+        pInputText
+      />
+    </div>
+
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="nombre">Nombre</label>
+      <input
+        id="nombre"
+        class="w-full"
+        [formControl]="nombreControl"
+        type="text"
+        #nombre
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="contrasena">Contraseña </label>
+      <input
+        id="contrasena"
+        class="w-full"
+        [formControl]="contrasenaControl"
+        type="text"
+        #contrasena
+        pInputText
+      />
+    </div>
+
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="rol">Rol</label>
+      <input
+        id="rol"
+        class="w-full"
+        [formControl]="rolControl"
+        type="text"
+        #rol
+        pInputText
+      />
+    </div>
+  </div>
+</div>
+<div
+  class="p-dialog-footer"
+  style="width: 100%; position: fixed; left: 0; bottom: 0"
+>
+  <p-button
+    [disabled]="!isValid()"
+    [loading]="loadingAcceptAddUsuario"
+    (onClick)="handleCreateItemEvent()"
+    icon="pi pi-check"
+    label="Acept"
+  ></p-button>
+</div>

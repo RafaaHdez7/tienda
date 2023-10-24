@@ -8,8 +8,8 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: '', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
-      { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
-      { path: 'products', loadChildren: () => import('@ui/producto/producto.module').then(m => m.ProductoModule) },
+      { path: 'usuarios', loadChildren: () => import('@ui/usuario/usuario.module').then(m => m.UsuarioModule) },
+      { path: 'productos', loadChildren: () => import('@ui/producto/producto.module').then(m => m.ProductoModule) },
       // { path: '**', redirectTo: 'admin', pathMatch: 'full'}
     ]
   }

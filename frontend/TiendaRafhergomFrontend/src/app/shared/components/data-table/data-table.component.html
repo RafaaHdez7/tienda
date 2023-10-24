@@ -32,10 +32,7 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th *ngIf="selectionMode === 'multiple'" style="width: 2rem">
-        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-      </th>
-      <th *ngIf="selectionMode === 'single'" style="width: 2rem"></th>
+      <th  style="width: 2rem"></th>
       <th *ngIf="rowExpandable" style="width: 2.25em"></th>
       <th
         [pSortableColumnDisabled]="column.sortableColumnDisabled!"

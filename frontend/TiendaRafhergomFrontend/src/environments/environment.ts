@@ -7,11 +7,18 @@ export const environment = {
   url_frontend: 'http://localhost:4200/',
   url_backend: 'http://localhost:8088/tfg/',
   _productoURL: 'http://localhost:8088/tfg/api/productos/',
+  _usuarioURL: 'http://localhost:8088/tfg/api/usuarios/',
   get productoURL() {
     return this._productoURL;
   },
   set productoURL(value) {
     this._productoURL = value;
+  },
+  get usuarioURL() {
+    return this._usuarioURL;
+  },
+  set usuarioURL(value) {
+    this._usuarioURL = value;
   },
 };
 

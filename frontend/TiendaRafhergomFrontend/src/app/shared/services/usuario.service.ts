@@ -3,17 +3,17 @@ import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
-import { Producto } from '../model/dtos/producto.model';
+import { Usuario } from '../model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductoService {
+export class UsuarioService {
 
 
   constructor(private http: HttpClient) { }
 
-  private crudURL = environment.productoURL;
+  private crudURL = environment.usuarioURL;
 
    // Importa el interceptor aquí
    private addCustomHeader(request: HttpRequest<any>): HttpRequest<any> {
@@ -24,37 +24,37 @@ export class ProductoService {
     });
   }
 
-  getViews(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(
+  getViews(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(
       this.crudURL + ''
     );
   }
 
-  get(id: string): Observable<Producto> {
-    return this.http.get<Producto>(
+  get(id: string): Observable<Usuario> {
+    return this.http.get<Usuario>(
       this.crudURL +'/' + id
     );
   }
 
-  create(producto: Producto, isEdit: boolean): Observable<Producto> {
+  create(usuario: Usuario, isEdit: boolean): Observable<Usuario> {
     if (isEdit) {
-      return this.http.put<Producto>(
+      return this.http.put<Usuario>(
         this.crudURL ,
-        producto
+        usuario
       );
     }
     else {
-      return this.http.post<Producto>(
+      return this.http.post<Usuario>(
         this.crudURL + 'create',
-        producto
+        usuario
       );
     }
   }
 
-  modify(producto: Producto): Observable<Producto> {
-    return this.http.put<Producto>(
+  modify(usuario: Usuario): Observable<Usuario> {
+    return this.http.put<Usuario>(
       this.crudURL + 'edit',
-      producto
+      usuario
     );
   }
 
