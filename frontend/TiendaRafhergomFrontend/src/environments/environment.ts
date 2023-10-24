@@ -8,6 +8,7 @@ export const environment = {
   url_backend: 'http://localhost:8088/tfg/',
   _productoURL: 'http://localhost:8088/tfg/api/productos/',
   _usuarioURL: 'http://localhost:8088/tfg/api/usuarios/',
+  _categoriaURL: 'http://localhost:8088/tfg/api/categorias/',
   get productoURL() {
     return this._productoURL;
   },
@@ -19,6 +20,12 @@ export const environment = {
   },
   set usuarioURL(value) {
     this._usuarioURL = value;
+  },
+  get categoriaURL() {
+    return this._categoriaURL;
+  },
+  set categoriaURL(value) {
+    this._categoriaURL = value;
   },
 };
 
