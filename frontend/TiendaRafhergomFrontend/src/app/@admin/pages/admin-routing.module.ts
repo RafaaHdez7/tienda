@@ -11,7 +11,7 @@ const routes: Routes = [
       { path: 'usuarios', loadChildren: () => import('@ui/usuario/usuario.module').then(m => m.UsuarioModule) },
       { path: 'productos', loadChildren: () => import('@ui/producto/producto.module').then(m => m.ProductoModule) },
       { path: 'categorias', loadChildren: () => import('@ui/categoria/categoria.module').then(m => m.CategoriaModule) },
-      { path: 'pedidos', loadChildren: () => import('@ui/producto/producto.module').then(m => m.ProductoModule) },
+      { path: 'pedidos', loadChildren: () => import('@ui/pedido/pedido.module').then(m => m.PedidoModule) },
       { path: 'descripcionPedidos', loadChildren: () => import('@ui/producto/producto.module').then(m => m.ProductoModule) },
       // { path: '**', redirectTo: 'admin', pathMatch: 'full'}
     ]
