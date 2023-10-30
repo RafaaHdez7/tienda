@@ -7,16 +7,19 @@ body {
 .outlet-container {
   margin-top: 100px;
 }
-
+/* Estilo para el contenedor de diálogo */
 .p-dialog {
   width: 40% !important;
   max-height: 60% !important;
 }
 
+/* Estilo para el contenido del diálogo */
 .p-dialog .p-dialog-content {
+  background-color: #ffffff !important;
   overflow: visible;
 }
 
+/* Estilo para el encabezado del diálogo */
 .p-dialog .p-dialog-header {
   background-color: #710a0a !important;
   font-family: "Open Sans" !important;

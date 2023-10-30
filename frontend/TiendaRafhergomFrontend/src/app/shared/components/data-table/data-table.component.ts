@@ -88,7 +88,7 @@ export class DataTableComponent implements OnInit, AfterContentInit {
   /**
    * Especifica el modo de selección, los valores válidos son "none", "single" y "multiple"
    */
-  @Input() selectionMode: string = 'single';
+  @Input() selectionMode: string = "single";
 
   /**
    * Propiedad para identificar de forma única un registro en los datos. Por defecto, la propiedad es 'id'
