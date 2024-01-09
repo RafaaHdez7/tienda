@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Negocio>
+
+@if (Model is not null)
+{
+    <div class="text-center" style="padding-top: 6rem;">
+        <h1>Estos son los restaurantes con los que trabajamos</h1>
+        <p>Aqui puede ver alguno de los mas destacados.</p>
+    </div>
+
+    <partial name="_ListadoNegocios" model="Model" />
+}
