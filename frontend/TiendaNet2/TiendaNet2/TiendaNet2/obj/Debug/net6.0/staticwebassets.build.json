@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "eGL+vmiUxS5p6fnb+6M6Iw3WVkaJWtDc8sWrl5c11kk=",
+  "Hash": "pSQ6oaq8kHY3/GCpQjjPrN45SjIIk0G40+rPWbVI5xs=",
   "Source": "TiendaNet2",
   "BasePath": "_content/TiendaNet2",
   "Mode": "Default",
@@ -100,6 +100,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\HERNANDEREXT\\Documents\\Sourcetree\\tienda\\frontend\\TiendaNet2\\TiendaNet2\\TiendaNet2\\wwwroot\\images\\icono_marron.JPG",
+      "SourceId": "TiendaNet2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\HERNANDEREXT\\Documents\\Sourcetree\\tienda\\frontend\\TiendaNet2\\TiendaNet2\\TiendaNet2\\wwwroot\\",
+      "BasePath": "_content/TiendaNet2",
+      "RelativePath": "images/icono_marron.JPG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\icono_marron.JPG"
     },
     {
       "Identity": "C:\\Users\\HERNANDEREXT\\Documents\\Sourcetree\\tienda\\frontend\\TiendaNet2\\TiendaNet2\\TiendaNet2\\wwwroot\\images\\letras_marron.JPG",
