@@ -13,17 +13,5 @@ public class BackendTienda2Application {
 	public static void main(String[] args) {
 		SpringApplication.run(BackendTienda2Application.class, args);
 	}
-	 @Bean
-	    public WebMvcConfigurer corsConfigurer() {
-	        return new WebMvcConfigurer() {
-	            @Override
-	            public void addCorsMappings(CorsRegistry registry) {
-	                // Permitir cualquier origen, método y encabezado (esto desactiva la seguridad CORS)
-	                registry.addMapping("/**")
-	                        .allowedOrigins("*")
-	                        .allowedMethods("*")
-	                        .allowedHeaders("*");
-	            }
-	        };
-	    }
+	
 }
