@@ -1,4 +1,4 @@
-﻿using Dapper;
+﻿/*using Dapper;
 using ManejoPresupuesto.Models;
 using Microsoft.Data.SqlClient;
 
@@ -91,3 +91,4 @@ namespace ManejoPresupuesto.Servicios
         }
     }
 }
+*/

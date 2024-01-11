@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-@Table(name = "Productos")
+@Table(name = "Producto")
 public class Producto {
 
     @Id
@@ -28,5 +28,12 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+    private CategoriaProducto categoria;
+    
+    @ManyToOne
+    @JoinColumn(name = "negocio", nullable = false)
+    private Negocio negocio;
+    
+    @Column(name = "imagenurl", nullable = false)
+    private String imagenURL;
 }

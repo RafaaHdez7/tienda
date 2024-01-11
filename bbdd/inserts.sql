@@ -1,4 +1,4 @@
--- Insertar usuarios
+	-- Insertar usuarios
 INSERT INTO tfg.Usuario (nombre, contrasena, rol) VALUES
     ('Usuario1', 'contrasena1', 'Cliente'),
     ('Usuario2', 'contrasena2', 'Admin'),

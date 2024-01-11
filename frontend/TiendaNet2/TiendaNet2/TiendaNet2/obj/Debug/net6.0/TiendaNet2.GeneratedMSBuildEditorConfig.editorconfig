@@ -9,57 +9,59 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = TiendaNet2
 build_property.RootNamespace = TiendaNet2
-build_property.ProjectDir = C:\Users\HERNANDEREXT\Documents\Sourcetree\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2\
+build_property.ProjectDir = C:\Users\RAFA\Documents\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\HERNANDEREXT\Documents\Sourcetree\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2
+build_property.MSBuildProjectDirectory = C:\Users\RAFA\Documents\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/CategoriasNegocios.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/CategoriasNegocios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDYXRlZ29yaWFzTmVnb2Npb3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/Index.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/Negocios.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/Negocios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOZWdvY2lvcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/Privacy.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/_ListadoNegocios.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/_ListadoNegocios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfTGlzdGFkb05lZ29jaW9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/_SeccionNegocios.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Home/_SeccionNegocios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfU2VjY2lvbk5lZ29jaW9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Shared/Error.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Shared/_BarraLateral.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Shared/_BarraLateral.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9CYXJyYUxhdGVyYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/_ViewImports.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/_ViewStart.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HERNANDEREXT/Documents/Sourcetree/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Shared/_Layout.cshtml]
+[C:/Users/RAFA/Documents/tienda/frontend/TiendaNet2/TiendaNet2/TiendaNet2/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-xphllw16if

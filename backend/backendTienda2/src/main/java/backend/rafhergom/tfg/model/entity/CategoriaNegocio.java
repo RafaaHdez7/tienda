@@ -7,8 +7,8 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "Categorias")
-public class Categoria {
+@Table(name = "categorianegocio")
+public class CategoriaNegocio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +19,10 @@ public class Categoria {
 
     @Column(name = "descripcion", length = 255)
     private String descripcion;
+    
+    @Column(name = "imagenURL")
+    private String imagenURL;
+
 
     // Puedes agregar relaciones con otras entidades según tus necesidades, por ejemplo:
     // @OneToMany(mappedBy = "categoria")

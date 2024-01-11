@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class PedidoDTO {
     private Long id;
-    private Long usuarioId;
-    private String usuarioNombre;
-    private String estadoPedido;
+    private UsuarioDTO usuarioDTO;
+    private NegocioDTO negocioDTO;
+    private EstadoPedidoDTO estadoPedidoDTO;
     private String fechaHora;
 }

@@ -1,4 +1,11 @@
--- Crear la tabla de Usuarios
+-- SCHEMA: TFG
+
+-- DROP SCHEMA IF EXISTS "TFG" ;
+
+CREATE SCHEMA IF NOT EXISTS "tfg"
+    AUTHORIZATION postgres;
+	
+	-- Crear la tabla de Usuarios
 CREATE TABLE tfg.Usuario (
     id serial PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
@@ -11,7 +18,7 @@ CREATE TABLE tfg.CategoriaNegocio (
     id serial PRIMARY KEY,
     nombre_categoria VARCHAR(50) NOT NULL,
     descripcion VARCHAR(255),
-	ImagenURL TEXT
+	imagenURL TEXT
 );
 
 -- Crear la tabla de Categorías
@@ -19,7 +26,7 @@ CREATE TABLE tfg.CategoriaProducto (
     id serial PRIMARY KEY,
     nombre_categoria VARCHAR(50) NOT NULL,
     descripcion VARCHAR(255),
-	ImagenURL TEXT
+	imagenURL TEXT
 );
 
 
@@ -28,9 +35,9 @@ CREATE TABLE tfg.Negocio (
     id serial PRIMARY KEY,
     nombre  VARCHAR(100) NOT NULL,
     categoria_negocio_id INT REFERENCES tfg.CategoriaNegocio(id),
-    Descripcion TEXT,
-    Link TEXT,
-    ImagenURL TEXT
+    descripcion TEXT,
+    link TEXT,
+    imagenURL TEXT
 );
 -- Crear la tabla de Productos
 CREATE TABLE tfg.Producto (
@@ -41,7 +48,7 @@ CREATE TABLE tfg.Producto (
     stock_disponible INT NOT NULL,
     categoria_producto_id INT REFERENCES tfg.CategoriaProducto(id),
     negocio_id INT REFERENCES tfg.Negocio(id),
-	ImagenURL TEXT
+	imagenURL TEXT
 );
 
 -- Crear la tabla de Pedidos

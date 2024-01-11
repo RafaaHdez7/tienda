@@ -5,13 +5,13 @@ public interface INegociosRepository
 {
     List<Negocio> ObtenerNegociosOffline();
 
-    Task Actualizar(Negocio negocio);
-    Task Borrar (int id);
-    Task Crear (Negocio negocio);
-    Task<IEnumerable<Negocio>> ObtenerNegocios();
-    Task<IEnumerable<Negocio>> ObtenerNegocios( CategoriaNegocio categoriaNegocio);
+    //Task Actualizar(Negocio negocio);
+    //Task Borrar (int id);
+    //Task Crear (Negocio negocio);
+    //Task<IEnumerable<Negocio>> ObtenerNegocios();
+    //Task<IEnumerable<Negocio>> ObtenerNegocios( CategoriaNegocio categoriaNegocio);
 
-    Task<Negocio> ObtenerPorId(int id);
+    //Task<Negocio> ObtenerPorId(int id);
 
 }
 

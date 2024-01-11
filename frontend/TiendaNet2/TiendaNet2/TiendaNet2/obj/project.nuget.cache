@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "LJnMZ++cwM/7bre5Ks1S4Cbpu0eK1xJIWplNKZiBzci8M77wNF7B+YxKCR4SarX1Th9Tm5fW2cI++jDgiOxocA==",
+  "dgSpecHash": "f5vUwZuROjmfSarWOL+luoSzBPTyyQZenSigL31c8BR+x2Y7yDFhilkXhehARPStEImbxjx201YQaJFVe6eQmQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\HERNANDEREXT\\Documents\\Sourcetree\\tienda\\frontend\\TiendaNet2\\TiendaNet2\\TiendaNet2\\TiendaNet2.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\RAFA\\Documents\\tienda\\frontend\\TiendaNet2\\TiendaNet2\\TiendaNet2\\TiendaNet2.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\RAFA\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.26\\microsoft.windowsdesktop.app.ref.6.0.26.nupkg.sha512",
+    "C:\\Users\\RAFA\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.26\\microsoft.netcore.app.ref.6.0.26.nupkg.sha512",
+    "C:\\Users\\RAFA\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.26\\microsoft.aspnetcore.app.ref.6.0.26.nupkg.sha512",
+    "C:\\Users\\RAFA\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.26\\microsoft.netcore.app.host.win-x64.6.0.26.nupkg.sha512"
+  ],
   "logs": []
 }

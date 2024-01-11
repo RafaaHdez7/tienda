@@ -18,7 +18,7 @@ namespace TiendaNet2.Controllers
 
         public IActionResult Index()
         {
-            var negocios = negociosRepository.ObtenerNegocios().Take(3).ToList();
+            var negocios = negociosRepository.ObtenerNegociosOffline().Take(3).ToList();
 
             var modelo = new HomeIndexViewModel()
             {
@@ -29,7 +29,7 @@ namespace TiendaNet2.Controllers
 
         public IActionResult Negocios()
         {
-            var negocios = negociosRepository.ObtenerNegocios();
+            var negocios = negociosRepository.ObtenerNegociosOffline();
             return View(negocios);
         }
 
