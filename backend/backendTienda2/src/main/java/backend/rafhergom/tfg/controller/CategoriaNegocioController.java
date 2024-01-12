@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "CategoriaNegocioController")
-@RequestMapping("/api/categoriaNegocios")
+@RequestMapping("/api/categoria-negocios")
 @Slf4j
 public class CategoriaNegocioController {
 

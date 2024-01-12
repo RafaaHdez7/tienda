@@ -27,11 +27,11 @@ public class Producto {
     private int stockDisponible;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private CategoriaProducto categoria;
+    @JoinColumn(name = "categoria_producto_id")
+    private CategoriaProducto categoriaProducto;
     
     @ManyToOne
-    @JoinColumn(name = "negocio", nullable = false)
+    @JoinColumn(name = "negocio_id", nullable = false)
     private Negocio negocio;
     
     @Column(name = "imagenurl", nullable = false)
