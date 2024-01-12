@@ -7,6 +7,7 @@ import lombok.Data;
 Genera automáticamente los métodos getter y setter para todas las propiedades.
 Genera automáticamente los métodos equals, hashCode, y toString.*/
 public class UsuarioDTO {
+	private Long id;
     private String nombre;
     private String contrasena;
     private String rol;

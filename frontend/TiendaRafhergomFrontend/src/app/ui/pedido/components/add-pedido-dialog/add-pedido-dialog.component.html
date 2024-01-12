@@ -1,0 +1,73 @@
+<div id="dialog-content" class="flex flex-column justify-content-center m-3">
+  <p-messages></p-messages>
+  <div class="formgrid grid">
+    <div *ngIf="!isEdit" class="field col-12 md:col-5">
+      <label class="text-red-800" for="id">IdPedido</label>
+      <input
+        id="id"
+        class="w-full"
+        [formControl]="idControl"
+        type="text"
+        #IdPedido
+        pInputText
+      />
+    </div>
+
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="usuarioId">Usuario Id</label>
+      <input
+        id="usuarioId"
+        class="w-full"
+        [formControl]="usuarioIdControl"
+        type="text"
+        #usuarioId
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="usuarioNombre">usuario Nombre </label>
+      <input
+        id="usuarioNombre"
+        class="w-full"
+        [formControl]="usuarioNombreControl"
+        type="text"
+        #usuarioNombre
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="estadoPedido"> Estado Pedido</label>
+      <input
+        id="estadoPedido"
+        class="w-full"
+        [formControl]="estadoPedidoControl"
+        type="text"
+        #estadoPedido
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="fechaHora"> Fecha Hora</label>
+      <input
+        id="fechaHora"
+        class="w-full"
+        [formControl]="fechaHoraControl"
+        type="text"
+        #fechaHora
+        pInputText
+      />
+    </div>
+  </div>
+</div>
+<div
+  class="p-dialog-footer"
+  style="width: 100%; position: fixed; left: 0; bottom: 0"
+>
+  <p-button
+    [disabled]="!isValid()"
+    [loading]="loadingAcceptAddPedido"
+    (onClick)="handleCreateItemEvent()"
+    icon="pi pi-check"
+    label="Acept"
+  ></p-button>
+</div>

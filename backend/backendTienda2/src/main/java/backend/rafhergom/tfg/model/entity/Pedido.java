@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Pedidos")
+@Table(name = "Pedido")
 public class Pedido {
 
     @Id
@@ -24,6 +24,10 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
+    
+    @ManyToOne
+    @JoinColumn(name = "negocio_id", nullable = false)
+    private Negocio negocio;
 
     @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;

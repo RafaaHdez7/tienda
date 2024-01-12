@@ -1,0 +1,314 @@
+<p-table
+  [(selection)]="selected"
+  [columns]="columns"
+  [dataKey]="dataKey"
+  [exportFilename]="exportFilename"
+  [first]="paginatorFirst"
+  [lazy]="lazy"
+  [lazyLoadOnInit]="false"
+  [loading]="loading"
+  [paginator]="paginator"
+  rowExpandMode="single"
+  [rows]="numberRowsByPage"
+  [rowSelectable]="isRowSelectable"
+  [rowsPerPageOptions]="showRowsPerPageOptions ? [10, 20, 50, 100] : undefined!"
+  selectionMode="single"
+  [showCurrentPageReport]="true"
+  sortMode="single"
+  [tableStyle]="{'min-width': '50rem'}"
+  [totalRecords]="totalRecords"
+  [selectionPageOnly]="true"
+  [value]="value"
+  (onFilter)="handleFilterChangeEvent($event)"
+  (onHeaderCheckboxToggle)="handleHeaderCheckboxToggleEvent($event)"
+  (onPage)="handlePageChangeEvent($event)"
+  (onRowExpand)="handleRowExpandEvent($event)"
+  (onRowSelect)="handleRowSelectEvent($event)"
+  (onRowUnselect)="handleRowUnselectEvent($event)"
+  (onSort)="handleSortChangeEvent($event)"
+  (selectionChange)="handleSelectionChangeEvent($event)"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  responsiveLayout="scroll"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th  style="width: 2rem"></th>
+      <th *ngIf="rowExpandable" style="width: 2.25em"></th>
+      <th
+        [pSortableColumnDisabled]="column.sortableColumnDisabled!"
+        *ngFor="let column of columns"
+        [style.width]="column.headerWidth ? column.headerWidth : null"
+        pSortableColumn="{{
+          column.fieldOrder ? column.fieldOrder : column.field
+        }}"
+      >
+        <div class="flex justify-content-between align-items-center">
+          {{ column.header }}
+
+          <p-sortIcon
+            *ngIf="!column.sortableColumnDisabled"
+            field="{{ column.fieldOrder ? column.fieldOrder : column.field }}"
+          ></p-sortIcon>
+          <ng-container *ngIf="isDateFilterVisible(column)">
+            <app-date-range-custom-filter
+              class="ml-auto"
+              [field]="column.field"
+              *ngIf="filterable && !column.filterableColumnDisabled"
+            ></app-date-range-custom-filter>
+          </ng-container>
+
+          <ng-container *ngIf="isSelectFilterVisible(column)">
+            <app-select-custom-filter
+              class="ml-auto"
+              [badge]="column.badge!"
+              [field]="column.field"
+              [filterField]="column.filterField"
+              [filterLabel]="column.header"
+              [filterOptions]="column.filterOptions!"
+              *ngIf="filterable && !column.filterableColumnDisabled"
+            ></app-select-custom-filter>
+          </ng-container>
+
+          <ng-container
+            *ngIf="
+              !isDateFilterVisible(column) && !isSelectFilterVisible(column)
+            "
+          >
+            <p-columnFilter
+              class="ml-auto"
+              [field]="column.field"
+              [hideOnClear]="true"
+              [showAddButton]="false"
+              [showMatchModes]="false"
+              [showOperator]="false"
+              [type]="getFilterType(column)"
+              *ngIf="filterable && !column.filterableColumnDisabled"
+              matchMode="contains"
+              display="menu"
+            ></p-columnFilter>
+          </ng-container>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template
+    pTemplate="body"
+    let-item
+    let-rowIndex="rowIndex"
+    let-expanded="expanded"
+  >
+    <tr
+      [class]="!isRowSelected(item[dataKey]) ? rowStyleClass(item) : undefined"
+      [class.p-highlight]="isRowSelected(item[dataKey])"
+    >
+      <td *ngIf="selectionMode === 'multiple'">
+        <span class="p-column-title"></span>
+        <p-tableCheckbox
+          [disabled]="isUnselectableRow(item)"
+          [value]="item"
+        ></p-tableCheckbox>
+      </td>
+      <td *ngIf="selectionMode === 'single'">
+        <p-tableRadioButton [value]="item"></p-tableRadioButton>
+      </td>
+      <td *ngIf="rowExpandable">
+        <p-button
+          styleClass="p-button-rounded p-button-text"
+          [icon]="
+            expanded
+              ? 'pi pi-fw pi-chevron-circle-down'
+              : 'pi pi-fw pi-chevron-circle-right'
+          "
+          [pRowToggler]="item"
+        ></p-button>
+      </td>
+      <td
+        [style.max-width]="column.maxWidth ? column.maxWidth : '30rem'"
+        *ngFor="let column of columns"
+        style="text-overflow: ellipsis; overflow: hidden"
+      >
+        <ng-container
+          *ngIf="!getTemplateRef(column.field) && isTextColumnType(column)"
+        >
+          <span class="p-column-title">{{ column.header }} </span
+          >{{ getItemValue(column.field, item) }}
+        </ng-container>
+
+        <ng-container
+          *ngIf="!getTemplateRef(column.field) && isSelectColumnType(column)"
+        >
+          <span
+            [class]="
+              column.badge
+                ? 'select-badge select-' +
+                  (getItemValue(column.field, item)
+                    ? getItemValue(column.field, item)
+                        .toLowerCase()
+                        .replaceAll(' ', '')
+                    : '')
+                : ''
+            "
+            >{{ getItemValue(column.field, item) }}</span
+          >
+        </ng-container>
+        <ng-container
+          *ngIf="!getTemplateRef(column.field) && isDateColumnType(column)"
+        >
+          <span class="p-column-title">{{ column.header }} </span
+          >{{
+            getItemValue(column.field, item)
+              | date : (column.dateFormat ? column.dateFormat : "dd/MM/yyyy")
+          }}
+        </ng-container>
+        <ng-container
+          *ngIf="!getTemplateRef(column.field) && isBooleanColumnType(column)"
+        >
+          <span class="p-column-title">{{ column.header }} </span
+          >
+          <p-checkbox [disabled]="true" [ngModel]="true" [binary]="getItemValue(column.field, item)"></p-checkbox>
+        </ng-container>
+        <ng-template
+          [ngTemplateOutlet]="getTemplateRef(column.field)"
+          [ngTemplateOutletContext]="{
+            $implicit: getItemValue(column.field, item),
+            row: item,
+            rowIndex: rowIndex,
+            column: column.header
+          }"
+          *ngIf="getTemplateRef(column.field)"
+        ></ng-template>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template
+    *ngIf="getTemplateRef('rowexpansion')"
+    pTemplate="rowexpansion"
+    let-item
+    let-rowIndex="rowIndex"
+    let-columns="columns"
+  >
+    <ng-template
+      [ngTemplateOutlet]="getTemplateRef('rowexpansion')"
+      [ngTemplateOutletContext]="{
+        $implicit: item,
+        rowIndex: rowIndex,
+        columns: columns
+      }"
+    ></ng-template>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="totalColumns" style="text-align: center">
+        No hay resultados
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="paginatorleft">
+    <p-button
+      [disabled]="!isDetailsButtonEnabled()"
+      [loading]="loadingDetails"
+      [pTooltip]="detailsButtonLabel"
+      [showDelay]="showTooltipDelay"
+      (onClick)="handleRowDetailsEvent()"
+      *ngIf="selectionMode !== 'none' && showDetailsButton"
+      styleClass="p-button-text"
+      icon="pi pi-eye"
+    ></p-button>
+    <p-button
+      [disabled]="!isEditButtonEnabled()"
+      [loading]="loadingEdit"
+      [pTooltip]="editButtonLabel"
+      [showDelay]="showTooltipDelay"
+      (onClick)="handleRowEditEvent()"
+      *ngIf="selectionMode !== 'none' && showEditButton"
+      styleClass="p-button-text"
+      icon="pi pi-file-edit"
+    ></p-button>
+
+    <p-button
+      [disabled]="!actionButton.enableFn(selected)"
+      [icon]="actionButton.icon"
+      [pTooltip]="actionButton.tooltip"
+      [showDelay]="showTooltipDelay"
+      [loading]="actionButton.loadingFn ? actionButton.loadingFn() : false"
+      (onClick)="actionButton.handleActionEventFn(selected)"
+      *ngFor="let actionButton of actionButtons"
+      [styleClass]="
+        actionButton.styleClass ? actionButton.styleClass : 'p-button-text'
+      "
+    ></p-button>
+
+    <p-button
+      [disabled]="!isDeleteButtonEnabled()"
+      [loading]="loadingDelete"
+      [pTooltip]="deleteButtonLabel"
+      [showDelay]="showTooltipDelay"
+      (onClick)="handleDeleteRowsEvent()"
+      *ngIf="selectionMode !== 'none' && showDeleteButton"
+      styleClass="p-button-text text-red-700"
+      icon="pi pi-trash"
+    ></p-button>
+    <ng-container *ngIf="isActionButtonsSeparatorVisible()">
+      <span
+        class="p-paginator-current"
+        style="padding-left: 0px; min-width: 0; color: #d1dadf"
+        >|</span
+      >
+    </ng-container>
+    <p-button
+      [disabled]="!selected.length"
+      [loading]="loadingExport"
+      [showDelay]="showTooltipDelay"
+      (onClick)="handleExportData()"
+      *ngIf="exportable && selectionMode === 'multiple'"
+      styleClass="p-button-text"
+      icon="pi pi-file-export"
+      pTooltip="Exportar datos a CSV"
+    ></p-button>
+    <p-button
+      [disabled]="!appliedFilters"
+      [showDelay]="showTooltipDelay"
+      (onClick)="handleDeleteFiltersEvent()"
+      *ngIf="filterable && existFilterableColumns()"
+      styleClass="p-button-text"
+      icon="pi pi-filter-slash"
+      pTooltip="Eliminar filtros aplicados"
+    ></p-button>
+    <p-button
+      [showDelay]="showTooltipDelay"
+      (onClick)="handleRefreshDataEvent()"
+      *ngIf="!selectedRowsInfo && showRefreshData"
+      styleClass="p-button-text"
+      icon="pi pi-refresh"
+      pTooltip="Update list"
+    ></p-button>
+    <ng-container *ngIf="selectedRowsInfo">
+      <p-button
+        [showDelay]="showTooltipDelay"
+        (onClick)="handleUnselectRowsEvent()"
+        styleClass="p-button-text"
+        icon="pi pi-times-circle"
+        pTooltip="Uncheck"
+      ></p-button>
+      <span class="p-paginator-current" style="padding-left: 0px">{{
+        selectedRowsInfo
+      }}</span>
+      <p-button
+        (onClick)="handleSelectAllRows()"
+        *ngIf="selected.length === pageableFilter.pageSize && !allRowsSelected"
+        styleClass="p-button-text font-medium pl-1 pb-2"
+        [label]="selectAllRowsLabel"
+      ></p-button>
+      <p-button
+        (onClick)="handleSelectAllRows()"
+        *ngIf="selected.length === pageableFilter.pageSize && allRowsSelected"
+        styleClass="p-button-text font-medium pl-1 pb-2"
+        label="Uncheck"
+      ></p-button>
+    </ng-container>
+  </ng-template>
+</p-table>

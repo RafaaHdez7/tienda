@@ -1,8 +1,13 @@
 package backend.rafhergom.tfg.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import backend.rafhergom.tfg.model.dtos.NegocioDTO;
 import backend.rafhergom.tfg.model.dtos.ProductoDTO;
+import backend.rafhergom.tfg.model.entity.Negocio;
 import backend.rafhergom.tfg.model.entity.Producto;
 import backend.rafhergom.tfg.repository.ProductoRepository;
 
@@ -14,10 +19,14 @@ import java.util.Optional;
 public class ProductoService {
 
     private final ProductoRepository productoRepository;
+    
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ProductoService(ProductoRepository productoRepository) {
+    public ProductoService(ProductoRepository productoRepository,
+    		@Qualifier("modelMapper") ModelMapper modelMapper) {
         this.productoRepository = productoRepository;
+        this.modelMapper = modelMapper;
     }
 
     public List<ProductoDTO> obtenerTodosLosProductos() {
@@ -25,13 +34,7 @@ public class ProductoService {
         List<ProductoDTO> productoDTOs = new ArrayList<>();
 
         for (Producto producto : productos) {
-            ProductoDTO productoDTO = new ProductoDTO();
-            // Copiar los atributos relevantes de Producto a ProductoDTO
-            productoDTO.setId(producto.getId());
-            productoDTO.setNombreProducto(producto.getNombreProducto());
-            productoDTO.setDescripcion(producto.getDescripcion());
-            productoDTO.setPrecio(producto.getPrecio());
-            productoDTO.setStockDisponible(producto.getStockDisponible());
+            ProductoDTO productoDTO = modelMapper.map(producto, ProductoDTO.class);
             // También puedes configurar otros campos según sea necesario
             productoDTOs.add(productoDTO);
         }
@@ -40,76 +43,27 @@ public class ProductoService {
     }
 
     public ProductoDTO obtenerProductoPorId(Long id) {
-        Optional<Producto> productoOptional = productoRepository.findById(id);
-        return productoOptional.map(producto -> {
-            ProductoDTO productoDTO = new ProductoDTO();
-            // Copiar los atributos relevantes de Producto a ProductoDTO
-            productoDTO.setId(producto.getId());
-            productoDTO.setNombreProducto(producto.getNombreProducto());
-            productoDTO.setDescripcion(producto.getDescripcion());
-            productoDTO.setPrecio(producto.getPrecio());
-            productoDTO.setStockDisponible(producto.getStockDisponible());
-            // También puedes configurar otros campos según sea necesario
-            return productoDTO;
-        }).orElse(null);
-    }
+            Optional<Producto> productoOptional = productoRepository.findById(id);
+            return productoOptional.map(producto -> {
+            	return modelMapper.map(producto, ProductoDTO.class);
+            }).orElse(null);
+        }
 
     public ProductoDTO crearProducto(ProductoDTO productoDTO) {
-        // Crea un nuevo objeto Producto a partir del DTO
-        Producto nuevoProducto = new Producto();
-        nuevoProducto.setNombreProducto(productoDTO.getNombreProducto());
-        nuevoProducto.setDescripcion(productoDTO.getDescripcion());
-        nuevoProducto.setPrecio(productoDTO.getPrecio());
-        nuevoProducto.setStockDisponible(productoDTO.getStockDisponible());
-        // También puedes necesitar configurar otros campos
-
-        // Guarda el nuevo producto en la base de datos utilizando el repository
-        nuevoProducto = productoRepository.save(nuevoProducto);
-
-        // Crea un DTO para el nuevo producto y devuélvelo
-        ProductoDTO nuevoProductoDTO = new ProductoDTO();
-        nuevoProductoDTO.setId(nuevoProducto.getId());
-        nuevoProductoDTO.setNombreProducto(nuevoProducto.getNombreProducto());
-        nuevoProductoDTO.setDescripcion(nuevoProducto.getDescripcion());
-        nuevoProductoDTO.setPrecio(nuevoProducto.getPrecio());
-        nuevoProductoDTO.setStockDisponible(nuevoProducto.getStockDisponible());
-        // También puedes configurar otros campos según sea necesario
-
-        return nuevoProductoDTO;
-    }
+ 	   return modelMapper.map(productoRepository.save(modelMapper.map(
+ 			  productoDTO, Producto.class)), ProductoDTO.class);
+   }
 
     public ProductoDTO actualizarProducto(Long id, ProductoDTO productoDTO) {
-        // Verifica si el producto con el ID proporcionado existe en la base de datos
-        Optional<Producto> productoOptional = productoRepository.findById(id);
-        if (productoOptional.isPresent()) {
-            // Obtén el producto existente
-            Producto productoExistente = productoOptional.get();
 
-            // Actualiza los campos relevantes del producto existente con los valores del DTO
-            productoExistente.setNombreProducto(productoDTO.getNombreProducto());
-            productoExistente.setDescripcion(productoDTO.getDescripcion());
-            productoExistente.setPrecio(productoDTO.getPrecio());
-            productoExistente.setStockDisponible(productoDTO.getStockDisponible());
-            // También puedes necesitar actualizar otros campos
-
-            // Guarda la actualización en la base de datos
-            productoExistente = productoRepository.save(productoExistente);
-
-            // Crea un DTO para el producto actualizado y devuélvelo
-            ProductoDTO productoActualizadoDTO = new ProductoDTO();
-            productoActualizadoDTO.setId(productoExistente.getId());
-            productoActualizadoDTO.setNombreProducto(productoExistente.getNombreProducto());
-            productoActualizadoDTO.setDescripcion(productoExistente.getDescripcion());
-            productoActualizadoDTO.setPrecio(productoExistente.getPrecio());
-            productoActualizadoDTO.setStockDisponible(productoExistente.getStockDisponible());
-            // También puedes configurar otros campos según sea necesario
-
-            return productoActualizadoDTO;
-        } else {
-            // Si el producto con el ID proporcionado no existe, puedes manejarlo apropiadamente
-            return null;
-        }
-    }
+              Optional<Producto> productoOptional = productoRepository.findById(id);
+              if (productoOptional.isPresent()) {
+                  return modelMapper.map(productoRepository.save(productoOptional.get()), ProductoDTO.class);
+              } else {
+                  // Manejo cuando el negocio con el ID proporcionado no existe
+                  return null;
+              }
+          }
 
     public void eliminarProducto(Long id) {
         productoRepository.deleteById(id);

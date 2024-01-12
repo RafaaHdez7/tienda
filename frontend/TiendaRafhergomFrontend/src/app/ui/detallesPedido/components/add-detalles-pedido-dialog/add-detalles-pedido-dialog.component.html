@@ -1,0 +1,73 @@
+<div id="dialog-content" class="flex flex-column justify-content-center m-3">
+  <p-messages></p-messages>
+  <div class="formgrid grid">
+    <div *ngIf="!isEdit" class="field col-12 md:col-5">
+      <label class="text-red-800" for="id">IdPedido</label>
+      <input
+        id="id"
+        class="w-full"
+        [formControl]="idControl"
+        type="text"
+        #IdPedido
+        pInputText
+      />
+    </div>
+
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="pedidoId">Pedido Id</label>
+      <input
+        id="pedidoId"
+        class="w-full"
+        [formControl]="pedidoIdControl"
+        type="text"
+        #pedidoId
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="productoId">TODO poner descripcion producto </label>
+      <input
+        id="productoId"
+        class="w-full"
+        [formControl]="productoIdControl"
+        type="text"
+        #productoId
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="cantidad"> Cantidad</label>
+      <input
+        id="cantidad"
+        class="w-full"
+        [formControl]="cantidadControl"
+        type="text"
+        #cantidad
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="precioUnitario"> Precio Unitario</label>
+      <input
+        id="precioUnitario"
+        class="w-full"
+        [formControl]="precioUnitarioControl"
+        type="text"
+        #precioUnitario
+        pInputText
+      />
+    </div>
+  </div>
+</div>
+<div
+  class="p-dialog-footer"
+  style="width: 100%; position: fixed; left: 0; bottom: 0"
+>
+  <p-button
+    [disabled]="!isValid()"
+    [loading]="loadingAcceptAddDetallesPedido"
+    (onClick)="handleCreateItemEvent()"
+    icon="pi pi-check"
+    label="Acept"
+  ></p-button>
+</div>

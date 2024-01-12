@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Negocio>
+
+@{
+    ViewData["Title"] = "Restaurantes";
+}
+
+<div class="container text-center">
+    <h1>Categoria de Restaurantes</h1>
+    <p>Aquí encontrarás todos los restaurantes ordenados por la categoría deseada en los que puedes hacer pedidos.</p>
+</div>
+
+<partial name="_ListadoNegocios" model="Model" />

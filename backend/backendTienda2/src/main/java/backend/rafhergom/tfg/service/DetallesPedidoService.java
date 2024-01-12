@@ -1,8 +1,13 @@
 package backend.rafhergom.tfg.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import backend.rafhergom.tfg.model.dtos.CategoriaNegocioDTO;
 import backend.rafhergom.tfg.model.dtos.DetallesPedidoDTO;
+import backend.rafhergom.tfg.model.entity.CategoriaNegocio;
 import backend.rafhergom.tfg.model.entity.DetallesPedido;
 import backend.rafhergom.tfg.model.entity.Pedido;
 import backend.rafhergom.tfg.model.entity.Producto;
@@ -20,15 +25,18 @@ public class DetallesPedidoService {
     private final PedidoRepository pedidoRepository;
     private final ProductoRepository productoRepository;
 
+    private final ModelMapper modelMapper;
     @Autowired
     public DetallesPedidoService(
             DetallesPedidoRepository detallesPedidoRepository,
             PedidoRepository pedidoRepository,
-            ProductoRepository productoRepository
-    ) {
+            ProductoRepository productoRepository,
+            @Qualifier("modelMapper")  ModelMapper modelMapper) {
+    	
         this.detallesPedidoRepository = detallesPedidoRepository;
         this.pedidoRepository = pedidoRepository;
         this.productoRepository = productoRepository;
+        this.modelMapper = modelMapper;
     }
 
     public List<DetallesPedidoDTO> obtenerTodosLosDetallesPedido() {
@@ -36,36 +44,22 @@ public class DetallesPedidoService {
         List<DetallesPedidoDTO> detallesPedidoDTOs = new ArrayList<>();
 
         for (DetallesPedido detallePedido : detallesPedido) {
-            DetallesPedidoDTO detallesPedidoDTO = new DetallesPedidoDTO();
-            // Copiar los atributos relevantes de DetallesPedido a DetallesPedidoDTO
-            detallesPedidoDTO.setId(detallePedido.getId());
-            detallesPedidoDTO.setPedidoId(detallePedido.getPedido().getId());
-            detallesPedidoDTO.setProductoId(detallePedido.getProducto().getId());
-            detallesPedidoDTO.setCantidad(detallePedido.getCantidad());
-            detallesPedidoDTO.setPrecioUnitario(detallePedido.getPrecioUnitario());
+            DetallesPedidoDTO detallesPedidoDTO =  modelMapper.map(detallePedido, DetallesPedidoDTO.class);
             detallesPedidoDTOs.add(detallesPedidoDTO);
         }
-
         return detallesPedidoDTOs;
     }
 
     public DetallesPedidoDTO obtenerDetallesPedidoPorId(Long id) {
-        Optional<DetallesPedido> detallesPedidoOptional = detallesPedidoRepository.findById(id);
-        return detallesPedidoOptional.map(detallesPedido -> {
-            DetallesPedidoDTO detallesPedidoDTO = new DetallesPedidoDTO();
-            // Copiar los atributos relevantes de DetallesPedido a DetallesPedidoDTO
-            detallesPedidoDTO.setId(detallesPedido.getId());
-            detallesPedidoDTO.setPedidoId(detallesPedido.getPedido().getId());
-            detallesPedidoDTO.setProductoId(detallesPedido.getProducto().getId());
-            detallesPedidoDTO.setCantidad(detallesPedido.getCantidad());
-            detallesPedidoDTO.setPrecioUnitario(detallesPedido.getPrecioUnitario());
-            return detallesPedidoDTO;
+        return detallesPedidoRepository.findById(id).map(detallesPedido -> {
+           return modelMapper.map(detallesPedido, DetallesPedidoDTO.class);
         }).orElse(null);
     }
 
     public DetallesPedidoDTO crearDetallesPedido(DetallesPedidoDTO detallesPedidoDTO) {
-        // Crea un nuevo objeto DetallesPedido a partir del DTO
-        DetallesPedido nuevoDetallesPedido = new DetallesPedido();
+        // Utiliza ModelMapper para mapear de DetallesPedidoDTO a DetallesPedido
+        DetallesPedido nuevoDetallesPedido = modelMapper.map(detallesPedidoDTO, DetallesPedido.class);
+
         // Busca el pedido correspondiente y el producto correspondiente por sus IDs
         Optional<Pedido> pedidoOptional = pedidoRepository.findById(detallesPedidoDTO.getPedidoId());
         Optional<Producto> productoOptional = productoRepository.findById(detallesPedidoDTO.getProductoId());
@@ -73,26 +67,17 @@ public class DetallesPedidoService {
         if (pedidoOptional.isPresent() && productoOptional.isPresent()) {
             Pedido pedido = pedidoOptional.get();
             Producto producto = productoOptional.get();
-            
+
             nuevoDetallesPedido.setPedido(pedido);
             nuevoDetallesPedido.setProducto(producto);
-            nuevoDetallesPedido.setCantidad(detallesPedidoDTO.getCantidad());
-            nuevoDetallesPedido.setPrecioUnitario(detallesPedidoDTO.getPrecioUnitario());
 
             // Guarda el nuevo detalle de pedido en la base de datos utilizando el repository
             nuevoDetallesPedido = detallesPedidoRepository.save(nuevoDetallesPedido);
 
-            // Crea un DTO para el nuevo detalle de pedido y devuélvelo
-            DetallesPedidoDTO nuevoDetallesPedidoDTO = new DetallesPedidoDTO();
-            nuevoDetallesPedidoDTO.setId(nuevoDetallesPedido.getId());
-            nuevoDetallesPedidoDTO.setPedidoId(nuevoDetallesPedido.getPedido().getId());
-            nuevoDetallesPedidoDTO.setProductoId(nuevoDetallesPedido.getProducto().getId());
-            nuevoDetallesPedidoDTO.setCantidad(nuevoDetallesPedido.getCantidad());
-            nuevoDetallesPedidoDTO.setPrecioUnitario(nuevoDetallesPedido.getPrecioUnitario());
-
-            return nuevoDetallesPedidoDTO;
+            // Utiliza ModelMapper para mapear de DetallesPedido a DetallesPedidoDTO
+            return modelMapper.map(nuevoDetallesPedido, DetallesPedidoDTO.class);
         } else {
-            // Si no se encontraron el pedido o el producto correspondiente, puedes manejarlo apropiadamente
+            // Manejo cuando el pedido o el producto no existen
             return null;
         }
     }
@@ -104,26 +89,16 @@ public class DetallesPedidoService {
             // Obtén el detalle de pedido existente
             DetallesPedido detallesPedidoExistente = detallesPedidoOptional.get();
 
-            // Actualiza los campos relevantes del detalle de pedido existente con los valores del DTO
-            detallesPedidoExistente.setCantidad(detallesPedidoDTO.getCantidad());
-            detallesPedidoExistente.setPrecioUnitario(detallesPedidoDTO.getPrecioUnitario());
-            // También puedes necesitar actualizar otros campos
+            // Utiliza ModelMapper para mapear los valores del DTO al detalle de pedido existente
+            modelMapper.map(detallesPedidoDTO, detallesPedidoExistente);
 
             // Guarda la actualización en la base de datos
             detallesPedidoExistente = detallesPedidoRepository.save(detallesPedidoExistente);
 
-            // Crea un DTO para el detalle de pedido actualizado y devuélvelo
-            DetallesPedidoDTO detallesPedidoActualizadoDTO = new DetallesPedidoDTO();
-            detallesPedidoActualizadoDTO.setId(detallesPedidoExistente.getId());
-            detallesPedidoActualizadoDTO.setPedidoId(detallesPedidoExistente.getPedido().getId());
-            detallesPedidoActualizadoDTO.setProductoId(detallesPedidoExistente.getProducto().getId());
-            detallesPedidoActualizadoDTO.setCantidad(detallesPedidoExistente.getCantidad());
-            detallesPedidoActualizadoDTO.setPrecioUnitario(detallesPedidoExistente.getPrecioUnitario());
-            // También configura otros campos según sea necesario
-
-            return detallesPedidoActualizadoDTO;
+            // Utiliza ModelMapper para mapear de DetallesPedido a DetallesPedidoDTO
+            return modelMapper.map(detallesPedidoExistente, DetallesPedidoDTO.class);
         } else {
-            // Si el detalle de pedido con el ID proporcionado no existe, puedes manejarlo apropiadamente
+            // Manejo cuando el detalle de pedido con el ID proporcionado no existe
             return null;
         }
     }

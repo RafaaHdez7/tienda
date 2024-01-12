@@ -1,0 +1,83 @@
+<div id="dialog-content" class="flex flex-column justify-content-center m-3">
+  <p-messages></p-messages>
+  <div class="formgrid grid">
+    <div *ngIf="!isEdit" class="field col-12 md:col-5">
+      <label class="text-red-800" for="id">IdProducto</label>
+      <input
+        id="id"
+        class="w-full"
+        [formControl]="idControl"
+        type="text"
+        #IdProducto
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="precio">precio</label>
+      <input
+        id="precio"
+        class="w-full"
+        [formControl]="precioControl"
+        type="text"
+        #precio
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="stockDisponible">Stock Disponible</label>
+      <input
+        id="stockDisponible"
+        class="w-full"
+        [formControl]="stockDisponibleControl"
+        type="text"
+        #stockDisponible
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="categoriaId">categoria Id</label>
+      <input
+        id="categoriaId"
+        class="w-full"
+        [formControl]="categoriaIdControl"
+        type="text"
+        #categoriaId
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="nombreProducto">Name</label>
+      <input
+        id="nombreProducto"
+        class="w-full"
+        [formControl]="nombreProductoControl"
+        type="text"
+        #nombreProducto
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="descripcion">descripcion </label>
+      <input
+        id="descripcion"
+        class="w-full"
+        [formControl]="descripcionControl"
+        type="text"
+        #descripcion
+        pInputText
+      />
+    </div>
+  </div>
+</div>
+<div
+  class="p-dialog-footer"
+  style="width: 100%; position: fixed; left: 0; bottom: 0"
+>
+  <p-button
+    [disabled]="!isValid()"
+    [loading]="loadingAcceptAddProducto"
+    (onClick)="handleCreateItemEvent()"
+    icon="pi pi-check"
+    label="Acept"
+  ></p-button>
+</div>

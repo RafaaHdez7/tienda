@@ -1,0 +1,52 @@
+<p-columnFilter
+  [field]="field"
+  [hideOnClear]="true"
+  [showAddButton]="false"
+  [showMatchModes]="false"
+  [showOperator]="false"
+  matchMode="select"
+  display="menu"
+>
+  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-12">
+        <p-dropdown
+          [filter]="true"
+          [(ngModel)]="selected"
+          [options]="filterOptions"
+          [showClear]="true"
+          (ngModelChange)="onModelChange($event)"
+          inputId="dropdownSeason"
+          styleClass="w-full"
+          optionLabel="name"
+          [placeholder]="filterLabel"
+        >
+          <ng-template let-status pTemplate="selectedItem">
+            <span
+              [class]="
+                badge
+                  ? 'select-badge select-' +
+                    status.name.toLowerCase().replaceAll(' ', '')
+                  : ''
+              "
+            >
+              {{ status.name }}</span
+            >
+          </ng-template>
+          <ng-template let-status pTemplate="item">
+            <span
+              [class]="
+                badge
+                  ? 'select-badge select-' +
+                    status.name.toLowerCase().replaceAll(' ', '')
+                  : ''
+              "
+            >
+              {{ status.name }}</span
+            >
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+  </ng-template>
+</p-columnFilter>

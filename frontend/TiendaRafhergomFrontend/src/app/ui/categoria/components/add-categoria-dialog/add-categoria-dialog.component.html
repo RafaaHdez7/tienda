@@ -1,0 +1,51 @@
+<div id="dialog-content" class="flex flex-column justify-content-center m-3">
+  <p-messages></p-messages>
+  <div class="formgrid grid">
+    <div *ngIf="!isEdit" class="field col-12 md:col-5">
+      <label class="text-red-800" for="id">IdCategoria</label>
+      <input
+        id="id"
+        class="w-full"
+        [formControl]="idControl"
+        type="text"
+        #IdCategoria
+        pInputText
+      />
+    </div>
+
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="nombreCategoria">Nombre Categoria</label>
+      <input
+        id="nombreCategoria"
+        class="w-full"
+        [formControl]="nombreCategoriaControl"
+        type="text"
+        #nombreCategoria
+        pInputText
+      />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label class="text-red-800" for="descripcion">Descripcion </label>
+      <input
+        id="descripcion"
+        class="w-full"
+        [formControl]="descripcionControl"
+        type="text"
+        #descripcion
+        pInputText
+      />
+    </div>
+  </div>
+</div>
+<div
+  class="p-dialog-footer"
+  style="width: 100%; position: fixed; left: 0; bottom: 0"
+>
+  <p-button
+    [disabled]="!isValid()"
+    [loading]="loadingAcceptAddCategoria"
+    (onClick)="handleCreateItemEvent()"
+    icon="pi pi-check"
+    label="Acept"
+  ></p-button>
+</div>

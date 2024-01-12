@@ -12,7 +12,9 @@ public class ProductoDTO {
     private String descripcion;
     private BigDecimal precio;
     private int stockDisponible;
-    private Long categoriaId;
+    private CategoriaProductoDTO categoriaProductoDTO;
+    private NegocioDTO negocioDTO;
+    private String imagenURL;
 
     // Getters y setters
 }

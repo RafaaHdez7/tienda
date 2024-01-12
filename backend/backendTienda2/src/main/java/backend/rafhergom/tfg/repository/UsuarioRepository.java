@@ -1,12 +1,12 @@
 package backend.rafhergom.tfg.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import backend.rafhergom.tfg.model.entity.Usuario;
-
-import java.util.List;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {

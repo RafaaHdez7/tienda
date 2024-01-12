@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "5SgYtsXAxuAk1+DHY1qYixH6bBbss+z+XdxtFdn8ocDYePlMwTha+oFv/K0Y0jN3mmORejO6xG71cDWhPUf43w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\RAFA\\Documents\\tienda\\frontend\\TiendaNet2\\TiendaNet2\\TiendaNet2\\TiendaNet2.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\RAFA\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

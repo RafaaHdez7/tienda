@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "DetallePedidoController")
-@RequestMapping("/api/detalles-pedido")
+@RequestMapping("/api/detalle-pedido")
 public class DetallesPedidoController {
 
     private final DetallesPedidoService detallesPedidoService;
