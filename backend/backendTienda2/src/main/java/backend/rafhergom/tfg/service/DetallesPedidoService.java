@@ -31,7 +31,7 @@ public class DetallesPedidoService {
             DetallesPedidoRepository detallesPedidoRepository,
             PedidoRepository pedidoRepository,
             ProductoRepository productoRepository,
-            @Qualifier("ModelMapperConfig")  ModelMapper modelMapper) {
+            @Qualifier("modelMapper")  ModelMapper modelMapper) {
     	
         this.detallesPedidoRepository = detallesPedidoRepository;
         this.pedidoRepository = pedidoRepository;

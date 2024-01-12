@@ -23,7 +23,7 @@ public class CategoriaNegocioService {
 
     @Autowired
     public CategoriaNegocioService(CategoriaNegocioRepository categoriaNegocioRepository,
-    		@Qualifier("ModelMapperConfig")  ModelMapper modelMapper) {
+    		@Qualifier("modelMapper")  ModelMapper modelMapper) {
         this.categoriaNegocioRepository = categoriaNegocioRepository;
         this.modelMapper = modelMapper;
     }

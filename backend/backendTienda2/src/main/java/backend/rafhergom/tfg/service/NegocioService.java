@@ -21,7 +21,7 @@ public class NegocioService {
 
     @Autowired
     public NegocioService(NegocioRepository negocioRepository,
-    		@Qualifier("ModelMapperConfig") ModelMapper modelMapper) {
+    		@Qualifier("modelMapper") ModelMapper modelMapper) {
         this.negocioRepository = negocioRepository;
         this.modelMapper = modelMapper;
     }

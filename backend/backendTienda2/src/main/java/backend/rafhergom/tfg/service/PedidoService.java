@@ -30,7 +30,7 @@ public class PedidoService {
 
     @Autowired
     public PedidoService(PedidoRepository pedidoRepository, UsuarioRepository usuarioRepository,
-    		@Qualifier("ModelMapperConfig") ModelMapper modelMapper) {
+    		@Qualifier("modelMapper") ModelMapper modelMapper) {
         this.pedidoRepository = pedidoRepository;
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
