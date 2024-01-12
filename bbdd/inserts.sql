@@ -18,9 +18,12 @@ INSERT INTO tfg.CategoriaNegocio (nombre_categoria, descripcion) VALUES
 	
 -- Insertar negocios
 INSERT INTO tfg.Negocio (nombre, categoria_negocio_id, Descripcion, Link, ImagenURL) VALUES
-    ('Burger Place', (select id from tfg.CategoriaNegocio where nombre_categoria = 'Hamburgueseria'), 'Ofrecemos las mejores hamburguesas', 'www.burgerplace.com', 'imagen1.jpg'),
-    ('Bebidas Express',(select id from tfg.CategoriaNegocio where nombre_categoria = 'Japonés'), 'Variedad de bebidas refrescantes', 'www.bebidasexpress.com', 'imagen2.jpg'),
+    ('Burger Place', (select id from tfg.CategoriaNegocio where nombre_categoria = 'Hamburgueseria'), 'Ofrecemos las mejores hamburguesas', 'www.burgerplace.com', 'https://cdn.businessinsider.es/sites/navi.axelspringer.es/public/media/image/2023/07/hamburguesa-3096800.jpg?tf=3840x'),
+    ('Bebidas Express',(select id from tfg.CategoriaNegocio where nombre_categoria = 'Japonés'), 'Variedad de bebidas refrescantes', 'www.bebidasexpress.com', 'https://entrenosotros.consum.es/public/Image/2022/7/refrescos_Mediano.jpg'),
     ('Dulces Delicias', (select id from tfg.CategoriaNegocio where nombre_categoria = 'Española'), 'Postres y dulces deliciosos', 'www.dulcesdelicias.com', 'imagen3.jpg');
+	('Burger Place', (select id from tfg.CategoriaNegocio where nombre_categoria = 'Japonés'), 'Sushi', 'www.burgerplace.com', 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Sushi_bandeja.jpg'),
+    ('Bebidas Express',(select id from tfg.CategoriaNegocio where nombre_categoria = 'Japonés'), 'Variedad de bebidas refrescantes', 'www.bebidasexpress.com', 'https://entrenosotros.consum.es/public/Image/2022/7/refrescos_Mediano.jpg'),
+    ('Dulces Delicias', (select id from tfg.CategoriaNegocio where nombre_categoria = 'Española'), 'Postres y dulces deliciosos', 'www.dulcesdelicias.com', 'https://entrenosotros.consum.es/public/Image/2022/7/refrescos_Mediano.jpg');
 
 
 -- Insertar productos

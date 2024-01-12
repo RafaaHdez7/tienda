@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Api(tags = "PedidoController")
-@RequestMapping("/api/pedidos")
+@RequestMapping("/api/pedido")
 @Slf4j
 public class PedidoController {
 

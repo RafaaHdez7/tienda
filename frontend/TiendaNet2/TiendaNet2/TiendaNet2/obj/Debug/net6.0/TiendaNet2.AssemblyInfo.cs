@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TiendaNet2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+696c880d9021a0c5e6c1eaa118e657f05c559b49")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c152b068e70e580ce696c892b6f6df18f2914279")]
 [assembly: System.Reflection.AssemblyProductAttribute("TiendaNet2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TiendaNet2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Api(tags = "UsuarioController")
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/usuario")
 @Slf4j // Agrega anotación Lombok para el registro
 public class UsuarioController {
     

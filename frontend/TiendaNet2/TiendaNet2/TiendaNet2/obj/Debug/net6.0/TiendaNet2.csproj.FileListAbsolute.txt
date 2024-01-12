@@ -62,3 +62,6 @@ C:\Users\RAFA\Documents\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2\obj\Deb
 C:\Users\RAFA\Documents\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2\obj\Debug\net6.0\scopedcss\projectbundle\TiendaNet2.bundle.scp.css
 C:\Users\RAFA\Documents\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2\obj\Debug\net6.0\TiendaNet2.genruntimeconfig.cache
 C:\Users\RAFA\Documents\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2\obj\Debug\net6.0\ref\TiendaNet2.dll
+C:\Users\RAFA\Documents\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2\obj\Debug\net6.0\TiendaNet2.csproj.AssemblyReference.cache
+C:\Users\RAFA\Documents\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\RAFA\Documents\tienda\frontend\TiendaNet2\TiendaNet2\TiendaNet2\obj\Debug\net6.0\TiendaNet2.csproj.CopyComplete

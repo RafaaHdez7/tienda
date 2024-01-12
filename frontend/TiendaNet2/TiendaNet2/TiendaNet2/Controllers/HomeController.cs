@@ -8,28 +8,36 @@ namespace TiendaNet2.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly INegociosRepository negociosRepository;
+        private readonly INegocioService negocioService;
 
-        public HomeController(ILogger<HomeController> logger, INegociosRepository negociosRepository )
+        public HomeController(ILogger<HomeController> logger, INegocioService negocioService )
         {
-            this.negociosRepository = negociosRepository;
+            this.negocioService = negocioService;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var negocios = negociosRepository.ObtenerNegociosOffline().Take(3).ToList();
+            var negocios = await negocioService.ObtenerNegociosAsync();
+
+            // Tomar los primeros 3 negocios
+            var negociosTomados = negocios.Take(3).ToList();
 
             var modelo = new HomeIndexViewModel()
             {
-                Negocios = negocios
+                Negocios = negociosTomados
             };
+
             return View(modelo);
         }
 
-        public IActionResult Negocios()
+        public async Task<IActionResult> Negocios()
         {
-            var negocios = negociosRepository.ObtenerNegociosOffline();
+
+            var negocios = await negocioService.ObtenerNegociosAsync();
+
+            // Tomar los primeros 3 negocios
+            var negociosTomados = negocios.Take(3).ToList();
             return View(negocios);
         }
 

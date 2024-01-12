@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Api(tags = "NegocioController")
-@RequestMapping("/api/negocios")
+@RequestMapping("/api/negocio")
 @Slf4j
 public class NegocioController {
 
