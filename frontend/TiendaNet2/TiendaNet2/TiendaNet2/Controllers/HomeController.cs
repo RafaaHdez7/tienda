@@ -41,19 +41,14 @@ namespace TiendaNet2.Controllers
         public async Task<IActionResult> Negocios()
         {
             var modelo = new HomeIndexViewModel();
-            var negocios = await negocioService.ObtenerNegociosAsync();
+            IEnumerable<Negocio> negocios = await negocioService.ObtenerNegociosAsync();
             // Asegurarse de que negocios no sea null
             if (negocios != null)
             {
-                // Tomar los primeros 3 negocios
-                var negociosTomados = negocios.Take(3).ToList();
 
-                modelo = new HomeIndexViewModel()
-                {
-                    Negocios = negociosTomados
-                };
+                return View(negocios);
             }
-            return View(modelo);
+            return View();
         }
         [AllowAnonymous]
         public IActionResult Privacy()
