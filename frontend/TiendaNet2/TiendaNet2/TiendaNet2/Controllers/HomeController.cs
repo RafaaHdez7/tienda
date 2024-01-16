@@ -2,9 +2,12 @@
 using TiendaNet2.Servicios;
 using System.Diagnostics;
 using TiendaNet2.Models;
+using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TiendaNet2.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,32 +18,44 @@ namespace TiendaNet2.Controllers
             this.negocioService = negocioService;
             _logger = logger;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var negocios = await negocioService.ObtenerNegociosAsync();
-
-            // Tomar los primeros 3 negocios
-            var negociosTomados = negocios.Take(3).ToList();
-
-            var modelo = new HomeIndexViewModel()
+            var modelo = new HomeIndexViewModel();
+            // Asegurarse de que negocios no sea null
+            if (negocios != null)
             {
-                Negocios = negociosTomados
-            };
+                // Tomar los primeros 3 negocios
+                var negociosTomados = negocios.Take(3).ToList();
 
+                modelo = new HomeIndexViewModel()
+                {
+                    Negocios = negociosTomados
+                };
+            }
             return View(modelo);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Negocios()
         {
-
+            var modelo = new HomeIndexViewModel();
             var negocios = await negocioService.ObtenerNegociosAsync();
+            // Asegurarse de que negocios no sea null
+            if (negocios != null)
+            {
+                // Tomar los primeros 3 negocios
+                var negociosTomados = negocios.Take(3).ToList();
 
-            // Tomar los primeros 3 negocios
-            var negociosTomados = negocios.Take(3).ToList();
-            return View(negocios);
+                modelo = new HomeIndexViewModel()
+                {
+                    Negocios = negociosTomados
+                };
+            }
+            return View(modelo);
         }
-
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();

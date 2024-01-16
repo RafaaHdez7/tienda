@@ -9,8 +9,10 @@ CREATE SCHEMA IF NOT EXISTS "tfg"
 CREATE TABLE tfg.Usuario (
     id serial PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    contrasena VARCHAR(100) NOT NULL,
-    rol VARCHAR(20) NOT NULL
+    contrasena VARCHAR(200) NOT NULL,
+    rol VARCHAR(20) NOT NULL,
+	email VARCHAR(200) NOT NULL,
+	activo BOOLEAN NOT NULL
 );
 
 -- Crear la tabla de Categorías

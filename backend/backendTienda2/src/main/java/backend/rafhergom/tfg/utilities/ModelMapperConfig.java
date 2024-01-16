@@ -45,6 +45,20 @@ public class ModelMapperConfig {
         //TODO FALTARIA EL TEMA DE ESTADOSPEDIDOS
         
     }
+    
+//    private void LoginRequestDTOToUsuario(ModelMapper modelMapper) {
+//        TypeMap<LoginRequestDTO, Usuario> typeMap = modelMapper.createTypeMap(LoginRequestDTO.class, Usuario.class);
+//
+//        TypeMap<Pedido, UsuarioDTO> usuarioMap = modelMapper.createTypeMap(Pedido.class, UsuarioDTO.class);
+//        usuarioMap.addMapping(src -> src.getUsuario().getId(), UsuarioDTO::setId);
+//        TypeMap<Pedido, NegocioDTO> negocioMap = modelMapper.createTypeMap(Pedido.class, NegocioDTO.class);
+//        negocioMap.addMapping(src -> src.getNegocio().getId(), NegocioDTO::setId);
+//        typeMap.addMapping(src -> src.getUsuario(), PedidoDTO::setUsuarioDTO);
+//        typeMap.addMapping(src -> src.getNegocio(), PedidoDTO::setNegocioDTO);
+//        
+//        //TODO FALTARIA EL TEMA DE ESTADOSPEDIDOS
+//        
+//    }
 //    private void ProductoDTOToProducto(ModelMapper modelMapper) {
 //        TypeMap<ProductoDTO, Producto> typeMap = modelMapper.createTypeMap(ProductoDTO.class, Producto.class);
 //        typeMap.addMapping(src -> src.getCategoriaProductoDTO().getId(), Producto::setCategoriaProducto);

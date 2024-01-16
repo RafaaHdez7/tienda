@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using TiendaNet2.Models;
@@ -10,6 +12,7 @@ namespace TiendaNet2.Servicios
     public interface INegocioService
     {
         Task<List<Negocio>> ObtenerNegociosAsync();
+        Task<bool> CrearNegocioAsync(Negocio nuevoNegocio);
     }
 
     public class NegocioService : INegocioService
@@ -30,6 +33,8 @@ namespace TiendaNet2.Servicios
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri(srv);
+                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "TOKEN");
+
                 var response = await httpClient.GetAsync(srv);
 
                 if (response.IsSuccessStatusCode)
@@ -41,5 +46,44 @@ namespace TiendaNet2.Servicios
 
             return negocioList;
         }
+
+        public async Task<bool> CrearNegocioAsync(Negocio nuevoNegocio)
+        {
+            bool creadoExitosamente = false;
+
+            try
+            {
+                string srv = _config.GetValue<string>("_negocioURL");
+
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(srv);
+
+                    // Convierte el objeto 'nuevoNegocio' a formato JSON
+                    string jsonNegocio = Newtonsoft.Json.JsonConvert.SerializeObject(nuevoNegocio);
+
+                    // Configura el contenido del request con el JSON del nuevo negocio
+                    var content = new StringContent(jsonNegocio, Encoding.UTF8, "application/json");
+
+                    // Envía la solicitud HTTP POST para crear el nuevo negocio
+                    var response = await httpClient.PostAsync(srv, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Si la respuesta indica éxito, marca la creación como exitosa
+                        creadoExitosamente = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier excepción que pueda ocurrir durante la creación del negocio
+                Console.WriteLine($"Error al crear el negocio: {ex.Message}");
+            }
+
+            return creadoExitosamente;
+        }
+
+
     }
 }
