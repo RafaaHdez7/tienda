@@ -2,9 +2,12 @@
 using TiendaNet2.Servicios;
 using System.Diagnostics;
 using TiendaNet2.Models;
+using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TiendaNet2.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,32 +18,42 @@ namespace TiendaNet2.Controllers
             this.negocioService = negocioService;
             _logger = logger;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var negocios = await negocioService.ObtenerNegociosAsync();
+            var modelo = new HomeIndexViewModel();
 
-            // Tomar los primeros 3 negocios
-            var negociosTomados = negocios.Take(3).ToList();
-
-            var modelo = new HomeIndexViewModel()
+            if (negocios != null)
             {
-                Negocios = negociosTomados
-            };
+                // Tomar los primeros 3 negocios
+                var negociosTomados = negocios.Take(3).ToList();
 
+                modelo = new HomeIndexViewModel()
+                {
+
+                    Negocios = negociosTomados
+                };
+            }
+            ViewBag.AuthToken = Request.Cookies["AuthToken"];
             return View(modelo);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Negocios()
         {
+            var modelo = new HomeIndexViewModel();
+            IEnumerable<Negocio> negocios = await negocioService.ObtenerNegociosAsync();
 
-            var negocios = await negocioService.ObtenerNegociosAsync();
-
-            // Tomar los primeros 3 negocios
-            var negociosTomados = negocios.Take(3).ToList();
-            return View(negocios);
+            // Asegurarse de que negocios no sea null
+            if (negocios != null)
+            {
+                ViewBag.AuthToken = Request.Cookies["AuthToken"];
+                return View(negocios);
+            }
+            return View();
         }
-
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
@@ -51,5 +64,7 @@ namespace TiendaNet2.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
+
 }
