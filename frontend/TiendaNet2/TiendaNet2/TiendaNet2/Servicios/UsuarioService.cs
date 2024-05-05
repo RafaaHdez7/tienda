@@ -4,26 +4,31 @@ using TiendaNet2.Models;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
 namespace TiendaNet2.Servicios
 {
     public interface IUsuarioService
     {
-        Task<string> Authenticate(string username, string password);
+        Task<AuthResult> Authenticate(string username, string password);
         Task<string> Registrar(string username, string password);
     }
 
     public class UsuarioService : IUsuarioService
     {
         private readonly HttpClient httpClient;
-        private readonly IConfiguration _config;
+        private readonly IConfiguration config;
+        private readonly IHttpClientFactory _httpClientFactory;
+        
 
-        public UsuarioService(HttpClient httpClient, IConfiguration config)
+        public UsuarioService(HttpClient httpClient, IConfiguration config, IHttpClientFactory _httpClientFactory )
         {
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _config = config;  
+            this.config = config;
+            this._httpClientFactory = _httpClientFactory;
         }
 
-        public async Task<string> Authenticate(string username, string password)
+        public async Task<AuthResult> Authenticate(string username, string password)
         {
             try
             {
@@ -33,24 +38,22 @@ namespace TiendaNet2.Servicios
                     username,
                     password
                 };
-                string srv = _config.GetValue<string>("_authURL");
+                string srv = config.GetValue<string>("_authURL");
                 var response = await httpClient.PostAsJsonAsync($"{srv}login", authenticationRequest);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // La autenticación fue exitosa, se espera que el servicio de autenticación devuelva el token JWT
-                    return await response.Content.ReadAsStringAsync();
+                    var token = await response.Content.ReadAsStringAsync();
+                    return new AuthResult(true, token); // Autenticación exitosa
                 }
                 else
                 {
-                    // Manejar errores de autenticación aquí
-                    throw new InvalidOperationException($"Error en la autenticación: {response.StatusCode} - {response.ReasonPhrase}");
+                    return new AuthResult(false, $"Error en la autenticación: {response.StatusCode} - {response.ReasonPhrase}");
                 }
             }
             catch (Exception ex)
             {
-                // Manejar otros errores aquí
-                throw new InvalidOperationException("Error al autenticar al usuario", ex);
+                return new AuthResult(false, $"Error al autenticar al usuario: {ex.Message}");
             }
         }
 
@@ -65,25 +68,24 @@ namespace TiendaNet2.Servicios
                     username,
                     password
                 };
-                string srv = _config.GetValue<string>("_authURL");
+                string srv = config.GetValue<string>("_authURL");
                 var response = await httpClient.PostAsJsonAsync($"{srv}registro", authenticationRequest);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // La autenticación fue exitosa, se espera que el servicio de autenticación devuelva el token JWT
                     return await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
-                    // Manejar errores de autenticación aquí
-                    throw new InvalidOperationException($"Error en la autenticación: {response.StatusCode} - {response.ReasonPhrase}");
+                    throw new InvalidOperationException($"Error en el registro: {response.StatusCode} - {response.ReasonPhrase}");
                 }
             }
             catch (Exception ex)
             {
-                // Manejar otros errores aquí
-                throw new InvalidOperationException("Error al autenticar al usuario", ex);
+                throw new InvalidOperationException("Error al registrar al usuario", ex);
             }
         }
     }
+
+  
 }

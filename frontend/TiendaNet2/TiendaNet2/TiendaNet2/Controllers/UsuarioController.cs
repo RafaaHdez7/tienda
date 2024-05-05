@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
 using TiendaNet2.Models;
 using TiendaNet2.Servicios;
 
@@ -15,12 +17,13 @@ namespace TiendaNet2.Controllers
 
         public UsuarioController(UsuarioService usuarioService)
         {
- 
+
             this.usuarioService = usuarioService;
         }
         [AllowAnonymous]
         public IActionResult Registro()
         {
+            ViewBag.AuthToken = Request.Cookies["AuthToken"];
             return View();
         }
 
@@ -39,6 +42,7 @@ namespace TiendaNet2.Controllers
 
             if (!resultadoSingIn.Equals(ERROR))
             {
+                ViewBag.AuthToken = Request.Cookies["AuthToken"];
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -53,6 +57,7 @@ namespace TiendaNet2.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
+            ViewBag.AuthToken = Request.Cookies["AuthToken"];
             return View();
         }
 
@@ -60,36 +65,67 @@ namespace TiendaNet2.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(Usuario modelo)
         {
-        /*    modelo.Rol = "user";//TODO TENGO QUE QUITAR ESTO
-            if (!ModelState.IsValid)
+            var authResult = await usuarioService.Authenticate(modelo.Nombre, modelo.Contrasena);
+
+            if (authResult.Success)
             {
-                // Imprime o registra los errores del ModelState
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                // Autenticación exitosa, obtener el nombre de usuario y el rol del token
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var token = tokenHandler.ReadJwtToken(authResult.Token);
+
+                // Obtener el nombre de usuario y el rol del token
+                var nombreUsuarioClaim = token.Claims.FirstOrDefault(claim => claim.Type == "sub");
+                var rolClaim = token.Claims.FirstOrDefault(claim => claim.Type == "role");
+
+                if (nombreUsuarioClaim != null && rolClaim != null)
                 {
-                    Console.WriteLine($"Error: {error.ErrorMessage}");
+                    var nombreUsuario = nombreUsuarioClaim.Value;
+                    var rol = rolClaim.Value;
+                    // Autenticación exitosa, guardar el nombre de usuario y el rol en la sesión
+                    HttpContext.Session.SetString("NombreUsuario", nombreUsuario);
+                    HttpContext.Session.SetString("Rol", rol);
+
+                    // Haz lo que necesites con el nombre de usuario y el rol
+
+
+                    // Almacena el token en la cookie
+                    var cookieOptions = new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true, // Configúralo según tus necesidades de seguridad
+                                       // Otros ajustes de cookie si es necesario
+                    };
+                    Response.Cookies.Append("AuthToken", authResult.Token, cookieOptions);
+
+                    // Renderizar la vista de éxito
+                    ViewBag.AuthToken = Request.Cookies["AuthToken"];
+
+                    return View("_LoginSuccessful", modelo);
                 }
-                return View(modelo);
-            }*/
-
-            var resultado = await usuarioService.Authenticate(modelo.Nombre, modelo.Contrasena);
-
-            if (resultado != null) //&& resultado.Succeeded)
-            {
-                return RedirectToAction("Index", "Home");
+                else
+                {
+                    return View("Login", modelo);
+                }
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Nombre de usuario o contraseña incorrectos.");
-                return View(modelo);
+                return View("Login", modelo);
             }
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> Logout()
+        [AllowAnonymous]
+        public IActionResult Logout()
         {
-            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            // Eliminar la cookie del cliente
+            Response.Cookies.Delete("AuthToken");
+            // Eliminar los valores de sesión
+            HttpContext.Session.Remove("NombreUsuario");
+            HttpContext.Session.Remove("Rol");
+
+            // Redirigir a la página de inicio
             return RedirectToAction("Index", "Home");
         }
+
+
     }
 }

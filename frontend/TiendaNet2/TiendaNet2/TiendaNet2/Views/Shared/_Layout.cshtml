@@ -11,6 +11,7 @@
     <!-- Option 1: Include in HTML -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
+
 <body>
     <header class="fixed-top">
         
@@ -19,13 +20,48 @@
                 <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#barraOffcanvas">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                 <img style="width:60px;"
                      src="~/images/icono_marron.JPG" alt="NeoEats" />
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img style ="width:100px;"
-                        src="~/images/letras_marron.JPG" alt="NeoEats" />
                 </a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img style="width:100px;"
+                         src="~/images/letras_marron.JPG" alt="NeoEats" />
+                </a>
+                
+                @using Microsoft.AspNetCore.Http
+                @{
+                    var nombreUsuario = Context.Session.GetString("NombreUsuario");
+                    var rol = Context.Session.GetString("Rol");
+                }
+                @if (nombreUsuario != null )
+                {
+                    <p>Bienvenido, @nombreUsuario</p>
 
+                    <p>ROL: @rol </p>
+                    <ul>
+                        @foreach (var claim in User.Claims)
+                        {
+                            <li>@claim.Type: @claim.Value</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>Usuario no autenticado</p>
+                }
+                @if (string.IsNullOrEmpty(@ViewBag.AuthToken))
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Usuario" asp-action="Registro">
+                        Regístrate
+                    </a>
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Usuario" asp-action="Logout">
+                        LogOut
+                    </a>
+                }
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

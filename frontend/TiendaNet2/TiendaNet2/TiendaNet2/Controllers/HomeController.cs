@@ -23,7 +23,7 @@ namespace TiendaNet2.Controllers
         {
             var negocios = await negocioService.ObtenerNegociosAsync();
             var modelo = new HomeIndexViewModel();
-            // Asegurarse de que negocios no sea null
+
             if (negocios != null)
             {
                 // Tomar los primeros 3 negocios
@@ -31,9 +31,11 @@ namespace TiendaNet2.Controllers
 
                 modelo = new HomeIndexViewModel()
                 {
+
                     Negocios = negociosTomados
                 };
             }
+            ViewBag.AuthToken = Request.Cookies["AuthToken"];
             return View(modelo);
         }
 
@@ -42,10 +44,11 @@ namespace TiendaNet2.Controllers
         {
             var modelo = new HomeIndexViewModel();
             IEnumerable<Negocio> negocios = await negocioService.ObtenerNegociosAsync();
+
             // Asegurarse de que negocios no sea null
             if (negocios != null)
             {
-
+                ViewBag.AuthToken = Request.Cookies["AuthToken"];
                 return View(negocios);
             }
             return View();
@@ -61,5 +64,7 @@ namespace TiendaNet2.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
+
 }

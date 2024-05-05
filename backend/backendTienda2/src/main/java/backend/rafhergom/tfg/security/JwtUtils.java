@@ -18,8 +18,9 @@ public class JwtUtils {
         return Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
-    public String generateToken(String username, String role) {
-        long expirationTime = 864_000_000; // 10 days (adjust according to your needs)
+    @SuppressWarnings("deprecation")
+	public String generateToken(String username, String role) {
+    	long expirationTime = 30 * 60 * 1000; // 30 minutos en milisegundos
         long now = System.currentTimeMillis();
         long expirationDate = now + expirationTime;
 
