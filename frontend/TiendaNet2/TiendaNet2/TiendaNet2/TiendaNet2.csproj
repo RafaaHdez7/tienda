@@ -7,27 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="NewFolder1\**" />
-    <Compile Remove="NewFolder2\**" />
-    <Content Remove="NewFolder1\**" />
-    <Content Remove="NewFolder2\**" />
-    <EmbeddedResource Remove="NewFolder1\**" />
-    <EmbeddedResource Remove="NewFolder2\**" />
-    <None Remove="NewFolder1\**" />
-    <None Remove="NewFolder2\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="NegociosRepository.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="wwwroot\css\StyleSheet.css" />
-    <Content Remove="wwwroot\css\StyleSheet1.css" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Usuario\Login.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

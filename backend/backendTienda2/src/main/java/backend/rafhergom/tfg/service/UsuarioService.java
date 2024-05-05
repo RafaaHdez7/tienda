@@ -2,6 +2,7 @@ package backend.rafhergom.tfg.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import backend.rafhergom.tfg.model.entity.Usuario;
@@ -14,6 +15,8 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final String ROL_USUARIO = "user";
 
     @Autowired
     public UsuarioService(UsuarioRepository usuarioRepository) {
@@ -30,6 +33,8 @@ public class UsuarioService {
     }
 
     public Usuario crearUsuario(Usuario usuario) {
+    	usuario.setRol(ROL_USUARIO);
+    	usuario.setContrasena(encoder.encode(usuario.getContrasena()));
         return usuarioRepository.save(usuario);
     }
 

@@ -9,5 +9,4 @@ public class CategoriaProductoDTO {
     private String descripcion;
     private String imagenURL;
 
-    // Agrega getters y setters según sea necesario
 }

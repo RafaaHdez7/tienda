@@ -1,0 +1,54 @@
+﻿@model Usuario
+@{
+    ViewData["Title"] = "Entrando...";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login Exitoso</h1>
+        <p>Bienvenido, @Model.Nombre</p>
+        <p>Redireccionando a la página principal...</p>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            window.location.href = "/";
+        }, 2000); // Redireccionar a la página principal después de 2 segundos
+    </script>
+</body>
+</html>
