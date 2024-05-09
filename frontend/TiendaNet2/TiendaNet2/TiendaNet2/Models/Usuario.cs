@@ -13,5 +13,9 @@ namespace TiendaNet2.Models
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [DataType(DataType.Password)]
         public string Contrasena { get; set; }
+        [Display(Name = "Email")]
+        [Required(ErrorMessage = "El campo {0} es requerido")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
     }
 }

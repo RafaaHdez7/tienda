@@ -13,6 +13,7 @@ namespace TiendaNet2.Servicios
     {
         Task<List<Negocio>> ObtenerNegociosAsync();
         Task<bool> CrearNegocioAsync(Negocio nuevoNegocio);
+        Task<bool> DarAltaUsuarioComoNegocio(String nombreUsuario);
     }
 
     public class NegocioService : INegocioService
@@ -33,8 +34,6 @@ namespace TiendaNet2.Servicios
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri(srv);
-                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "TOKEN");
-
                 var response = await httpClient.GetAsync(srv);
 
                 if (response.IsSuccessStatusCode)
@@ -64,6 +63,41 @@ namespace TiendaNet2.Servicios
 
                     // Configura el contenido del request con el JSON del nuevo negocio
                     var content = new StringContent(jsonNegocio, Encoding.UTF8, "application/json");
+
+                    // Envía la solicitud HTTP POST para crear el nuevo negocio
+                    var response = await httpClient.PostAsync(srv, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Si la respuesta indica éxito, marca la creación como exitosa
+                        creadoExitosamente = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier excepción que pueda ocurrir durante la creación del negocio
+                Console.WriteLine($"Error al crear el negocio: {ex.Message}");
+            }
+
+            return creadoExitosamente;
+        }
+
+        public async Task<bool> DarAltaUsuarioComoNegocio(String nombreUsuario)
+        {
+            bool creadoExitosamente = false;
+
+            try
+            {
+
+                string srv = _config.GetValue<string>("_usuarioURL")+ "darAltaNegocio";
+
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(srv);
+
+                    // Configura el contenido del request con el JSON del nuevo negocio
+                    var content = new StringContent(nombreUsuario, Encoding.UTF8, "application/json");
 
                     // Envía la solicitud HTTP POST para crear el nuevo negocio
                     var response = await httpClient.PostAsync(srv, content);

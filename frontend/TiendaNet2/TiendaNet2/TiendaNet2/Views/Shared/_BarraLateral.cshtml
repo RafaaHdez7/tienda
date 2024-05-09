@@ -31,21 +31,24 @@
         else
         {
             <div>
-                <a class="nav-link text-dark" asp-controller="Pedidos" asp-action="VerPedidos">Mis pedidos</a>
+                <a class="nav-link text-dark" asp-controller="Pedido" asp-action="VerPedido">Mis pedidos</a>
             </div>
-            <div>
-                <a class="nav-link text-dark" asp-controller="Negocios" asp-action="DarAlta">Date alta como negocio</a>
+            if (rol == "user")
+            {
+                <div>
+                    <a class="nav-link text-dark" asp-controller="Negocio" asp-action="DarAlta">Date alta como negocio</a>
             </div>
+            }
             if (rol == "negocio")
             {
                 <div>
-                    <a class="nav-link text-dark" asp-controller="Negocios" asp-action="VerNegocio">Mis pedidos</a>
+                    <a class="nav-link text-dark" asp-controller="Negocio" asp-action="VerNegocio">Ver tu negocio</a>
                 </div>
             }
             if (rol == "admin")
             {
                 <div>
-                    <a class="nav-link text-dark" asp-controller="Administracion" asp-action="Panel">Mis pedidos</a>
+                    <a class="nav-link text-dark" asp-controller="Administracion" asp-action="Panel">Panel de control</a>
                 </div>
             }
         }

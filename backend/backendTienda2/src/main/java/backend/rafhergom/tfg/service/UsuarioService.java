@@ -31,6 +31,10 @@ public class UsuarioService {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         return usuarioOptional.orElse(null);
     }
+    public Usuario obtenerUsuarioPorNombre(String nombre) {
+        List<Usuario> usuarioOptional = usuarioRepository.findByNombre(nombre);
+        return usuarioOptional.get(0);
+    }
 
     public Usuario crearUsuario(Usuario usuario) {
     	usuario.setRol(ROL_USUARIO);

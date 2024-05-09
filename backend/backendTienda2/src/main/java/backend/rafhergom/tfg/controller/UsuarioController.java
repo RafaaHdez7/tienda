@@ -40,6 +40,11 @@ public class UsuarioController {
     public Usuario obtenerUsuarioPorId(@PathVariable Long id) {
         return usuarioService.obtenerUsuarioPorId(id);
     }
+    
+    @GetMapping("/nombre/{nombre}")
+    public Usuario obtenerUsuarioPorNombre(@PathVariable String nombre) {
+        return usuarioService.obtenerUsuarioPorNombre(nombre);
+    }
 
     @PostMapping
     public Usuario crearUsuario(@RequestBody Usuario usuario) {
@@ -54,6 +59,12 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public void eliminarUsuario(@PathVariable Long id) {
         usuarioService.eliminarUsuario(id);
+    }
+    @PostMapping("/darAltaNegocio")
+    public Usuario darAltaUsuarioComoNegocio(@RequestBody String nombreUsuario) {
+    	Usuario user = usuarioService.obtenerUsuarioPorNombre(nombreUsuario);
+    	user.setRol("negocio");
+        return usuarioService.actualizarUsuario(user.getId(), user);
     }
 }
 /* La anotación @RestController indica que esta clase es un controlador REST y

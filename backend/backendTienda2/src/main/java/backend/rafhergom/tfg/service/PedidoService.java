@@ -47,6 +47,18 @@ public class PedidoService {
 
         return pedidoDTOs;
     }
+    
+    public List<PedidoDTO> obtenerPedidosPorIdUsuario(Long id) {
+        List<Pedido> pedidos = pedidoRepository.findByUsuarioId(id);
+        List<PedidoDTO> pedidoDTOs = new ArrayList<>();
+
+        for (Pedido pedido : pedidos) {
+            PedidoDTO pedidoDTO = modelMapper.map(pedido, PedidoDTO.class);
+            pedidoDTOs.add(pedidoDTO);
+        }
+
+        return pedidoDTOs;
+    }
 
 
     public PedidoDTO obtenerPedidoPorId(Long id) {

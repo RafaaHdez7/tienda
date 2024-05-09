@@ -19,17 +19,39 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddTransient<INegocioService, NegocioService>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
+builder.Services.AddTransient<IPedidoService, PedidoService>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<UsuarioService>();
 builder.Services.AddHttpClient<NegocioService>();
+builder.Services.AddHttpClient<PedidoService>();
 builder.Services.AddScoped<AuthTokenViewComponent>();
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("admin");
+    });
+    options.AddPolicy("RequireUserRole", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("user");
+    });
+    options.AddPolicy("RequireNegocioRole", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("negocio");
+    });
+});
 
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
+
+   
+
 .AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters

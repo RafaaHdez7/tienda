@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Registro";
+}
+
+<h1 text-center> Regístrate como negocio</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="DarAltaNegocio">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                Una vez registrado, se procederá a hacer logout para que inicies de nuevo sesión con el nuevo rol
+            </div>
+
+
+            <button class="btn-primary btn">Regístrate</button>
+
+        </form>
+    </div>
+</div>
+

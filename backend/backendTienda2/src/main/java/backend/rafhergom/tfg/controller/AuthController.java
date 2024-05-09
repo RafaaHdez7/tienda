@@ -1,5 +1,7 @@
 package backend.rafhergom.tfg.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,8 +40,11 @@ public class AuthController {
     	Usuario nuevoUsuario = new Usuario();
     	nuevoUsuario.setNombre(loginRequestDTO.getUsername());
     	nuevoUsuario.setContrasena(loginRequestDTO.getPassword());
+    	nuevoUsuario.setEmail(loginRequestDTO.getEmail());
     	nuevoUsuario.setRol(ROL_USUARIO);
-        
+    	nuevoUsuario.setFechaCreacion(new Date());
+    	nuevoUsuario.setActivo(Boolean.TRUE);
+    	nuevoUsuario.setFechaModificacion(new Date());
     	nuevoUsuario = usuarioService.crearUsuario(nuevoUsuario);
     	
     	if (nuevoUsuario.getId()!= null) {

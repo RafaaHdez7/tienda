@@ -38,7 +38,7 @@ namespace TiendaNet2.Controllers
 
             var usuario = new Usuario() { Nombre = modelo.Nombre };
 
-            var resultadoSingIn = await usuarioService.Registrar(modelo.Nombre, modelo.Contrasena);
+            var resultadoSingIn = await usuarioService.Registrar(modelo.Nombre, modelo.Contrasena, modelo.Email);
 
             if (!resultadoSingIn.Equals(ERROR))
             {

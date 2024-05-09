@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -34,4 +35,15 @@ public class Pedido {
 
     @Column(name = "estado_pedido", nullable = false)
     private String estadoPedido;
+    @Column(name = "fecha_creacion", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date fechaCreacion;
+
+    @Column(name = "fecha_modificacion", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    private Date fechaModificacion;
+
+    @Column(name = "usuario_creacion")
+    private Long usuarioCreacion;
+
+    @Column(name = "usuario_modificacion")
+    private Long usuarioModificacion;
 }

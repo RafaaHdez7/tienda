@@ -32,14 +32,14 @@ CREATE TABLE tfg.CategoriaProducto (
 );
 
 
--- Crear la tabla de Negocios
 CREATE TABLE tfg.Negocio (
     id serial PRIMARY KEY,
     nombre  VARCHAR(100) NOT NULL,
     categoria_negocio_id INT REFERENCES tfg.CategoriaNegocio(id),
     descripcion TEXT,
     link TEXT,
-    imagenURL TEXT
+    imagenURL TEXT,
+    usuario_id INT REFERENCES tfg.Usuario(id) -- Agregar esta línea
 );
 -- Crear la tabla de Productos
 CREATE TABLE tfg.Producto (
