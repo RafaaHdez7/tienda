@@ -32,6 +32,10 @@ public class Negocio {
     @Column(name = "nombre", nullable = false , length = 100)
     private String nombre;
     
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario; // Relación con el usuario dueño del negocio
+    
     @Column(name = "descripcion", nullable = false, length = 255)
     private String descripcion;
 

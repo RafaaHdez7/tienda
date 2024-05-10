@@ -14,6 +14,7 @@ namespace TiendaNet2.Servicios
         Task<List<Negocio>> ObtenerNegociosAsync();
         Task<bool> CrearNegocioAsync(Negocio nuevoNegocio);
         Task<bool> DarAltaUsuarioComoNegocio(String nombreUsuario);
+        Task<List<Negocio>> ObtenerNegocioPorUsuario(string nombreUsuario);
     }
 
     public class NegocioService : INegocioService
@@ -49,7 +50,7 @@ namespace TiendaNet2.Servicios
         public async Task<bool> CrearNegocioAsync(Negocio nuevoNegocio)
         {
             bool creadoExitosamente = false;
-
+            // Crear un objeto anónimo solo con las propiedades Usuario y Negocio
             try
             {
                 string srv = _config.GetValue<string>("_negocioURL");
@@ -83,7 +84,7 @@ namespace TiendaNet2.Servicios
             return creadoExitosamente;
         }
 
-        public async Task<bool> DarAltaUsuarioComoNegocio(String nombreUsuario)
+        public async Task<bool> DarAltaUsuarioComoNegocio(string nombreUsuario)
         {
             bool creadoExitosamente = false;
 
@@ -118,6 +119,27 @@ namespace TiendaNet2.Servicios
             return creadoExitosamente;
         }
 
+        public async Task<List<Negocio>> ObtenerNegocioPorUsuario(string nombreUsuario)
+        {
+            List<Negocio> negocioList = null;
+
+            string srv = _config.GetValue<string>("_negocioURL")+ "usuario/" + nombreUsuario;
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(srv);
+                var response = await httpClient.GetAsync(srv);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    negocioList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Negocio>>(json);
+                }
+            }
+
+            return negocioList;
+        }
+        
 
     }
 }

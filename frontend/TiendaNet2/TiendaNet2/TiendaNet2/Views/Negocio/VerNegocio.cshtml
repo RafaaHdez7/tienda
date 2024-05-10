@@ -1,22 +1,27 @@
-﻿@model HomeIndexViewModel
+﻿@model IEnumerable<Negocio>
 
 @{
     ViewData["Title"] = "Mis Negocios";
 }
 
-<div class="text-center" >
-
-    <h1 class="display-4" style="color: #007bff;">
-        <img style="width:200px;"
-             src="~/images/logo_marron.JPG" alt="NeoEats" />
-    </h1>
-
-    <p style="font-size: 18px; color: #495057;">Negocios!</p>
-
-    <div style="margin-top: 20px; border-top: 1px solid #007bff; padding-top: 10px;">
-        
+@if (Model is not null)
+{
+    <div class="text-center" style="padding-top: 6rem;">
+        <h1>Aquí puede gestionar sus negocios </h1>
+        <p> Puedes dar alguno de alta pulsando el siguiente botón.</p>
+        <a class="btn btn-primary" asp-controller="Negocio" asp-action="CrearNegocio">Crear Nuevo Negocio</a>
+        <br />
     </div>
 
-</div>
+    <partial name="_ListadoNegocios" model="Model" />
+}
+else
+{
+    <div class="text-center" style="padding-top: 6rem;">
+        <h1>Aún no ha dado de alta ningún negocio</h1>
+        <p> Puedes dar alguno de alta pulsando el siguiente botón.</p>
+        <a class="btn btn-primary" asp-controller="Negocio" asp-action="CrearNegocio">Crear Nuevo Negocio</a>
+        <br />
+    </div>
 
-
+}

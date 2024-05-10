@@ -45,6 +45,18 @@ public class NegocioService {
         	return modelMapper.map(negocio, NegocioDTO.class);
         }).orElse(null);
     }
+    
+    public List<NegocioDTO> obtenerNegocioPorUsuarioId(Long idUsuario) {
+        List<Negocio> negocios = negocioRepository.findByUsuarioId(idUsuario);
+        List<NegocioDTO> negocioDTOs = new ArrayList<>();
+
+        for (Negocio negocio : negocios) {
+            NegocioDTO negocioDTO = modelMapper.map(negocio, NegocioDTO.class);
+            negocioDTOs.add(negocioDTO);
+        }
+
+        return negocioDTOs;
+    }
 
     public NegocioDTO crearNegocio(NegocioDTO negocioDTO) {
     	   return modelMapper.map(negocioRepository.save(modelMapper.map(

@@ -17,6 +17,7 @@ public class ModelMapperConfig {
         // Configurar el mapeo de Producto a ProductoDTO
         ProductoToProductoDTO(modelMapper);
         PedidoToPedidoDTO(modelMapper);
+        UsuarioToUsuarioDTO(modelMapper); 
         return modelMapper;
     }
 
@@ -44,6 +45,16 @@ public class ModelMapperConfig {
         
         //TODO FALTARIA EL TEMA DE ESTADOSPEDIDOS
         
+    }
+    
+    private void UsuarioToUsuarioDTO(ModelMapper modelMapper) {
+        TypeMap<Usuario, UsuarioDTO> typeMap = modelMapper.createTypeMap(Usuario.class, UsuarioDTO.class);
+        typeMap.addMapping(src -> src.getId(), UsuarioDTO::setId);
+        typeMap.addMapping(src -> src.getNombre(), UsuarioDTO::setNombre);
+        typeMap.addMapping(src -> src.getContrasena(), UsuarioDTO::setContrasena);
+        typeMap.addMapping(src -> src.getEmail(), UsuarioDTO::setEmail);
+        typeMap.addMapping(src -> src.getRol(), UsuarioDTO::setRol);
+        typeMap.addMapping(src -> src.getActivo(), UsuarioDTO::setActivo);
     }
     
 //    private void LoginRequestDTOToUsuario(ModelMapper modelMapper) {

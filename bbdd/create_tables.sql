@@ -8,10 +8,10 @@ CREATE SCHEMA IF NOT EXISTS "tfg"
 	-- Crear la tabla de Usuarios
 CREATE TABLE tfg.Usuario (
     id serial PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
     contrasena VARCHAR(200) NOT NULL,
     rol VARCHAR(20) NOT NULL,
-	email VARCHAR(200) NOT NULL,
+	email VARCHAR(200) NOT NULL ,
 	activo BOOLEAN NOT NULL
 );
 
@@ -34,7 +34,7 @@ CREATE TABLE tfg.CategoriaProducto (
 
 CREATE TABLE tfg.Negocio (
     id serial PRIMARY KEY,
-    nombre  VARCHAR(100) NOT NULL,
+    nombre  VARCHAR(100) NOT NULL UNIQUE,
     categoria_negocio_id INT REFERENCES tfg.CategoriaNegocio(id),
     descripcion TEXT,
     link TEXT,

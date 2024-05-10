@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Negocio>
+
+@if (Model is not null)
+{
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var negocio in Model)
+            {
+                <div class="col">
+                    <a href="@negocio.Link">
+                        <div class="card h-100 text-center">
+                        <img src="@negocio.ImagenURL" class="card-img-top" alt="imagen negocio" />
+                        <div class="card-body">
+                            <h5 class="card-title text-center">@negocio.Nombre</h5>
+                            <p class="card-text text-center">@negocio.Descripcion</p>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+}

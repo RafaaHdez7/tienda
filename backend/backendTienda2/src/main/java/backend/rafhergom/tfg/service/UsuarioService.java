@@ -32,8 +32,8 @@ public class UsuarioService {
         return usuarioOptional.orElse(null);
     }
     public Usuario obtenerUsuarioPorNombre(String nombre) {
-        List<Usuario> usuarioOptional = usuarioRepository.findByNombre(nombre);
-        return usuarioOptional.get(0);
+    	return usuarioRepository.findByNombre(nombre);
+
     }
 
     public Usuario crearUsuario(Usuario usuario) {

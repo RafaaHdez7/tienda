@@ -20,10 +20,12 @@ builder.Services.AddSession(options =>
 builder.Services.AddTransient<INegocioService, NegocioService>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddTransient<IPedidoService, PedidoService>();
+builder.Services.AddTransient<ICategoriaNegocioService, CategoriaNegocioService>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<UsuarioService>();
 builder.Services.AddHttpClient<NegocioService>();
 builder.Services.AddHttpClient<PedidoService>();
+builder.Services.AddHttpClient<CategoriaNegocioService>();
 builder.Services.AddScoped<AuthTokenViewComponent>();
 builder.Services.AddAuthorization(options =>
 {
