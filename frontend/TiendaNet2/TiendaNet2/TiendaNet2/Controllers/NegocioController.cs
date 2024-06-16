@@ -89,11 +89,18 @@ namespace TiendaNet2.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CrearNegocio()
         {
-            var viewModel = new CrearNegocioViewModel
+            if (HttpContext.Session.GetString("NombreUsuario") != null)
             {
-                CategoriasNegocio = await categoriaNegocioService.obtenerCategoriaNegocioList()
-            };
-            return View(viewModel);
+                var viewModel = new CrearNegocioViewModel
+                {
+                    CategoriasNegocio = await categoriaNegocioService.obtenerCategoriaNegocioList()
+                };
+                return View(viewModel);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [AllowAnonymous]

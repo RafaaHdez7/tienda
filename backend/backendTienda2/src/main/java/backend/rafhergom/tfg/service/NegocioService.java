@@ -3,6 +3,7 @@ package backend.rafhergom.tfg.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Date;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +60,21 @@ public class NegocioService {
     }
 
     public NegocioDTO crearNegocio(NegocioDTO negocioDTO) {
-    	   return modelMapper.map(negocioRepository.save(modelMapper.map(
-    			   negocioDTO, Negocio.class)), NegocioDTO.class);
-       }
+        // Mapeo NegocioDTO a Negocio
+        Negocio negocio = modelMapper.map(negocioDTO, Negocio.class);
 
-  
+        // Establecer campos de auditoría
+        Date fechaActual = new Date();
+        negocio.setFechaCreacion(fechaActual);
+        negocio.setFechaModificacion(fechaActual);
+        // Aquí deberías establecer los valores correctos para usuarioCreacion y usuarioModificacion,
+        // según el contexto de tu aplicación
+        negocio.setUsuarioCreacion(1L); // Por ejemplo, asigna el ID del usuario actual o el valor apropiado
+        negocio.setUsuarioModificacion(1L); // Similar al usuarioCreacion, depende de tu lógica
+
+        // Guardar Negocio y mapear de nuevo a NegocioDTO para retornarlo
+        return modelMapper.map(negocioRepository.save(negocio), NegocioDTO.class);
+    }
         public NegocioDTO actualizarNegocio(Long id, NegocioDTO negocioDTO) {
             Optional<Negocio> negocioOptional = negocioRepository.findById(id);
             if (negocioOptional.isPresent()) {

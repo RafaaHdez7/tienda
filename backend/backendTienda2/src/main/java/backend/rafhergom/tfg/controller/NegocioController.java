@@ -2,6 +2,8 @@ package backend.rafhergom.tfg.controller;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +37,7 @@ public class NegocioController {
     }
 
     @GetMapping
+    @PermitAll
     public List<NegocioDTO> obtenerTodosLosNegocios() {
         return negocioService.obtenerTodosLosNegocios();
     }
