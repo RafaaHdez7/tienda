@@ -1,38 +1,72 @@
-﻿@model CrearNegocioViewModel
+﻿@model ProductoNegocioViewModel
 @{
-    ViewData["Title"] = "Editar negocio";
+    ViewData["Title"] = "Productos de la carta";
 }
 
-
 <div class="container">
-    <h1>Editar negocio</h1>
-    <form method="post">
+    <h1>Editar productos del negocio @Model.Negocio.Nombre </h1>
+
+    <!-- Mostrar productos en formato de carta -->
+    @if (Model.Producto != null && Model.Producto.Any())
+    {
+        <div class="row">
+            @foreach (var p in Model.Producto)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="@p.ImagenURL" class="card-img-top" alt="Imagen del Producto">
+                        <div class="card-body">
+                            <h5 class="card-title">@p.Nombre_Producto</h5>
+                            <p class="card-text">@p.Descripcion</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Categoría: @p.Categoria_Producto.NombreCategoria</li>
+                                <li class="list-group-item">Stock Disponible: @p.Stock_Disponible</li>
+                                <li class="list-group-item">Precio: @p.Precio</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No hay productos disponibles.</p>
+    }
+
+    <!-- Formulario para agregar nuevo producto -->
+    <h2>Agregar Nuevo Producto</h2>
+    <form method="post" asp-controller="Producto" asp-action="AgregarProducto">
         <div class="form-group">
-            <label for="nombre">Nombre Negocio:</label>
-            <input type="text" class="form-control" id="nombre" name="Nombre" value="@Model.Negocio.Nombre">
+            <label for="nombreNuevo">Nombre del Producto:</label>
+            <input type="text" class="form-control" id="nombreNuevo" name="Nombre_Producto" required>
         </div>
         <div class="form-group">
-            <label for="CategoriaNegocioId">Categoría del Negocio:</label>
-            <select class="form-control" id="CategoriaNegocioId" name="CategoriaNegocioId">
-                @foreach (var categoria in Model.CategoriasNegocio)
+            <label for="categoriaNueva">Categoría del Producto:</label>
+            <select class="form-control" id="categoriaNueva" name="Categoria_Producto.Id" required>
+                @foreach (var categoria in Model.CategoriaProducto)
                 {
                     <option value="@categoria.Id">@categoria.NombreCategoria</option>
                 }
             </select>
         </div>
         <div class="form-group">
-            <label for="descripcion">Descripción:</label>
-            <textarea class="form-control" id="descripcion" name="Descripcion">@Model.Negocio.Descripcion</textarea>
+            <label for="descripcionNueva">Descripción:</label>
+            <textarea class="form-control" id="descripcionNueva" name="Descripcion"></textarea>
         </div>
         <div class="form-group">
-            <label for="link">Link:</label>
-            <input type="text" class="form-control" id="link" name="Link" value="@Model.Negocio.Link">
+            <label for="stockDisponibleNuevo">Stock Disponible:</label>
+            <input type="text" class="form-control" id="stockDisponibleNuevo" name="Stock_Disponible" required>
         </div>
         <div class="form-group">
-            <label for="imagen">URL de la imagen:</label>
-            <input type="text" class="form-control" id="imagen" name="ImagenURL" value="@Model.Negocio.ImagenURL">
+            <label for="precioNuevo">Precio:</label>
+            <input type="text" class="form-control" id="precioNuevo" name="Precio" required>
         </div>
-        <button type="submit" class="btn btn-primary">Editar Negocio</button>
+        <div class="form-group">
+            <label for="imagenNueva">URL de la imagen:</label>
+            <input type="text" class="form-control" id="imagenNueva" name="ImagenURL">
+        </div>
+        <input type="hidden" id="negocioId" name="Negocio.Id" value="@Model.Negocio.Id">
+        <button type="submit" class="btn btn-success">Agregar Nuevo Producto</button>
     </form>
 </div>
-

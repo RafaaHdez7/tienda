@@ -145,7 +145,7 @@ namespace TiendaNet2.Servicios
 
         public async Task<Negocio> ObtenerNegocioPorIdNegocio(string idNegocio)
         {
-            Negocio negocio = null;
+            Negocio negocio = new Negocio();
 
             string srv = _config.GetValue<string>("_negocioURL") + idNegocio;
 
