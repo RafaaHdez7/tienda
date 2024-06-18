@@ -134,5 +134,92 @@ namespace TiendaNet2.Controllers
 
             }
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        // Esta acción maneja la vista de detalles del negocio
+        public async Task<IActionResult> EditarNegocio(int id)
+        {
+            string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+
+            if (nombreUsuario != null)
+            {
+                var negocio = await  negocioService.ObtenerNegocioPorIdNegocio(id.ToString()); // Método para obtener un negocio por ID
+                if (negocio == null)
+                {
+                    return View();
+                }
+                else
+                {
+                    var viewModel = new CrearNegocioViewModel
+                    {
+                        CategoriasNegocio = await categoriaNegocioService.obtenerCategoriaNegocioList(),
+                        Negocio = negocio
+                    };
+                    return View(viewModel);
+                }
+            }
+            return View();
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> EditarNegocio(Negocio negocio)
+        {
+            if (negocio == null)
+            {
+                return View("Error");
+            }
+            else
+            {
+                string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+
+                if (nombreUsuario == null)
+                {
+                    return View();
+
+                }
+                else
+                {
+                    negocio.Usuario = await usuarioService.ObtenerUser(nombreUsuario);
+                    if (await negocioService.CrearNegocioAsync(negocio))
+                    {
+                        return View("_NegocioSuccessful", negocio);
+                    }
+                    else
+                    {
+                        return View("Error");
+                    }
+                }
+
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        // Esta acción maneja la vista de detalles del negocio
+        public async Task<IActionResult> MenuNegocio(int id)
+        {
+            string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+
+            if (nombreUsuario != null)
+            {
+                var negocio = await negocioService.ObtenerNegocioPorIdNegocio(id.ToString()); // Método para obtener un negocio por ID
+                if (negocio == null)
+                {
+                    return View();
+                }
+                else
+                {
+                    var viewModel = new CrearNegocioViewModel
+                    {
+                        Negocio = negocio
+                    };
+                    return View(viewModel);
+                }
+            }
+            return View();
+        }
     }
 }

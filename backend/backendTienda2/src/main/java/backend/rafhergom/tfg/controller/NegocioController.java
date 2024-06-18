@@ -58,7 +58,7 @@ public class NegocioController {
         return negocioService.crearNegocio(negocio);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/update/{id}")
     public NegocioDTO actualizarNegocio(@PathVariable Long id, @RequestBody NegocioDTO negocioDTO) {
         return negocioService.actualizarNegocio(id, negocioDTO);
     }

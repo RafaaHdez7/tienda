@@ -15,6 +15,9 @@ namespace TiendaNet2.Servicios
         Task<bool> CrearNegocioAsync(Negocio nuevoNegocio);
         Task<bool> DarAltaUsuarioComoNegocio(String nombreUsuario);
         Task<List<Negocio>> ObtenerNegocioPorUsuario(string nombreUsuario);
+        Task<Negocio> ObtenerNegocioPorIdNegocio(string idNegocio);
+
+
     }
 
     public class NegocioService : INegocioService
@@ -139,7 +142,64 @@ namespace TiendaNet2.Servicios
 
             return negocioList;
         }
-        
+
+        public async Task<Negocio> ObtenerNegocioPorIdNegocio(string idNegocio)
+        {
+            Negocio negocio = null;
+
+            string srv = _config.GetValue<string>("_negocioURL") + idNegocio;
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(srv);
+                var response = await httpClient.GetAsync(srv);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    negocio = Newtonsoft.Json.JsonConvert.DeserializeObject<Negocio>(json);
+                }
+            }
+
+            return negocio;
+        }
+
+        public async Task<bool> EditarNegocioAsync(Negocio negocio)
+        {
+            bool creadoExitosamente = false;
+            // Crear un objeto anónimo solo con las propiedades Usuario y Negocio
+            try
+            {
+                string srv = _config.GetValue<string>("_negocioURL")+ "update/" + negocio.Id;
+
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(srv);
+
+                    // Convierte el objeto 'nuevoNegocio' a formato JSON
+                    string jsonNegocio = Newtonsoft.Json.JsonConvert.SerializeObject(negocio);
+
+                    // Configura el contenido del request con el JSON del nuevo negocio
+                    var content = new StringContent(jsonNegocio, Encoding.UTF8, "application/json");
+
+                    // Envía la solicitud HTTP POST para crear el nuevo negocio
+                    var response = await httpClient.PostAsync(srv, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Si la respuesta indica éxito, marca la creación como exitosa
+                        creadoExitosamente = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier excepción que pueda ocurrir durante la creación del negocio
+                Console.WriteLine($"Error al editar el negocio: {ex.Message}");
+            }
+
+            return creadoExitosamente;
+        }
 
     }
 }

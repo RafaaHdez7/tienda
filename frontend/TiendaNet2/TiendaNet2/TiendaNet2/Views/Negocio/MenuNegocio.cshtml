@@ -1,0 +1,27 @@
+﻿@model CrearNegocioViewModel
+
+@{
+    ViewData["Title"] = "Opciones de Editar Proyecto";
+}
+
+<h1 class="text-center">Menú de Editar Negocio</h1>
+
+<div class="card">
+    <div class="card-body text-center">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <p>Elige una opción para continuar con la edición del negocio:</p>
+            </div>
+
+            <div class="mb-3">
+                <a href="@Url.Action("EditarNegocio", "Negocio", new { id = Model.Negocio.Id })" class="btn btn-primary">Editar Detalles del Negocio</a>
+            </div>
+
+            <div class="mb-3">
+                <a href="@Url.Action("EditarCarta", "Negocio", new { id = Model.Negocio.Id })" class="btn btn-secondary">Editar Carta</a>
+            </div>
+        </form>
+    </div>
+</div>

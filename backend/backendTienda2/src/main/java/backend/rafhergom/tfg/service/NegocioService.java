@@ -69,14 +69,18 @@ public class NegocioService {
         negocio.setFechaModificacion(fechaActual);
         // Aquí deberías establecer los valores correctos para usuarioCreacion y usuarioModificacion,
         // según el contexto de tu aplicación
-        negocio.setUsuarioCreacion(1L); // Por ejemplo, asigna el ID del usuario actual o el valor apropiado
-        negocio.setUsuarioModificacion(1L); // Similar al usuarioCreacion, depende de tu lógica
+        negocio.setUsuarioCreacion(1L); //TODO
+        negocio.setUsuarioModificacion(1L); //TODO
 
         // Guardar Negocio y mapear de nuevo a NegocioDTO para retornarlo
         return modelMapper.map(negocioRepository.save(negocio), NegocioDTO.class);
     }
         public NegocioDTO actualizarNegocio(Long id, NegocioDTO negocioDTO) {
             Optional<Negocio> negocioOptional = negocioRepository.findById(id);
+         // Establecer campos de auditoría
+            Date fechaActual = new Date();
+            negocioOptional.get().setFechaModificacion(fechaActual);
+            negocioOptional.get().setUsuarioModificacion(1L);//TODO
             if (negocioOptional.isPresent()) {
                 return modelMapper.map(negocioRepository.save(negocioOptional.get()), NegocioDTO.class);
             } else {
