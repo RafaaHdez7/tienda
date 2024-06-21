@@ -16,3 +16,45 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.limited-img {
+    max-width: 768px;
+    max-height: 768px;
+    width: auto;
+    height: auto;
+}
+.bi-door-open-fill {
+    color: #6f4a31;
+}
+text-center {
+    color: #6f4a31;
+}
+.btn-primary {
+    background-color: #6f4a31;
+    border-color: #6f4a31;
+}
+.bi-person-circle {
+    background-color: #FFFFFF;
+    color: #6f4a31;
+}
+.btn-primary-top {
+    background-color: #FFFFFF;
+    color: #6f4a31;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+.limited-img-list {
+    max-width: 1768px;
+    max-height: 1768px;
+    width: auto;
+    height: auto;
+}
+
+.limited-img-small {
+    max-width: 250px;
+    max-height: 250px;
+    width: auto;
+    height: auto;
+}

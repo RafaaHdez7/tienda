@@ -9,10 +9,11 @@
     <div class="text-center" style="padding-top: 6rem;">
         <h1>Aquí puede gestionar sus negocios </h1>
         <p> Puedes dar alguno de alta pulsando el siguiente botón.</p>
-        <a class="btn btn-primary" asp-controller="Negocio" asp-action="CrearNegocio">Crear Nuevo Negocio</a>
         <br />
+        <a class="btn btn-primary" asp-controller="Negocio" asp-action="CrearNegocio">Crear Nuevo Negocio</a>
     </div>
-
+    <br />
+    <br />
     <partial name="_ListadoNegocios" model="Model" />
 }
 else
@@ -21,7 +22,6 @@ else
         <h1>Aún no ha dado de alta ningún negocio</h1>
         <p> Puedes dar alguno de alta pulsando el siguiente botón.</p>
         <a class="btn btn-primary" asp-controller="Negocio" asp-action="CrearNegocio">Crear Nuevo Negocio</a>
-        <br />
     </div>
-
+    <br />
 }

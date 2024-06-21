@@ -4,20 +4,25 @@
 }
 
 <div class="container">
-    <h1>Editar productos del negocio @Model.Negocio.Nombre </h1>
-   
-    <!-- Mostrar productos en formato de carta -->
-    @if (Model.Producto != null && Model.Producto.Any())
-    {
-        <div class="row">
-            <div class="mb-3">
-                <a href="@Url.Action("AgregarProducto", "Producto", new { id = Model.Negocio.Id })" class="btn btn-secondary">Añadir Producto</a>
-            </div>
+    <div class="text-center" style="padding-top: 6rem;">
+        <img src="@Model.Negocio.ImagenURL" class="card-img-top limited-img-small" alt="Imagen del negocio">
+        <h1>Editar productos del negocio @Model.Negocio.Nombre </h1>
+        
+    </div>
+
+    <div class="row">
+        <div class="mb-3">
+            <a href="@Url.Action("AgregarProducto", "Producto", new { id = Model.Negocio.Id })" class="btn btn-secondary">Añadir Producto</a>
+        </div>
+        <!-- Mostrar productos en formato de carta -->
+        @if (Model.Producto != null && Model.Producto.Any())
+        {
+        
             @foreach (var p in Model.Producto)
             {
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        <img src="@p.ImagenURL" class="card-img-top" alt="Imagen del Producto">
+                        <img src="@p.ImagenURL" class="card-img-top limited-img-list" alt="Imagen del Producto">
                         <div class="card-body">
                             <h5 class="card-title">@p.Nombre_Producto</h5>
                             <p class="card-text">@p.Descripcion</p>
@@ -44,10 +49,11 @@
                     </div>
                 </div>
             }
-        </div>
-    }
-    else
-    {
-        <p>No hay productos disponibles.</p>
-    }
+        
+        }
+        else
+        {
+            <p>No hay productos disponibles.</p>
+        }
+    </div>
 </div>

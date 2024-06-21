@@ -4,20 +4,49 @@
     ViewData["Title"] = "Página principal";
 }
 
-<div class="text-center" >
-
-    <h1 class="display-4" style="color: #007bff;">
-        <img style="width:200px;"
-             src="~/images/logo_marron.JPG" alt="NeoEats" />
+<div class="text-center">
+    <h1 class="display-4" style="color: #6f4a31;">
+        Nuevo concepto de comidas a domicilio.
     </h1>
-
-    <p style="font-size: 18px; color: #495057;">Nuevo concepto de comidas a domicilio.</p>
-
-    <div style="margin-top: 20px; border-top: 1px solid #007bff; padding-top: 10px;">
-        
-    </div>
-
+    <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
 </div>
 
+@using Microsoft.AspNetCore.Http
+@{
+    var nombreUsuario = Context.Session.GetString("NombreUsuario");
+    var rol = Context.Session.GetString("Rol");
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        @if (nombreUsuario != null)
+        {
+            <div class="col-auto d-flex justify-content-center">
+                <a href="@Url.Action("VerPedido", "Pedido")" class="btn btn-primary mb-2 text-center">Mis pedidos</a>
+            </div>
+            @if (rol == "user")
+            {
+                <div class="col-auto d-flex justify-content-center">
+                    <a href="@Url.Action("DarAlta", "Negocio")" class="btn btn-primary mb-2 text-center">Date alta como negocio</a>
+                </div>
+            }
+            @if (rol == "negocio")
+            {
+                <div class="col-auto d-flex justify-content-center">
+                    <a href="@Url.Action("VerNegocio", "Negocio")" class="btn btn-primary mb-2 text-center">Ver tu negocio</a>
+                </div>
+            }
+            @if (rol == "admin")
+            {
+                <div class="col-auto d-flex justify-content-center">
+                    <a href="@Url.Action("Panel", "Administracion")" class="btn btn-primary mb-2 text-center">Panel de control</a>
+                </div>
+            }
+        }
+        <div class="col-auto d-flex justify-content-center">
+            <a href="@Url.Action("Negocios", "Home")" class="btn btn-primary mb-2 text-center">Restaurantes para pedir</a>
+        </div>
+    </div>
+</div>
 
 <partial name="_SeccionNegocios" model="Model.Negocios" />
