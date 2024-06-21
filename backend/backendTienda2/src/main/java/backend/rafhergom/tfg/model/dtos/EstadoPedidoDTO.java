@@ -1,5 +1,8 @@
 package backend.rafhergom.tfg.model.dtos;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import lombok.Data;
 
 @Data
@@ -19,8 +22,19 @@ public class EstadoPedidoDTO {
             this.codigo = codigo;
         }
 
+        @JsonValue
         public int getCodigo() {
             return codigo;
+        }
+
+        @JsonCreator
+        public static Estado fromCodigo(int codigo) {
+            for (Estado estado : Estado.values()) {
+                if (estado.getCodigo() == codigo) {
+                    return estado;
+                }
+            }
+            throw new IllegalArgumentException("Código de estado desconocido: " + codigo);
         }
     }
 }

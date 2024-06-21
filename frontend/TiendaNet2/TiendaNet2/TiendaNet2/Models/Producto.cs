@@ -7,6 +7,7 @@ namespace TiendaNet2.Models
 {
     public class Producto
     {
+        [JsonProperty("id")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo Nombre del Producto es requerido")]

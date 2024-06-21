@@ -1,0 +1,269 @@
+﻿@model ProductoNegocioViewModel
+@{
+    ViewData["Title"] = "Productos de la carta";
+}
+
+<div class="container">
+    <div class="text-center" style="padding-top: 6rem;">
+        <img src="@Model.Negocio.ImagenURL" class="card-img-top limited-img-small" alt="Imagen del negocio">
+        <h1>Hacer pedido a @Model.Negocio.Nombre </h1>
+    </div>
+
+    <!-- Mostrar productos en formato de carta -->
+    @if (Model.Producto != null && Model.Producto.Any())
+    {
+        <form id="productosForm" method="post" asp-controller="Pedido" asp-action="HacerPedido">
+            <input type="hidden" id = "negocioNombre" value = "@Model.Negocio.Nombre">
+            <div class="row">
+                @foreach (var p in Model.Producto)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="@p.ImagenURL" class="card-img-top limited-img-list" alt="Imagen del Producto">
+                            <div class="card-body">
+                                <h5 class="card-title">@p.Nombre_Producto</h5>
+                                <p class="card-text">@p.Descripcion</p>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item" >Nombre: @p.Nombre_Producto</li>
+                                    <li class="list-group-item">Categoría: @p.Categoria_Producto.NombreCategoria</li>
+                                    <li class="list-group-item">Precio: @p.Precio €</li>
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="decrementCantidad('@p.Id')">-</button>
+                                            </span>
+                                            <input type="text" id="cantidad_@p.Id" name="productos[@p.Id]" class="form-control text-center cantidad-producto" value="0" data-nombre="@p.Nombre_Producto" data-precio="@p.Precio">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="incrementCantidad('@p.Id')">+</button>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- Botones para tramitar pedido y limpiar carrito -->
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-primary mt-3" onclick="mostrarResumenPedido()">Tramitar Pedido</button>
+                    <button type="button" class="btn btn-danger mt-3 ml-2" onclick="confirmarLimpiarCarrito()">Limpiar Carrito</button>
+                </div>
+                <div class="col-md-6 text-right">
+                    <h5>Total: <span id="totalPrecio">0.00</span> €</h5>
+                </div>
+            </div>
+        </form>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <p>No hay productos disponibles.</p>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Pie de página fijo -->
+<div class="footer">
+    <div class="container footer-content">
+        <div>
+            <!-- Botón para tramitar pedido -->
+            <button type="button" class="btn btn-primary" onclick="mostrarResumenPedido()">Tramitar Pedido</button>
+            <button type="button" class="btn btn-danger ml-2" onclick="confirmarLimpiarCarrito()">Limpiar Carrito</button>
+        </div>
+        <div>
+            <!-- Precio total -->
+            <h5>Total: <span id="totalPrecioFixed">0.00</span> €</h5>
+        </div>
+    </div>
+</div>
+<!-- Capa de fondo modal -->
+<div id="modalBackdrop" class="modal-backdrop"></div>
+<!-- Ventana emergente para resumen de pedido -->
+<div id="resumenPedidoModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarResumenPedidoModal()">&times;</span>
+        <h2>Resumen del Pedido en @Model.Negocio.Nombre</h2>
+        <div id="resumenPedidoContent"></div>
+        <footer>
+            <h4>Total: <span id="resumenTotalPrecio">0.00</span> €</h4>
+            <button type="button" class="btn btn-primary mt-3" id="confirmarPedido" onclick="enviarFormulario()">Confirmar Pedido</button>
+        </footer>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function enviarFormulario() {
+            // Obtener los datos del formulario principal
+            var productos = [];
+            var inputs = document.querySelectorAll('.cantidad-producto');
+            inputs.forEach(function (input) {
+                var precioProducto = input.getAttribute
+                var idProducto = input.getAttribute('id').split('_')[1];
+                var cantidad = parseInt(input.value);
+                var precio = parseFloat(input.getAttribute('data-precio'));
+                if (cantidad > 0) {
+                    productos.push({
+                        IdProducto: idProducto,
+                        Cantidad: cantidad,
+                        Precio_unitario: precio
+                    });
+                }
+            });
+
+            var body = JSON.stringify(productos);
+            // Configurar la solicitud AJAX
+            fetch('/Pedido/HacerPedido', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: body // Enviamos directamente la lista de productos
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la solicitud: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Manejar la respuesta del servidor (puedes redirigir, mostrar un mensaje, etc.)
+                    alert('Pedido confirmado con éxito!');
+                    // Puedes redirigir al usuario o mostrar un mensaje de éxito
+                    window.location.href = '/Pedido/Confirmacion'; // Ejemplo de redirección
+                })
+                .catch(error => {
+                    console.error('Error al enviar el pedido:', error);
+                    alert('Error al enviar el pedido. Inténtalo más tarde.');
+                });
+        }
+
+        function incrementCantidad(id) {
+            var input = document.getElementById('cantidad_' + id);
+            var currentValue = parseInt(input.value);
+            input.value = currentValue + 1;
+            actualizarPrecioTotal();
+        }
+
+        function decrementCantidad(id) {
+            var input = document.getElementById('cantidad_' + id);
+            var currentValue = parseInt(input.value);
+            if (currentValue >= 1) {
+                input.value = currentValue - 1;
+                actualizarPrecioTotal();
+            }
+        }
+
+        function actualizarPrecioTotal() {
+            var total = 0.0;
+
+            // Recorrer todos los inputs de cantidad
+            var inputs = document.querySelectorAll('.cantidad-producto');
+            inputs.forEach(function (input) {
+                var cantidad = parseInt(input.value);
+                var precioUnitario = parseFloat(input.getAttribute('data-precio'));
+                total += cantidad * precioUnitario;
+            });
+
+            // Actualizar el contenido del elemento span con el total
+            document.getElementById('totalPrecio').textContent = total.toFixed(2);
+            document.getElementById('totalPrecioFixed').textContent = total.toFixed(2);
+        }
+
+        function confirmarLimpiarCarrito() {
+            if (confirm("¿Estás seguro que quieres limpiar el carrito?")) {
+                limpiarCarrito();
+            }
+        }
+
+        function limpiarCarrito() {
+            // Resetear todos los campos de cantidad a 0
+            var inputs = document.querySelectorAll('.cantidad-producto');
+            inputs.forEach(function (input) {
+                input.value = 0;
+            });
+
+            // Actualizar el precio total después de limpiar el carrito
+            actualizarPrecioTotal();
+        }
+
+        function mostrarResumenPedido() {
+            // Obtener el contenedor donde se mostrará el resumen
+            var resumenContent = document.getElementById('resumenPedidoContent');
+            resumenContent.innerHTML = '';
+
+            // Recorrer todos los productos seleccionados
+            var inputs = document.querySelectorAll('.cantidad-producto');
+            var totalPedido = 0.0;
+
+            // Variable para almacenar el HTML completo del resumen
+            var productosHtml = '';
+
+            inputs.forEach(function (input) {
+                var cantidad = parseInt(input.value);
+                if (cantidad > 0) {
+                    var precioUnitario = parseFloat(input.getAttribute('data-precio'));
+                    var nombreProducto = input.getAttribute('data-nombre');
+                    var precioTotalProducto = cantidad * precioUnitario;
+                    totalPedido += precioTotalProducto;
+
+                    // Construir el HTML del producto para el resumen
+                    productosHtml += '<div class="producto-resumen">';
+                    productosHtml += '<p> <strong> Nombre del Producto: </strong>' + nombreProducto + '</p>';
+                    productosHtml += '<ul>';
+                    productosHtml += '<li><strong>Cantidad: </strong> ' + cantidad + '</li>';
+                    productosHtml += '<li><strong>Precio por unidad: </strong> ' + precioUnitario.toFixed(2) + ' €</li>';
+                    productosHtml += '<li><strong>Precio total: </strong> ' + precioTotalProducto.toFixed(2) + ' €</li>';
+                    productosHtml += '</ul>';
+                    productosHtml += '</div>';
+                }
+            });
+
+            // Mostrar todos los productos en el resumen
+            resumenContent.innerHTML = productosHtml;
+
+            // Mostrar el total del pedido en la ventana emergente
+            document.getElementById('resumenTotalPrecio').textContent = totalPedido.toFixed(2);
+
+            // Mostrar la ventana emergente y bloquear la interacción con otros elementos
+            var modalBackdrop = document.getElementById('modalBackdrop');
+            var modal = document.getElementById('resumenPedidoModal');
+            modalBackdrop.style.display = 'block';
+            modal.style.display = 'block';
+
+            // Bloquear interacción con botones y otros elementos
+            var formElements = document.querySelectorAll('button, input');
+            formElements.forEach(function (element) {
+                element.disabled = true;
+            });
+
+            var boton = document.getElementById('confirmarPedido');
+            if (boton) {
+                boton.disabled = false;
+            } else {
+                console.error('No se encontró el botón con ID "confirmarPedido".');
+            }
+        }
+
+        function cerrarResumenPedidoModal() {
+            // Cerrar la ventana emergente
+            var modal = document.getElementById('resumenPedidoModal');
+            modal.style.display = 'none';
+            // Mostrar la ventana emergente y bloquear la interacción con otros elementos
+            var modalBackdrop = document.getElementById('modalBackdrop');
+            var modal = document.getElementById('resumenPedidoModal');
+            modalBackdrop.style.display = 'none';
+            modal.style.display = 'none';
+
+            // Bloquear interacción con botones y otros elementos
+            var formElements = document.querySelectorAll('button, input');
+            formElements.forEach(function (element) {
+                element.disabled = false;
+            });
+        }
+    </script>
+}

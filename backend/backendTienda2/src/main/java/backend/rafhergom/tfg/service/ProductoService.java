@@ -68,6 +68,12 @@ public class ProductoService {
                         .map(producto -> modelMapper.map(producto, ProductoDTO.class))
                         .collect(Collectors.toList());
     }
+    
+    public Negocio obtenerNegocioPorProductoId(Long id) {
+        Producto productos = productoRepository.findById(id).get();
+
+        return productos.getNegocio();
+    }
 
     public ProductoDTO crearProducto(ProductoDTO productoDTO) {
     	Negocio negocio = negocioRepository.findById(productoDTO.getNegocioDTO().getId()).get();

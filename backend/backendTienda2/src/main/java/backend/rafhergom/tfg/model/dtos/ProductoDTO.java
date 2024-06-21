@@ -16,5 +16,6 @@ public class ProductoDTO {
     private NegocioDTO negocioDTO;
     private String imagenURL;
 
+
     // Getters y setters
 }

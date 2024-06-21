@@ -16,6 +16,7 @@ import backend.rafhergom.tfg.repository.PedidoRepository;
 import backend.rafhergom.tfg.repository.ProductoRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,16 +59,23 @@ public class DetallesPedidoService {
 
     public DetallesPedidoDTO crearDetallesPedido(DetallesPedidoDTO detallesPedidoDTO) {
         // Utiliza ModelMapper para mapear de DetallesPedidoDTO a DetallesPedido
-        DetallesPedido nuevoDetallesPedido = modelMapper.map(detallesPedidoDTO, DetallesPedido.class);
+        //DetallesPedido nuevoDetallesPedido = modelMapper.map(detallesPedidoDTO, DetallesPedido.class);
+    	DetallesPedido nuevoDetallesPedido = new DetallesPedido();
+        
+
 
         // Busca el pedido correspondiente y el producto correspondiente por sus IDs
-        Optional<Pedido> pedidoOptional = pedidoRepository.findById(detallesPedidoDTO.getPedidoId());
-        Optional<Producto> productoOptional = productoRepository.findById(detallesPedidoDTO.getProductoId());
+        Optional<Pedido> pedidoOptional = pedidoRepository.findById(detallesPedidoDTO.getPedido().getId());
+        Optional<Producto> productoOptional = productoRepository.findById(detallesPedidoDTO.getProducto().getId());
 
         if (pedidoOptional.isPresent() && productoOptional.isPresent()) {
             Pedido pedido = pedidoOptional.get();
             Producto producto = productoOptional.get();
+            nuevoDetallesPedido.setCantidad(detallesPedidoDTO.getCantidad());
+            nuevoDetallesPedido.setFechaCreacion(new Date());
+            nuevoDetallesPedido.setFechaModificacion(new Date());
 
+            nuevoDetallesPedido.setPrecioUnitario(detallesPedidoDTO.getPrecioUnitario());
             nuevoDetallesPedido.setPedido(pedido);
             nuevoDetallesPedido.setProducto(producto);
 

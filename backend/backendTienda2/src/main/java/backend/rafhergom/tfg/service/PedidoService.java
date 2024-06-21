@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import backend.rafhergom.tfg.model.dtos.EstadoPedidoDTO;
 import backend.rafhergom.tfg.model.dtos.NegocioDTO;
 import backend.rafhergom.tfg.model.dtos.PedidoDTO;
 import backend.rafhergom.tfg.model.entity.Pedido;
@@ -13,10 +14,9 @@ import backend.rafhergom.tfg.repository.PedidoRepository;
 import backend.rafhergom.tfg.repository.UsuarioRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.time.LocalDateTime;
-
-
-
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,19 +68,21 @@ public class PedidoService {
         }).orElse(null);
     }
 
-    public PedidoDTO crearPedido(PedidoDTO pedidoDTO) {
+    public PedidoDTO crearPedido(Pedido pedido) {
         // Utiliza ModelMapper para mapear directamente de PedidoDTO a Pedido
-        Pedido nuevoPedido = modelMapper.map(pedidoDTO, Pedido.class);
-
-        // Busca el usuario correspondiente por su ID
-        Usuario usuario = usuarioRepository.findById(pedidoDTO.getUsuarioDTO().getId()).orElse(null);
-        nuevoPedido.setUsuario(usuario);
-
+    	pedido.setUsuarioCreacion(pedido.getUsuario().getId());
+    	pedido.setFechaCreacion(new Date());
+    	pedido.setFechaModificacion(new Date());
+    	pedido.setEstadoPedido(EstadoPedidoDTO.Estado.EN_PROCESO.toString());
+    	// Configura la zona horaria por defecto a Europa/Madrid
+        // Obtén la fecha y hora actual
+        LocalDateTime fechaHora = LocalDateTime.now();
+    	pedido.setFechaHora(fechaHora);
         // Guarda el nuevo pedido en la base de datos utilizando el repository
-        nuevoPedido = pedidoRepository.save(nuevoPedido);
+        pedido = pedidoRepository.save(pedido);
 
         // Utiliza ModelMapper para mapear de Pedido a PedidoDTO
-        return modelMapper.map(nuevoPedido, PedidoDTO.class);
+        return modelMapper.map(pedido, PedidoDTO.class);
     }
 
     public PedidoDTO actualizarPedido(Long id, PedidoDTO pedidoDTO) {
