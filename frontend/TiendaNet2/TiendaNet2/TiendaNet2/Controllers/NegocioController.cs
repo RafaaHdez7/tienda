@@ -20,18 +20,24 @@ namespace TiendaNet2.Controllers
         private readonly ILogger<NegocioController> _logger;
         private readonly INegocioService negocioService;
         private readonly ICategoriaNegocioService categoriaNegocioService ;
+        private readonly ICategoriaProductoService categoriaProductoService;
+        private readonly IProductoService productoService;
         private readonly IUsuarioService usuarioService;
 
         public NegocioController(
                 ILogger<NegocioController> logger,
                 INegocioService negocioService,
                 ICategoriaNegocioService categoriaNegocioService,
-                IUsuarioService usuarioService)
+                IUsuarioService usuarioService,
+                ICategoriaProductoService categoriaProductoService,
+                IProductoService productoService)
         {
             _logger = logger;
             this.negocioService = negocioService;
             this.categoriaNegocioService = categoriaNegocioService;
             this.usuarioService = usuarioService;
+            this.categoriaProductoService = categoriaProductoService;
+            this.productoService = productoService;
         }
 
 
@@ -137,14 +143,13 @@ namespace TiendaNet2.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        // Esta acción maneja la vista de detalles del negocio
         public async Task<IActionResult> EditarNegocio(int id)
         {
             string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
 
             if (nombreUsuario != null)
             {
-                var negocio = await  negocioService.ObtenerNegocioPorIdNegocio(id.ToString()); // Método para obtener un negocio por ID
+                var negocio = await  negocioService.ObtenerNegocioPorIdNegocio(id.ToString()); 
                 if (negocio == null)
                 {
                     return View();
@@ -198,14 +203,13 @@ namespace TiendaNet2.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        // Esta acción maneja la vista de detalles del negocio
         public async Task<IActionResult> MenuNegocio(int id)
         {
             string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
 
             if (nombreUsuario != null)
             {
-                var negocio = await negocioService.ObtenerNegocioPorIdNegocio(id.ToString()); // Método para obtener un negocio por ID
+                var negocio = await negocioService.ObtenerNegocioPorIdNegocio(id.ToString());
                 if (negocio == null)
                 {
                     return View();
@@ -215,6 +219,34 @@ namespace TiendaNet2.Controllers
                     var viewModel = new CrearNegocioViewModel
                     {
                         Negocio = negocio
+                    };
+                    return View(viewModel);
+                }
+            }
+            return View();
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> EditarCarta(int id)
+        {
+            string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+
+            if (nombreUsuario != null)
+            {
+                var negocio = await negocioService.ObtenerNegocioPorIdNegocio(id.ToString()); 
+                if (negocio == null)
+                {
+                    return View();
+                }
+                else
+                {
+                    var viewModel = new ProductoNegocioViewModel
+                    {
+                        CategoriaProducto = await categoriaProductoService.obtenerCategoriaProductoList(),
+                        Negocio = negocio,
+                        Producto = await productoService.ObtenerProductosPorIdNegocio(id.ToString())
                     };
                     return View(viewModel);
                 }

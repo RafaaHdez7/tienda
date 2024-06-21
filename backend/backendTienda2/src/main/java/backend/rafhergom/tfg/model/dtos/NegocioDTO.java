@@ -6,18 +6,18 @@ import lombok.Data;
 
 @Data
 public class NegocioDTO {
-	@JsonAlias({"Id", "id"})
+	//@JsonAlias({"Id", "id"})
     private Long id;
-    @JsonAlias({"CategoriaNegocioId", "categoriaNegocioId"})
+    //@JsonAlias({"CategoriaNegocioId", "categoriaNegocioId"})
     private Long categoriaNegocioId;
-    @JsonAlias({"Nombre", "nombre"})
+    //@JsonAlias({"Nombre", "nombre"})
     private String nombre;
-    @JsonAlias({"Descripcion", "descripcion"})
+    //@JsonAlias({"Descripcion", "descripcion"})
     private String descripcion;
-    @JsonAlias({"Usuario", "usuario"})
+    //@JsonAlias({"Usuario", "usuario"})
     private UsuarioDTO usuario;
-    @JsonAlias({"Link", "link"})
+    //@JsonAlias({"Link", "link"})
     private String link;
-    @JsonAlias({"ImagenURL", "imagenURL"})
+    //@JsonAlias({"ImagenURL", "imagenURL"})
     private String imagenURL;
 }

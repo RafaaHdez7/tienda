@@ -1,0 +1,94 @@
+﻿@model ProductoNegocioViewModel
+@{
+    ViewData["Title"] = "Editar Producto de la carta";
+}
+
+<div class="container">
+    <h1>Negocio @Model.Negocio.Nombre </h1>
+
+    <!-- Formulario para editar producto -->
+    <h2>Editar Producto</h2>
+    <form method="post" asp-controller="Producto" asp-action="EditarProductoBack">
+        <div class="form-group">
+            <label for="nombreNuevo">Nombre del Producto:</label>
+            <input type="text" class="form-control" id="nombreNuevo" name="Nombre_Producto" value="@Model.ProductoSelected.Nombre_Producto" required>
+            <span asp-validation-for="ProductoSelected.Nombre_Producto" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="categoriaNueva">Categoría del Producto:</label>
+            <select class="form-control" id="categoriaNueva" name="Categoria_Producto.Id" required>
+                @foreach (var categoria in Model.CategoriaProducto)
+                {
+                    string selected = categoria.Id == Model.ProductoSelected.Categoria_Producto.Id ? "selected" : "";
+                    @: <option value="@categoria.Id" @selected>@categoria.NombreCategoria</option>
+                }
+            </select>
+            <span asp-validation-for="ProductoSelected.Categoria_Producto.Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="descripcionNueva">Descripción:</label>
+            <textarea class="form-control" id="descripcionNueva" name="Descripcion" required>@Model.ProductoSelected.Descripcion</textarea>
+            <span asp-validation-for="ProductoSelected.Descripcion" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="stockDisponibleNuevo">Stock Disponible:</label>
+            <input type="number" class="form-control" id="stockDisponibleNuevo" name="Stock_Disponible" value="@Model.ProductoSelected.Stock_Disponible" required>
+            <span asp-validation-for="ProductoSelected.Stock_Disponible" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="precioNuevo">Precio:</label>
+            <input type="text" class="form-control" id="precioNuevo" name="Precio" value="@Model.ProductoSelected.Precio" required>
+            <span asp-validation-for="ProductoSelected.Precio" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="imagenNueva">URL de la imagen:</label>
+            <input type="text" class="form-control" id="imagenNueva" name="ImagenURL" value="@Model.ProductoSelected.ImagenURL">
+            <span asp-validation-for="ProductoSelected.ImagenURL" class="text-danger"></span>
+        </div>
+        <input type="hidden" id="negocioId" name="Negocio.Id" value="@Model.Negocio.Id">
+        <input type="hidden" id="productoSelectedId" name="Id" value="@Model.ProductoSelected.Id">
+        <button type="submit" class="btn btn-success">Editar Producto</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+    jQuery(document).ready(function() {
+        // Limpiar el campo de precio y limitar a dos decimales
+        $('#precioNuevo').on('input', function() {
+            var value = $(this).val().trim();
+
+            // Eliminar caracteres que no sean números ni el punto decimal
+            var cleanedValue = value.replace(/[^\d.]/g, '');
+
+            // Reemplazar múltiples puntos decimales con solo uno
+            cleanedValue = cleanedValue.replace(/(\..*)\./g, '$1');
+
+            // Limitar a dos decimales
+            var decimalCount = (cleanedValue.split('.')[1] || '').length;
+            if (decimalCount > 2) {
+                cleanedValue = cleanedValue.split('.')[0] + '.' + cleanedValue.split('.')[1].substring(0, 2);
+            }
+
+            // Asigna el valor limpiado de nuevo al campo
+            $(this).val(cleanedValue);
+        });
+
+        // Validar el formulario antes de enviar
+        $('form').on('submit', function() {
+            var value = $('#precioNuevo').val().trim();
+
+            // Validar que el valor sea un número válido
+            if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+                // Mostrar mensaje de error o tomar alguna acción apropiada
+                alert('Por favor, ingrese un número válido para el precio (hasta dos decimales).');
+                return false; // Evitar que el formulario se envíe
+            }
+
+            // Si la validación es exitosa, permite enviar el formulario
+            return true;
+        });
+    });
+    </script>
+}

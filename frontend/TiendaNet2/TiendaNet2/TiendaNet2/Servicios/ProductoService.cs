@@ -13,6 +13,7 @@ namespace TiendaNet2.Servicios
     {
         Task<List<Producto>> ObtenerProductosPorIdNegocio(string idNegocio);
         Task<bool> CrearProductoAsync(Producto producto);
+        Task<bool> ActualizarProductoAsync(Producto producto);
     }
 
     public class ProductoService : IProductoService
@@ -33,7 +34,7 @@ namespace TiendaNet2.Servicios
         {
             List<Producto> producto = new List<Producto>();
 
-            string srv = _config.GetValue<string>("_productoURL") + idNegocio;
+            string srv = _config.GetValue<string>("_productoURL") +"negocio/" + idNegocio;
 
             using (var httpClient = new HttpClient())
             {
@@ -81,6 +82,43 @@ namespace TiendaNet2.Servicios
             {
                 // Maneja cualquier excepción que pueda ocurrir durante la creación del negocio
                 Console.WriteLine($"Error al crear el producto: {ex.Message}");
+            }
+
+            return creadoExitosamente;
+        }
+
+
+        public async Task<bool> ActualizarProductoAsync(Producto producto)
+        {
+            bool creadoExitosamente = false;
+            try
+            {
+                string srv = _config.GetValue<string>("_productoURL") + producto.Id;
+
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(srv);
+
+                    // Convierte el objeto 'nuevoNegocio' a formato JSON
+                    string jsonNegocio = Newtonsoft.Json.JsonConvert.SerializeObject(producto);
+
+                    // Configura el contenido del request con el JSON del nuevo negocio
+                    var content = new StringContent(jsonNegocio, Encoding.UTF8, "application/json");
+
+                    // Envía la solicitud HTTP POST para crear el nuevo negocio
+                    var response = await httpClient.PostAsync(srv, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Si la respuesta indica éxito, marca la creación como exitosa
+                        creadoExitosamente = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier excepción que pueda ocurrir durante la creación del negocio
+                Console.WriteLine($"Error al actualizar el producto: {ex.Message}");
             }
 
             return creadoExitosamente;

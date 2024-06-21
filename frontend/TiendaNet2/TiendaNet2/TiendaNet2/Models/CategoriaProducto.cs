@@ -1,14 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace TiendaNet2.Models
 {
     public class CategoriaProducto
     {
+        [JsonProperty("id")]
         public int Id { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [StringLength(maximumLength: 50, ErrorMessage = "No puede ser mayor a {1} caracteres")]
+        [JsonProperty("nombreCategoria")]
         public string NombreCategoria { get; set; }
         [StringLength(maximumLength: 255, ErrorMessage = "No puede ser mayor a {1} caracteres")]
+        [JsonProperty("descripcion")]
         public string Descripcion { get; set; }
     }
 }

@@ -5,11 +5,14 @@
 
 <div class="container">
     <h1>Editar productos del negocio @Model.Negocio.Nombre </h1>
-
+   
     <!-- Mostrar productos en formato de carta -->
     @if (Model.Producto != null && Model.Producto.Any())
     {
         <div class="row">
+            <div class="mb-3">
+                <a href="@Url.Action("AgregarProducto", "Producto", new { id = Model.Negocio.Id })" class="btn btn-secondary">Añadir Producto</a>
+            </div>
             @foreach (var p in Model.Producto)
             {
                 <div class="col-md-4 mb-4">
@@ -23,6 +26,20 @@
                                 <li class="list-group-item">Stock Disponible: @p.Stock_Disponible</li>
                                 <li class="list-group-item">Precio: @p.Precio</li>
                             </ul>
+                            <!-- Botón Editar con formulario -->
+                            <form method="post" asp-controller="Producto" asp-action="EditarProducto">
+                                <input type="hidden" name="Id" value="@p.Id" />
+                                <input type="hidden" name="Nombre_Producto" value="@p.Nombre_Producto" />
+                                <input type="hidden" name="Descripcion" value="@p.Descripcion" />
+                                <input type="hidden" name="Precio" value="@p.Precio" />
+                                <input type="hidden" name="Stock_Disponible" value="@p.Stock_Disponible" />
+                                <input type="hidden" name="Categoria_Producto.Id" value="@p.Categoria_Producto.Id" />
+                                <input type="hidden" name="Categoria_Producto" value="@p.Categoria_Producto" />
+                                <input type="hidden" name="Negocio.Id" value="@Model.Negocio.Id" />
+                                <input type="hidden" name="Negocio" value="@Model.Negocio" />
+                                <input type="hidden" name="ImagenURL" value="@p.ImagenURL" />
+                                <button type="submit" class="btn btn-primary mt-3">Editar</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -33,40 +50,4 @@
     {
         <p>No hay productos disponibles.</p>
     }
-
-    <!-- Formulario para agregar nuevo producto -->
-    <h2>Agregar Nuevo Producto</h2>
-    <form method="post" asp-controller="Producto" asp-action="AgregarProducto">
-        <div class="form-group">
-            <label for="nombreNuevo">Nombre del Producto:</label>
-            <input type="text" class="form-control" id="nombreNuevo" name="Nombre_Producto" required>
-        </div>
-        <div class="form-group">
-            <label for="categoriaNueva">Categoría del Producto:</label>
-            <select class="form-control" id="categoriaNueva" name="Categoria_Producto.Id" required>
-                @foreach (var categoria in Model.CategoriaProducto)
-                {
-                    <option value="@categoria.Id">@categoria.NombreCategoria</option>
-                }
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="descripcionNueva">Descripción:</label>
-            <textarea class="form-control" id="descripcionNueva" name="Descripcion"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="stockDisponibleNuevo">Stock Disponible:</label>
-            <input type="text" class="form-control" id="stockDisponibleNuevo" name="Stock_Disponible" required>
-        </div>
-        <div class="form-group">
-            <label for="precioNuevo">Precio:</label>
-            <input type="text" class="form-control" id="precioNuevo" name="Precio" required>
-        </div>
-        <div class="form-group">
-            <label for="imagenNueva">URL de la imagen:</label>
-            <input type="text" class="form-control" id="imagenNueva" name="ImagenURL">
-        </div>
-        <input type="hidden" id="negocioId" name="Negocio.Id" value="@Model.Negocio.Id">
-        <button type="submit" class="btn btn-success">Agregar Nuevo Producto</button>
-    </form>
 </div>

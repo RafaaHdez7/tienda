@@ -57,6 +57,17 @@ public class ModelMapperConfig {
         typeMap.addMapping(src -> src.getActivo(), UsuarioDTO::setActivo);
     }
     
+    private void CategoriaProductoToCategoriaProductoDTO(ModelMapper modelMapper) {
+        TypeMap<CategoriaProducto, CategoriaProductoDTO> typeMap = modelMapper.createTypeMap(CategoriaProducto.class, CategoriaProductoDTO.class);
+        typeMap.addMapping(src -> src.getId(), CategoriaProductoDTO::setId);
+        typeMap.addMapping(src -> src.getNombreCategoria(), CategoriaProductoDTO::setNombreCategoria);
+        typeMap.addMapping(src -> src.getDescripcion(), CategoriaProductoDTO::setDescripcion);
+        typeMap.addMapping(src -> src.getImagenURL(), CategoriaProductoDTO::setImagenURL);
+
+    }
+    
+    
+    
 //    private void LoginRequestDTOToUsuario(ModelMapper modelMapper) {
 //        TypeMap<LoginRequestDTO, Usuario> typeMap = modelMapper.createTypeMap(LoginRequestDTO.class, Usuario.class);
 //

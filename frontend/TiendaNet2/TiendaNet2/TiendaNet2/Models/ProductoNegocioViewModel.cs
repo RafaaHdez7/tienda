@@ -6,5 +6,6 @@
         public Negocio Negocio { get; set; }
         public Usuario Usuario { get; set; }
         public IEnumerable<Producto> Producto { get; set; }
+        public Producto ProductoSelected { get; set; }
     }
 }

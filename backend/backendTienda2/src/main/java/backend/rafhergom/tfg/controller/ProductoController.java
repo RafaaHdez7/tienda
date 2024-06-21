@@ -32,13 +32,18 @@ public class ProductoController {
     public ProductoDTO obtenerProductoPorId(@PathVariable Long id) {
         return productoService.obtenerProductoPorId(id);
     }
+    
+    @GetMapping("/negocio/{id}")
+    public List<ProductoDTO> obtenerProductoPorIdNegocio(@PathVariable Long id) {
+        return productoService.obtenerProductoPorIdNegocio(id);
+    }
 
     @PostMapping
     public ProductoDTO crearProducto(@RequestBody ProductoDTO productoDTO) {
         return productoService.crearProducto(productoDTO);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public ProductoDTO actualizarProducto(@PathVariable Long id, @RequestBody ProductoDTO productoDTO) {
         return productoService.actualizarProducto(id, productoDTO);
     }
