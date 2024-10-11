@@ -103,7 +103,7 @@ namespace TiendaNet2.Controllers
                     detallePedidoList.Add(dp);
                 }
                 var pedido = await pedidoService.CrearPedidoAsync(detallePedidoList);
-                var response = new { mensaje = "Pedido confirmado con éxito", PedidoId = pedido.Id };
+                var response = new { mensaje = "Pedido confirmado con éxito", pedidoId = pedido.Id };
                 return Ok(response);
             }
             return BadRequest();

@@ -10,5 +10,5 @@ import backend.rafhergom.tfg.model.entity.DetallesPedido;
 @Repository
 public interface DetallesPedidoRepository extends JpaRepository<DetallesPedido, Long> {
     // Métodos CRUD generados automáticamente
-	List<DetallesPedido> getByPedidoId(String pedidoId);
+	List<DetallesPedido> getByPedidoId(long pedidoId);
 }

@@ -20,6 +20,8 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class PedidoService {
 	private final UsuarioRepository usuarioRepository;
@@ -62,12 +64,13 @@ public class PedidoService {
 
 
     public PedidoDTO obtenerPedidoPorId(Long id) {
-        Pedido pedido = pedidoRepository.findById(id).get();
-        
-        	PedidoDTO pedidoDTO = modelMapper.map(pedido, PedidoDTO.class);
-        	pedidoDTO.setEstadoPedidoDTO(EstadoPedidoDTO.Estado.fromDescripcion(pedido.getEstadoPedido()));
-        	return pedidoDTO;
-        }    
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pedido no encontrado"));
+        PedidoDTO pedidoDTO = modelMapper.map(pedido, PedidoDTO.class);
+        pedidoDTO.setEstadoPedidoDTO(pedido.getEstadoPedido()); 
+
+        return pedidoDTO;
+    }
+
 
     public PedidoDTO crearPedido(Pedido pedido) {
         // Utiliza ModelMapper para mapear directamente de PedidoDTO a Pedido
@@ -75,7 +78,7 @@ public class PedidoService {
     	pedido.setFechaCreacion(new Date());
     	pedido.setFechaModificacion(new Date());
     	// Establece el estado del pedido utilizando la descripción del estado
-        pedido.setEstadoPedido(EstadoPedidoDTO.Estado.EN_PROCESO.getDescripcion());
+    	  pedido.setEstadoPedido(EstadoPedidoDTO.Estado.EN_PROCESO);
     	// Configura la zona horaria por defecto a Europa/Madrid
         // Obtén la fecha y hora actual
         LocalDateTime fechaHora = LocalDateTime.now();

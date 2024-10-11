@@ -30,6 +30,10 @@ public class DetallesPedidoController {
     public DetallesPedidoDTO obtenerDetallePedidoPorId(@PathVariable Long id) {
         return detallesPedidoService.obtenerDetallesPedidoPorId(id);
     }
+    @GetMapping("/pedido/{id}")
+    public List<DetallesPedidoDTO> obtenerDetallePedidoPorPedidoId(@PathVariable Long id) {
+        return detallesPedidoService.obtenerDetallesPedidoPorIdPedido(id);
+    }
     
 //    @GetMapping("/pedido/{id}")
 //    public DetallesPedidoDTO obtenerDetallePedidoPorPedidoId(@PathVariable Long id) {

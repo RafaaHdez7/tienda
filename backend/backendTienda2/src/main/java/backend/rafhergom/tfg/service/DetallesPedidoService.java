@@ -61,21 +61,35 @@ public class DetallesPedidoService {
     	return detallePedidoDTO;
     }
     
-//    public List<DetallesPedidoDTO> obtenerDetallesPedidoPorIdPedido(Long idPedido) {
-//    	List<DetallesPedido> detallePedidoList =  detallesPedidoRepository.getByPedidoId(idPedido.toString());
-//    	List<DetallesPedidoDTO> detallePedidoDTOList = new List<DetallesPedidoDTO>();
-//    	for(DetallesPedido dp : detallePedidoList ) {
-//    		DetallesPedidoDTO detallePedidoDTO =  detallesPedidoRepository.findById(id).map(detallesPedido -> {
-//    	           return modelMapper.map(detallesPedido, DetallesPedidoDTO.class);
-//    	        }).orElse(null);
-//    	    	detallePedidoDTO.getPedido().getUsuarioDTO().setContrasena(null);
-//    	    	detallePedidoDTO.getProducto().setImagenURL(null);
-//    	    	detallePedidoDTO.getPedido().getNegocioDTO().setImagenURL(null);
-//    	    	
-//    	}
-//    	
-//    	return detallePedidoList;
-//    }
+    public List<DetallesPedidoDTO> obtenerDetallesPedidoPorIdPedido(Long idPedido) {
+        // Obtener la lista de DetallesPedido a partir del idPedido
+		List<DetallesPedido> detallePedidoList = detallesPedidoRepository.getByPedidoId(idPedido);
+
+        // Crear una nueva lista de DetallesPedidoDTO
+        List<DetallesPedidoDTO> detallePedidoDTOList = new ArrayList<>(); // Usamos ArrayList aquí
+
+        // Convertir cada DetallesPedido a DetallesPedidoDTO
+        for (DetallesPedido dp : detallePedidoList) {
+            DetallesPedidoDTO detallePedidoDTO = detallesPedidoRepository.findById(dp.getId()).map(detallesPedido -> {
+                return modelMapper.map(detallesPedido, DetallesPedidoDTO.class);
+            }).orElse(null);
+            
+            detallePedidoDTO.getPedido().setEstadoPedidoDTO(detallePedidoList.get(0).getPedido().getEstadoPedido());
+            if (detallePedidoDTO != null) {
+                // Ocultar información sensible o innecesaria
+                detallePedidoDTO.getPedido().getUsuarioDTO().setContrasena(null);
+                detallePedidoDTO.getProducto().setImagenURL(null);
+                detallePedidoDTO.getPedido().getNegocioDTO().setImagenURL(null);
+
+                // Agregar el DTO a la lista
+                detallePedidoDTOList.add(detallePedidoDTO);
+            }
+        }
+
+        // Retornar la lista de DetallesPedidoDTO
+        return detallePedidoDTOList;
+    }
+
 
     public DetallesPedidoDTO crearDetallesPedido(DetallesPedidoDTO detallesPedidoDTO) {
         // Utiliza ModelMapper para mapear de DetallesPedidoDTO a DetallesPedido

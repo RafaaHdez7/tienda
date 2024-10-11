@@ -1,0 +1,73 @@
+﻿@using System.Globalization
+@model ProductoNegocioViewModel
+@{
+    ViewData["Title"] = "Productos de la carta";
+}
+
+<div class="container">
+
+    <div class="text-center" style="padding-top: 6rem;">
+        <h2>Resumen del Pedido #@Model.Pedido.Id</h2>
+        <p><strong>Negocio:</strong> @Model.Pedido.Negocio.Nombre</p>
+        <p><strong>Cliente:</strong> @Model.Pedido.Usuario.Nombre</p>
+        <p><strong>Fecha del Pedido:</strong> @Model.Pedido.FechaHora.ToString("dd/MM/yyyy HH:mm")</p>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Detalles del Pedido</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Declarar una variable para acumular el total *@
+                    @{
+                        decimal total = 0;
+                    }
+
+                    @foreach (var detalle in Model.DetallePedidosList)
+                    {
+                        // Convertir Precio_unitario de string a decimal
+                        decimal precioUnitarioDecimal = 0;
+                        if (!string.IsNullOrEmpty(detalle.Precio_unitario))
+                        {
+                            precioUnitarioDecimal = decimal.Parse(detalle.Precio_unitario, CultureInfo.InvariantCulture);
+                        }
+
+                        // Calcular el subtotal
+                        var subtotal = detalle.Cantidad * precioUnitarioDecimal;
+
+                        // Acumular el subtotal en el total
+                        total += subtotal;
+
+                        <tr>
+                            <td>@detalle.Producto_Id.Nombre_Producto</td>
+                            <td>@detalle.Cantidad</td>
+                            <td>@precioUnitarioDecimal.ToString()</td>
+                            <td>@subtotal.ToString()</td>
+                        </tr>
+                    }
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                        <td><strong>@total.ToString("C")</strong></td> @* Mostrar el total acumulado *@
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-right">
+            <a href="/Pedido/ListadoPedidos" class="btn btn-secondary">Volver a pedidos</a>
+        </div>
+    </div>
+</div>
