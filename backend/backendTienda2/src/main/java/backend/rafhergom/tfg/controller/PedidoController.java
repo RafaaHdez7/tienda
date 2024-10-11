@@ -64,6 +64,12 @@ public class PedidoController {
 	public List<PedidoDTO> obtenerPedidoPorIdUsuario(@PathVariable Long id) {
 		return pedidoService.obtenerPedidosPorIdUsuario(id);
 	}
+	
+	@GetMapping("/usuario/nombre/{nombreUsuario}")
+	public List<PedidoDTO> obtenerPedidoPorNombreUsuario(@PathVariable String nombreUsuario) {
+		return pedidoService.obtenerPedidosPorNombreUsuario(nombreUsuario);
+	}
+
 
 	@PostMapping
     public PedidoDTO crearPedidoPorDetallesPedido(@RequestBody List<DetallesPedidoDTO> detallesPedidoDTO) {

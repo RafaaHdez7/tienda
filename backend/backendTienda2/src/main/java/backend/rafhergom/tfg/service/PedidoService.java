@@ -62,6 +62,18 @@ public class PedidoService {
         return pedidoDTOs;
     }
 
+    public List<PedidoDTO> obtenerPedidosPorNombreUsuario(String nombre) {
+        List<Pedido> pedidos = pedidoRepository.findPedidosPorNombreUsuario(nombre);
+        List<PedidoDTO> pedidoDTOs = new ArrayList<>();
+
+        for (Pedido pedido : pedidos) {
+            PedidoDTO pedidoDTO = modelMapper.map(pedido, PedidoDTO.class);    
+            pedidoDTO.setEstadoPedidoDTO(pedido.getEstadoPedido());
+            pedidoDTOs.add(pedidoDTO);
+        }
+
+        return pedidoDTOs;
+    }
 
     public PedidoDTO obtenerPedidoPorId(Long id) {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pedido no encontrado"));

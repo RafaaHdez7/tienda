@@ -22,7 +22,7 @@
         @if (nombreUsuario != null)
         {
             <div class="col-auto d-flex justify-content-center">
-                <a href="@Url.Action("VerPedido", "Pedido")" class="btn btn-primary mb-2 text-center">Mis pedidos</a>
+                <a href="@Url.Action("ResumenPedidos", "Pedido")" class="btn btn-primary mb-2 text-center">Mis pedidos</a>
             </div>
             @if (rol == "user")
             {

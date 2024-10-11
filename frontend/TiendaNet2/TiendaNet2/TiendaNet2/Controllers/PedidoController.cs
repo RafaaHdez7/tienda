@@ -61,6 +61,70 @@ namespace TiendaNet2.Controllers
             }
 
         [AllowAnonymous]
+        [HttpGet("Pedido/ResumenPedidos")]
+        public async Task<IActionResult> ResumenPedidos(int pageNumber = 1, int pageSize = 10)
+        {
+            string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+            var pedidos = await pedidoService.ObtenerPedidosPorUsuario(nombreUsuario);
+
+            // Ordenar por fecha (descendente)
+            var pedidosOrdenados = pedidos.OrderByDescending(p => p.FechaHora)
+                                           .Skip((pageNumber - 1) * pageSize)
+                                           .Take(pageSize)
+                                           .ToList();
+
+            var totalPedidos = pedidos.Count();
+            var totalPages = (int)Math.Ceiling((double)totalPedidos / pageSize);
+
+            var viewModel = new ListaPedidosViewModel
+            {
+                ListaPedidos = pedidosOrdenados,
+                NombreUsuario = nombreUsuario,
+                PageNumber = pageNumber,
+                TotalPages = totalPages
+            };
+
+            return View(viewModel);
+        }
+
+
+       /* [AllowAnonymous]
+        [HttpGet("Pedido/ResumenPedidos")]
+        public async Task<IActionResult> ResumenPedidos()
+        {
+            // Obtener el nombre del usuario logueado desde la sesión
+            string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+
+            if (string.IsNullOrEmpty(nombreUsuario))
+            {
+                // Si el usuario no está logueado, redirigir a la página de inicio
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Obtener los pedidos del usuario logueado
+            var pedidos = await pedidoService.ObtenerPedidosPorUsuario(nombreUsuario);
+            if (pedidos == null || !pedidos.Any())
+            {
+                // Si no hay pedidos, redirigir a otra página o mostrar un mensaje
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                // Crear un ViewModel para enviar a la vista
+                var viewModel = new ListaPedidosViewModel
+                {
+                    ListaPedidos = pedidos,
+                    NombreUsuario = nombreUsuario
+                    // Aquí podrías agregar más datos si es necesario, como detalles adicionales
+                };
+
+                // Retornar la vista con el ViewModel
+                return View(viewModel);
+            }
+        }*/
+
+
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> HacerPedido(int id)
         {
@@ -104,6 +168,10 @@ namespace TiendaNet2.Controllers
                 }
                 var pedido = await pedidoService.CrearPedidoAsync(detallePedidoList);
                 var response = new { mensaje = "Pedido confirmado con éxito", pedidoId = pedido.Id };
+                if (pedido.Id == 0)
+                {
+                    return BadRequest();
+                }
                 return Ok(response);
             }
             return BadRequest();

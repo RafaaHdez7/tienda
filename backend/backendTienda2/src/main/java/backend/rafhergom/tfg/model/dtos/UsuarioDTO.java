@@ -14,7 +14,7 @@ public class UsuarioDTO {
 	//@JsonAlias({"Nombre", "nombre"})
     private String nombre;
 	//@JsonAlias({"Contrasena", "contrasena"})
-    private String contrasena;
+    //private String contrasena;
 	//@JsonAlias({"Email", "email"})
     private String email;
 	//@JsonAlias({"Rol", "rol"})

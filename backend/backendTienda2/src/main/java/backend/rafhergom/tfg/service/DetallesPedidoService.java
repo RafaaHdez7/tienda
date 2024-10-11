@@ -55,7 +55,6 @@ public class DetallesPedidoService {
     	DetallesPedidoDTO detallePedidoDTO =  detallesPedidoRepository.findById(id).map(detallesPedido -> {
            return modelMapper.map(detallesPedido, DetallesPedidoDTO.class);
         }).orElse(null);
-    	detallePedidoDTO.getPedido().getUsuarioDTO().setContrasena(null);
     	detallePedidoDTO.getProducto().setImagenURL(null);
     	detallePedidoDTO.getPedido().getNegocioDTO().setImagenURL(null);
     	return detallePedidoDTO;
@@ -77,7 +76,6 @@ public class DetallesPedidoService {
             detallePedidoDTO.getPedido().setEstadoPedidoDTO(detallePedidoList.get(0).getPedido().getEstadoPedido());
             if (detallePedidoDTO != null) {
                 // Ocultar información sensible o innecesaria
-                detallePedidoDTO.getPedido().getUsuarioDTO().setContrasena(null);
                 detallePedidoDTO.getProducto().setImagenURL(null);
                 detallePedidoDTO.getPedido().getNegocioDTO().setImagenURL(null);
 

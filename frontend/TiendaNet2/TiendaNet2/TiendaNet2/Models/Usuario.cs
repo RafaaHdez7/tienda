@@ -17,7 +17,8 @@ namespace TiendaNet2.Models
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [DataType(DataType.Password)]
-        [JsonProperty("contrasena")]
+        // [JsonProperty("contrasena")]
+        [JsonIgnore]
         public string Contrasena { get; set; }
         [JsonProperty("email")]
         [Display(Name = "Email")]

@@ -1,5 +1,14 @@
 package backend.rafhergom.tfg.utilities;
 
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +27,7 @@ public class ModelMapperConfig {
         ProductoToProductoDTO(modelMapper);
         PedidoToPedidoDTO(modelMapper);
         UsuarioToUsuarioDTO(modelMapper); 
+//        NegocioToNegocioDTO(modelMapper); 
         return modelMapper;
     }
 
@@ -32,6 +42,29 @@ public class ModelMapperConfig {
         typeMap.addMapping(src -> src.getNegocio(), ProductoDTO::setNegocioDTO);
         
     }
+    
+//    private void NegocioToNegocioDTO(ModelMapper modelMapper) {
+//        TypeMap<Negocio, NegocioDTO> typeMap = modelMapper.createTypeMap(Negocio.class, NegocioDTO.class);
+//
+//        TypeMap<Negocio, CategoriaNegocioDTO> categoriaNegocioMap = modelMapper.createTypeMap(Negocio.class, CategoriaNegocioDTO.class);
+//        categoriaNegocioMap.addMapping(src -> src.getCategoriaNegocio().getId(), CategoriaNegocioDTO::setId);
+//        TypeMap<Producto, UsuarioDTO> negocioMap = modelMapper.createTypeMap(Producto.class, NegocioDTO.class);
+//        negocioMap.addMapping(src -> src.getNegocio().getId(), NegocioDTO::setId);
+//        typeMap.addMapping(src -> src.getCategoriaProducto(), ProductoDTO::setCategoriaProductoDTO);
+//        typeMap.addMapping(src -> src.getNegocio(), ProductoDTO::setNegocioDTO);
+//
+//        private Long id;
+//        private CategoriaNegocio categoriaNegocio;
+//        private String nombre;
+//        private Usuario usuario; 
+//        private String descripcion;
+//        private String link;
+//        private String imagenURL;
+//        private Date fechaCreacion;
+//        private Date fechaModificacion;
+//        private Long usuarioCreacion;
+//        private Long usuarioModificacion;
+//    }
     
     private void PedidoToPedidoDTO(ModelMapper modelMapper) {
         TypeMap<Pedido, PedidoDTO> typeMap = modelMapper.createTypeMap(Pedido.class, PedidoDTO.class);
@@ -51,7 +84,7 @@ public class ModelMapperConfig {
         TypeMap<Usuario, UsuarioDTO> typeMap = modelMapper.createTypeMap(Usuario.class, UsuarioDTO.class);
         typeMap.addMapping(src -> src.getId(), UsuarioDTO::setId);
         typeMap.addMapping(src -> src.getNombre(), UsuarioDTO::setNombre);
-        typeMap.addMapping(src -> src.getContrasena(), UsuarioDTO::setContrasena);
+       // typeMap.addMapping(src -> src.getContrasena(), UsuarioDTO::setContrasena);
         typeMap.addMapping(src -> src.getEmail(), UsuarioDTO::setEmail);
         typeMap.addMapping(src -> src.getRol(), UsuarioDTO::setRol);
         typeMap.addMapping(src -> src.getActivo(), UsuarioDTO::setActivo);

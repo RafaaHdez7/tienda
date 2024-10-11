@@ -88,6 +88,28 @@ namespace TiendaNet2.Servicios
             return pedido;
         }
 
+        public async Task<List<Pedido>> ObtenerPedidosPorUsuario(string nombreUsuario)
+        {
+
+            List<Pedido> pedido = new List<Pedido>();
+
+            string srv = _config.GetValue<string>("_pedidoURL")+ "usuario/nombre/" + nombreUsuario;
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(srv);
+                var response = await httpClient.GetAsync(srv);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    pedido = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Pedido>>(json);
+                }
+            }
+
+            return pedido;
+        }
+
     }
 
 
