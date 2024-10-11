@@ -9,33 +9,32 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text;
 namespace TiendaNet2.Servicios
 {
-    public interface IProductoService
+    public interface IDetallePedidoService
     {
-        Task<List<Producto>> ObtenerProductosPorIdNegocio(string idNegocio);
-        Task<bool> CrearProductoAsync(Producto producto);
-        Task<bool> ActualizarProductoAsync(Producto producto);
-        Task<List<Producto>> ObtenerProductosPorIdPedido(string idPedido);
+        Task<bool> CrearDetallePedidoAsync(DetallePedido DetallePedido);
+        Task<bool> ActualizarDetallePedidoAsync(DetallePedido detallePedido);
+        Task<List<DetallePedido>> ObtenerDetallePedidosPorIdPedido(string idPedido);
     }
 
-    public class ProductoService : IProductoService
+    public class DetallePedidoService : IDetallePedidoService
     {
         private readonly HttpClient httpClient;
         private readonly IConfiguration _config;
         private readonly IHttpClientFactory _httpClientFactory;
         
 
-        public ProductoService(HttpClient httpClient, IConfiguration config, IHttpClientFactory _httpClientFactory )
+        public DetallePedidoService(HttpClient httpClient, IConfiguration config, IHttpClientFactory _httpClientFactory )
         {
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             this._config = config;
             this._httpClientFactory = _httpClientFactory;
         }
 
-        public async Task<List<Producto>> ObtenerProductosPorIdNegocio(string idNegocio)
+        public async Task<List<DetallePedido>> ObtenerDetallePedidosPorIdPedido(string idPedido)
         {
-            List<Producto> producto = new List<Producto>();
+            List<DetallePedido> detallePedidos = new List<DetallePedido>();
 
-            string srv = _config.GetValue<string>("_productoURL") +"negocio/" + idNegocio;
+            string srv = _config.GetValue<string>("_detallePedidoURL") + "pedido/" + idPedido;
 
             using (var httpClient = new HttpClient())
             {
@@ -45,48 +44,27 @@ namespace TiendaNet2.Servicios
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    producto = Newtonsoft.Json.JsonConvert.DeserializeObject < List<Producto>>(json);
+                    detallePedidos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<DetallePedido>>(json);
                 }
             }
 
-            return producto;
-        }
-
-        public async Task<List<Producto>> ObtenerProductosPorIdPedido(string idPedido)
-        {
-            List<Producto> productos = new List<Producto>();
-
-            string srv = _config.GetValue<string>("_productoURL") + "pedido/" + idPedido;
-
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.BaseAddress = new Uri(srv);
-                var response = await httpClient.GetAsync(srv);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    productos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Producto>>(json);
-                }
-            }
-
-            return productos;
+            return detallePedidos;
         }
 
 
-        public async Task<bool> CrearProductoAsync(Producto producto)
+        public async Task<bool> CrearDetallePedidoAsync(DetallePedido detallePedido)
         {
             bool creadoExitosamente = false;
             try
             {
-                string srv = _config.GetValue<string>("_productoURL");
+                string srv = _config.GetValue<string>("_detallePedidoURL");
 
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.BaseAddress = new Uri(srv);
 
                     // Convierte el objeto 'nuevoNegocio' a formato JSON
-                    string jsonNegocio = Newtonsoft.Json.JsonConvert.SerializeObject(producto);
+                    string jsonNegocio = Newtonsoft.Json.JsonConvert.SerializeObject(detallePedido);
 
                     // Configura el contenido del request con el JSON del nuevo negocio
                     var content = new StringContent(jsonNegocio, Encoding.UTF8, "application/json");
@@ -104,26 +82,26 @@ namespace TiendaNet2.Servicios
             catch (Exception ex)
             {
                 // Maneja cualquier excepción que pueda ocurrir durante la creación del negocio
-                Console.WriteLine($"Error al crear el producto: {ex.Message}");
+                Console.WriteLine($"Error al crear el detallePedido: {ex.Message}");
             }
 
             return creadoExitosamente;
         }
 
 
-        public async Task<bool> ActualizarProductoAsync(Producto producto)
+        public async Task<bool> ActualizarDetallePedidoAsync(DetallePedido detallePedido)
         {
             bool creadoExitosamente = false;
             try
             {
-                string srv = _config.GetValue<string>("_productoURL") + producto.Id;
+                string srv = _config.GetValue<string>("_detallePedidoURL") + detallePedido.Id;
 
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.BaseAddress = new Uri(srv);
 
                     // Convierte el objeto 'nuevoNegocio' a formato JSON
-                    string jsonNegocio = Newtonsoft.Json.JsonConvert.SerializeObject(producto);
+                    string jsonNegocio = Newtonsoft.Json.JsonConvert.SerializeObject(detallePedido);
 
                     // Configura el contenido del request con el JSON del nuevo negocio
                     var content = new StringContent(jsonNegocio, Encoding.UTF8, "application/json");
@@ -141,7 +119,7 @@ namespace TiendaNet2.Servicios
             catch (Exception ex)
             {
                 // Maneja cualquier excepción que pueda ocurrir durante la creación del negocio
-                Console.WriteLine($"Error al actualizar el producto: {ex.Message}");
+                Console.WriteLine($"Error al actualizar el detallePedido: {ex.Message}");
             }
 
             return creadoExitosamente;

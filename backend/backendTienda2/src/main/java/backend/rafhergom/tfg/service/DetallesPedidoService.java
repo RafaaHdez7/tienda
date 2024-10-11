@@ -52,10 +52,30 @@ public class DetallesPedidoService {
     }
 
     public DetallesPedidoDTO obtenerDetallesPedidoPorId(Long id) {
-        return detallesPedidoRepository.findById(id).map(detallesPedido -> {
+    	DetallesPedidoDTO detallePedidoDTO =  detallesPedidoRepository.findById(id).map(detallesPedido -> {
            return modelMapper.map(detallesPedido, DetallesPedidoDTO.class);
         }).orElse(null);
+    	detallePedidoDTO.getPedido().getUsuarioDTO().setContrasena(null);
+    	detallePedidoDTO.getProducto().setImagenURL(null);
+    	detallePedidoDTO.getPedido().getNegocioDTO().setImagenURL(null);
+    	return detallePedidoDTO;
     }
+    
+//    public List<DetallesPedidoDTO> obtenerDetallesPedidoPorIdPedido(Long idPedido) {
+//    	List<DetallesPedido> detallePedidoList =  detallesPedidoRepository.getByPedidoId(idPedido.toString());
+//    	List<DetallesPedidoDTO> detallePedidoDTOList = new List<DetallesPedidoDTO>();
+//    	for(DetallesPedido dp : detallePedidoList ) {
+//    		DetallesPedidoDTO detallePedidoDTO =  detallesPedidoRepository.findById(id).map(detallesPedido -> {
+//    	           return modelMapper.map(detallesPedido, DetallesPedidoDTO.class);
+//    	        }).orElse(null);
+//    	    	detallePedidoDTO.getPedido().getUsuarioDTO().setContrasena(null);
+//    	    	detallePedidoDTO.getProducto().setImagenURL(null);
+//    	    	detallePedidoDTO.getPedido().getNegocioDTO().setImagenURL(null);
+//    	    	
+//    	}
+//    	
+//    	return detallePedidoList;
+//    }
 
     public DetallesPedidoDTO crearDetallesPedido(DetallesPedidoDTO detallesPedidoDTO) {
         // Utiliza ModelMapper para mapear de DetallesPedidoDTO a DetallesPedido

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
@@ -19,27 +20,45 @@ namespace TiendaNet2.Controllers
         private readonly INegocioService negocioService;
         private readonly IProductoService productoService;
         private readonly IUsuarioService usuarioService;
+        private readonly IDetallePedidoService detallesPedidoService;
 
         public PedidoController(ILogger<PedidoController> logger, PedidoService pedidoService,  INegocioService negocioService,
                 IProductoService productoService,
-                IUsuarioService usuarioService)
+                IUsuarioService usuarioService, IDetallePedidoService detallesPedidoService)
         {
             _logger = logger;
             this.pedidoService = pedidoService;
             this.negocioService = negocioService;
             this.productoService = productoService;
             this.usuarioService = usuarioService;
-    }
-
-        
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> VerPedido()
-        {
-
-            return View();
-            
+            this.usuarioService = usuarioService;
+            this.detallesPedidoService = detallesPedidoService;
         }
+
+
+
+            [AllowAnonymous]
+            [HttpGet("Pedido/ResumenPedido/{pedidoId}")]
+            public async Task<IActionResult> ResumenPedido(string pedidoId)
+            {
+                string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+
+                var pedido = await pedidoService.ObtenerPedidoPorPedidoId(pedidoId);
+                if (pedido == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    var viewModel = new ProductoNegocioViewModel
+                    {
+                        Pedido = pedido,
+                        Producto = await productoService.ObtenerProductosPorIdNegocio(pedido.Negocio.Id.ToString()),
+                        DetallePedidosList = await detallesPedidoService.ObtenerDetallePedidosPorIdPedido(pedidoId)
+                    };
+                    return View(viewModel);
+                }
+            }
 
         [AllowAnonymous]
         [HttpGet]
@@ -77,26 +96,24 @@ namespace TiendaNet2.Controllers
                     dp.Cantidad = producto.Cantidad;
                     dp.Producto_Id = new Producto();
                     dp.Producto_Id.Id = producto.IdProducto;
-                    dp.Precio_unitario = producto.Precio_unitario;
+                    dp.Precio_unitario = producto.Precio_unitario.ToString();
                     dp.Pedido_Id = new Pedido();
                     dp.Pedido_Id.Usuario = new Usuario();
                     dp.Pedido_Id.Usuario.Nombre = nombreUsuario;
                     detallePedidoList.Add(dp);
                 }
                 var pedido = await pedidoService.CrearPedidoAsync(detallePedidoList);
-                // Puedes devolver un objeto JSON con la información que necesites
-                var response = new { mensaje = "Pedido confirmado con éxito", pedidoId = pedido.Id };
-                return Ok(response); // Devuelve un HTTP 200 OK con el objeto JSON
+                var response = new { mensaje = "Pedido confirmado con éxito", PedidoId = pedido.Id };
+                return Ok(response);
             }
-            return null;
+            return BadRequest();
         }
     }
-
     public class ProductoPedido
     {
         public int IdProducto { get; set; }
         public int Cantidad { get; set; }
-        public int Precio_unitario { get; set; }
+        public decimal Precio_unitario { get; set; }  // Cambiado a decimal
     }
 
 }

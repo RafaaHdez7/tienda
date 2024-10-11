@@ -62,18 +62,20 @@ public class PedidoService {
 
 
     public PedidoDTO obtenerPedidoPorId(Long id) {
-        Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
-        return pedidoOptional.map(pedido -> {
-        	return modelMapper.map(pedido, PedidoDTO.class);
-        }).orElse(null);
-    }
+        Pedido pedido = pedidoRepository.findById(id).get();
+        
+        	PedidoDTO pedidoDTO = modelMapper.map(pedido, PedidoDTO.class);
+        	pedidoDTO.setEstadoPedidoDTO(EstadoPedidoDTO.Estado.fromDescripcion(pedido.getEstadoPedido()));
+        	return pedidoDTO;
+        }    
 
     public PedidoDTO crearPedido(Pedido pedido) {
         // Utiliza ModelMapper para mapear directamente de PedidoDTO a Pedido
     	pedido.setUsuarioCreacion(pedido.getUsuario().getId());
     	pedido.setFechaCreacion(new Date());
     	pedido.setFechaModificacion(new Date());
-    	pedido.setEstadoPedido(EstadoPedidoDTO.Estado.EN_PROCESO.toString());
+    	// Establece el estado del pedido utilizando la descripción del estado
+        pedido.setEstadoPedido(EstadoPedidoDTO.Estado.EN_PROCESO.getDescripcion());
     	// Configura la zona horaria por defecto a Europa/Madrid
         // Obtén la fecha y hora actual
         LocalDateTime fechaHora = LocalDateTime.now();

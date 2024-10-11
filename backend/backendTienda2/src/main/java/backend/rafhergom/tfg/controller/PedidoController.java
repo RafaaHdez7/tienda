@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import backend.rafhergom.tfg.model.dtos.DetallesPedidoDTO;
+import backend.rafhergom.tfg.model.dtos.EstadoPedidoDTO.Estado;
 import backend.rafhergom.tfg.model.dtos.PedidoDTO;
 import backend.rafhergom.tfg.model.dtos.ProductoDTO;
 import backend.rafhergom.tfg.model.dtos.UsuarioDTO;
@@ -76,7 +77,7 @@ public class PedidoController {
     	pedido.setFechaCreacion(date);
     	pedido.setUsuarioCreacion(usuario.getId());
     	PedidoDTO pedidoDTOsaved = pedidoService.crearPedido(pedido);
-    	
+    	pedidoDTOsaved.setEstadoPedidoDTO(Estado.EN_PROCESO);
     	for (DetallesPedidoDTO dpDTO : detallesPedidoDTO) {
     		dpDTO.setPedido(pedidoDTOsaved);
     		ProductoDTO productoDTO = productoService.obtenerProductoPorId(dpDTO.getProducto().getId());

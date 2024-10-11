@@ -134,7 +134,7 @@
                     // Manejar la respuesta del servidor (puedes redirigir, mostrar un mensaje, etc.)
                     alert('Pedido confirmado con éxito!');
                     // Puedes redirigir al usuario o mostrar un mensaje de éxito
-                    window.location.href = '/Pedido/Confirmacion'; // Ejemplo de redirección
+                    window.location.href = '/Pedido/ResumenPedido/' + data.pedidoId; // Ejemplo de redirección
                 })
                 .catch(error => {
                     console.error('Error al enviar el pedido:', error);

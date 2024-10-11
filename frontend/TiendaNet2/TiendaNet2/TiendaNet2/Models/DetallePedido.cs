@@ -15,7 +15,7 @@ namespace TiendaNet2.Models
         [JsonProperty("cantidad")]
         public int Cantidad { get; set; }
         [JsonProperty("precioUnitario")]
-        public int Precio_unitario { get; set; }
+        public string Precio_unitario { get; set; }
 
     }
 }

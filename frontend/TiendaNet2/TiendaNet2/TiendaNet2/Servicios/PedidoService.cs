@@ -11,6 +11,8 @@ namespace TiendaNet2.Servicios
 {
     public interface IPedidoService
     {
+        Task<Pedido> CrearPedidoAsync(List<DetallePedido> dp);
+        Task<Pedido> ObtenerPedidoPorPedidoId(string idPedido);
     }
 
     public class PedidoService : IPedidoService
@@ -60,6 +62,27 @@ namespace TiendaNet2.Servicios
             {
                 // Maneja cualquier excepción que pueda ocurrir durante la creación del negocio
                 Console.WriteLine($"Error al crear el pedido: {ex.Message}");
+            }
+
+            return pedido;
+        }
+
+        public async Task<Pedido> ObtenerPedidoPorPedidoId(string idPedido)
+        {
+            Pedido pedido = new Pedido();
+
+            string srv = _config.GetValue<string>("_pedidoURL") + idPedido;
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(srv);
+                var response = await httpClient.GetAsync(srv);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    pedido = Newtonsoft.Json.JsonConvert.DeserializeObject<Pedido>(json);
+                }
             }
 
             return pedido;
