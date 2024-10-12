@@ -4,11 +4,14 @@
 }
 
 <div class="container">
-    <div class="text-center" style="padding-top: 6rem;">
-        <img src="@Model.Negocio.ImagenURL" class="card-img-top limited-img-small" alt="Imagen del negocio">
-        <h1>Hacer pedido a @Model.Negocio.Nombre </h1>
-    </div>
 
+    <div class="text-center">
+        <img src="@Model.Negocio.ImagenURL" class="card-img-top limited-img-small" alt="Imagen del negocio">
+        <h1 class="display-4" style="color: #6f4a31;">
+            Hacer pedido a @Model.Negocio.Nombre.
+        </h1>
+        <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+    </div>
     <!-- Mostrar productos en formato de carta -->
     @if (Model.Producto != null && Model.Producto.Any())
     {

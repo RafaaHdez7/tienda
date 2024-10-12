@@ -4,10 +4,15 @@
 }
 
 <div class="container">
-    <h1>Negocio @Model.Negocio.Nombre </h1>
+    <div class="text-center">
+        <img src="@Model.Negocio.ImagenURL" class="card-img-top limited-img-small" alt="Imagen del negocio">
+        <h1 class="display-4" style="color: #6f4a31;">
+            Negocio @Model.Negocio.Nombre
+        </h1>
+        <h2>Agregar Nuevo Producto</h2>
+        <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+    </div>
 
-    <!-- Formulario para agregar nuevo producto -->
-    <h2>Agregar Nuevo Producto</h2>
     <form method="post" asp-controller="Producto" asp-action="AgregarProducto">
         <div class="form-group">
             <label for="nombreNuevo">Nombre del Producto:</label>

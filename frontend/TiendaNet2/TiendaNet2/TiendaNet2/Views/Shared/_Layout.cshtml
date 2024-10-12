@@ -37,16 +37,15 @@
                         var rol = Context.Session.GetString("Rol");
                     }
 
-                    @if (string.IsNullOrEmpty(@ViewBag.AuthToken))
+
+                    @if (nombreUsuario == null)
                     {
-                        @if (nombreUsuario == null)
-                        {
                             <div class="d-flex">
                                 <a href="@Url.Action("Login", "Usuario")" class="btn btn-primary-top mb-2"><i class="bi bi-person-circle"></i></a>
                                 <a href="@Url.Action("Registro", "Usuario")" class="btn btn-primary-top mb-2" style="background-color: #6f4a31; color: #FFFFFF;">Regístrate</a>
                             </div>
-                        }
                     }
+                    
                     else
                     {
                         <a href="@Url.Action("Logout", "Usuario")" class="btn btn-primary-top mb-2" style=" color: #6f4a31; "><i class="bi bi-door-open-fill"></i> @nombreUsuario</a>

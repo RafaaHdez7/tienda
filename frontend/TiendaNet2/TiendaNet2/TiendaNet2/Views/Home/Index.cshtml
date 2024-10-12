@@ -22,6 +22,9 @@
         @if (nombreUsuario != null)
         {
             <div class="col-auto d-flex justify-content-center">
+                <a href="@Url.Action("Perfil", "Usuario")" class="btn btn-primary mb-2 text-center">Mi perfil</a>
+            </div>
+            <div class="col-auto d-flex justify-content-center">
                 <a href="@Url.Action("ResumenPedidos", "Pedido")" class="btn btn-primary mb-2 text-center">Mis pedidos</a>
             </div>
             @if (rol == "user")

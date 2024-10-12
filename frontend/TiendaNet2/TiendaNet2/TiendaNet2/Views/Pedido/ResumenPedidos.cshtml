@@ -1,43 +1,16 @@
 ﻿@model ListaPedidosViewModel
 @{
-    ViewData["Title"] = "Resumen de Pedidos del Usuario";
+    ViewData["Title"] = "Resumen de Pedidos para @Model.NombreUsuario";
 }
 
 <head>
-    <title>Resumen de Pedidos del Usuario</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #6f4a31;
-            color: white;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-            cursor: pointer; /* Cambiar el cursor a pointer para indicar que es clickeable */
-        }
-    </style>
+    <div class="text-center">
+        <h1 class="display-4" style="color: #6f4a31;">
+            Resumen de Pedidos para @Model.NombreUsuario.
+        </h1>
+        <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+    </div>
+    
     <script>
         function redirectToPedido(pedidoId) {
             window.location.href = `/Pedido/ResumenPedido/${pedidoId}`;
@@ -69,7 +42,6 @@
 </head>
 
 <body>
-    <h2>Resumen de Pedidos para @Model.NombreUsuario</h2>
 
     <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Buscar por columnas..." />
 

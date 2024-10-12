@@ -5,9 +5,14 @@
 }
 
 <div class="container">
-
+    <div class="text-center">
+        <h1 class="display-4" style="color: #6f4a31;">
+            Resumen del Pedido #@Model.Pedido.Id.
+        </h1>
+        <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+    </div>
     <div class="text-center" style="padding-top: 6rem;">
-        <h2>Resumen del Pedido #@Model.Pedido.Id</h2>
+  
         <p><strong>Negocio:</strong> @Model.Pedido.Negocio.Nombre</p>
         <p><strong>Cliente:</strong> @Model.Pedido.Usuario.Nombre</p>
         <p><strong>Fecha del Pedido:</strong> @Model.Pedido.FechaHora.ToString("dd/MM/yyyy HH:mm")</p>

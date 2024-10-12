@@ -23,6 +23,8 @@ builder.Services.AddTransient<ICategoriaNegocioService, CategoriaNegocioService>
 builder.Services.AddTransient<ICategoriaProductoService, CategoriaProductoService>();
 builder.Services.AddTransient<IProductoService, ProductoService>();
 builder.Services.AddTransient<IDetallePedidoService, DetallePedidoService>();
+builder.Services.AddTransient<IMonederoService, MonederoService>();
+builder.Services.AddTransient<IHistoricoTransaccionesService, HistoricoTransaccionesService>();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<UsuarioService>();
 builder.Services.AddHttpClient<NegocioService>();
@@ -31,6 +33,8 @@ builder.Services.AddHttpClient<ProductoService>();
 builder.Services.AddHttpClient<DetallePedidoService>();
 builder.Services.AddHttpClient<CategoriaProductoService>();
 builder.Services.AddHttpClient<CategoriaNegocioService>();
+builder.Services.AddHttpClient<MonederoService>();
+builder.Services.AddHttpClient<HistoricoTransaccionesService>();
 builder.Services.AddScoped<AuthTokenViewComponent>();
 
 builder.Services.AddAuthorization(options =>

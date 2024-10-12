@@ -4,14 +4,17 @@
 }
 
 <div class="container">
-    <div class="text-center" style="padding-top: 6rem;">
-        <img src="@Model.Negocio.ImagenURL" class="card-img-top limited-img" alt="Imagen del Producto">
-        <h1>Negocio @Model.Negocio.Nombre </h1>
     </div>
-    
+        <div class="text-center">
+          <img src="@Model.Negocio.ImagenURL" class="card-img-top limited-img" alt="Imagen del Producto">
+        <h1>Negocio @Model.Negocio.Nombre </h1>
+         <h2>Editar Producto</h2>
+        <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+    </div>
+
 
     <!-- Formulario para editar producto -->
-    <h2>Editar Producto</h2>
+   
     <form method="post" asp-controller="Producto" asp-action="EditarProductoBack">
         <div class="form-group">
             <label for="nombreNuevo">Nombre del Producto:</label>

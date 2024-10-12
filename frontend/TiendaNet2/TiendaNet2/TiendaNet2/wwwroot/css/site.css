@@ -162,3 +162,35 @@ strong-tittle {
         .producto-resumen ul li {
             margin-bottom: 3px;
         }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+}
+
+h2 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #6f4a31;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer; /* Cambiar el cursor a pointer para indicar que es clickeable */
+}

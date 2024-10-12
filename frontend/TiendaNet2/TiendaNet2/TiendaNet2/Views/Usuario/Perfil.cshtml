@@ -1,0 +1,44 @@
+﻿@model TiendaNet2.Models.UsuarioMonederoViewModel
+
+@{
+    ViewData["Title"] = "Perfil de Usuario";
+}
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4" style="color: #6f4a31;">
+            Perfil de Usuario
+        </h1>
+        <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+    </div> 
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Información Personal</h4>
+                <div class="form-group">
+                    <label>Nombre de Usuario:</label>
+                    <p>@Model.Usuario.Nombre</p>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <p>@Model.Usuario.Email</p>
+                </div>
+                <div class="form-group">
+                    <label>Rol:</label>
+                    <p>@Model.Usuario.Rol</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4>Información del Monedero</h4>
+                <div class="form-group">
+                    <label>Saldo de Puntos:</label>
+                    <p>@(Model.Monedero != null ? $"{Model.Monedero.SaldoPuntos:N2} Puntos" : "0,00 Puntos")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="EditarPerfil" class="btn btn-primary">Editar Perfil</a>
+        <a asp-action="Index" class="btn btn-secondary">Volver al Inicio</a>
+    </div>
+</div>
