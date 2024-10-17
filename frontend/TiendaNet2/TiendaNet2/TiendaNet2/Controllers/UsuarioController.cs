@@ -83,9 +83,11 @@ namespace TiendaNet2.Controllers
                 {
                     var nombreUsuario = nombreUsuarioClaim.Value;
                     var rol = rolClaim.Value;
+                    Monedero monedero = await monederoService.ObtenerMonederosPorUsuario(nombreUsuario);
                     // Autenticación exitosa, guardar el nombre de usuario y el rol en la sesión
                     HttpContext.Session.SetString("NombreUsuario", nombreUsuario);
                     HttpContext.Session.SetString("Rol", rol);
+                    HttpContext.Session.SetString("Puntos", monedero.SaldoPuntos.ToString("N2"));
 
                     // Haz lo que necesites con el nombre de usuario y el rol
 

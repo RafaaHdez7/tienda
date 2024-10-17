@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import lombok.Data;
 @Data
 @Entity
-@Table(name = "Monedero")
+@Table(name = "monedero")
 public class Monedero {
 
     @Id

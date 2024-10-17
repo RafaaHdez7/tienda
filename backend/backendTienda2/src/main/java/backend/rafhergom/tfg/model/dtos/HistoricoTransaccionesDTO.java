@@ -10,4 +10,6 @@ public class HistoricoTransaccionesDTO {
     private UsuarioDTO usuarioDTO; // o UsuarioDTO usuario; si deseas incluir el objeto Usuario
     private String tipoTransaccion; // 'ganancia', 'pérdida', etc.
     private BigDecimal puntos; // Cambiado a BigDecimal para manejar decimales
+    private String descripcion;
+    private String fechaCreacion;
 }

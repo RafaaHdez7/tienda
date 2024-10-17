@@ -9,5 +9,6 @@
         public Producto ProductoSelected { get; set; }
         public Pedido Pedido { get; set; }
         public IEnumerable<DetallePedido> DetallePedidosList { get; set; }
+        public Double SaldoDisponible { get; set; }
     }
 }

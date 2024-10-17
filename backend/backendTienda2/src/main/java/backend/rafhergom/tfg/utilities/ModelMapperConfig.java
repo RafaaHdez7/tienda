@@ -87,7 +87,7 @@ public class ModelMapperConfig {
        // typeMap.addMapping(src -> src.getContrasena(), UsuarioDTO::setContrasena);
         typeMap.addMapping(src -> src.getEmail(), UsuarioDTO::setEmail);
         typeMap.addMapping(src -> src.getRol(), UsuarioDTO::setRol);
-        typeMap.addMapping(src -> src.getActivo(), UsuarioDTO::setActivo);
+        //typeMap.addMapping(src -> src.getActivo(), UsuarioDTO::setActivo);
     }
     
     private void CategoriaProductoToCategoriaProductoDTO(ModelMapper modelMapper) {

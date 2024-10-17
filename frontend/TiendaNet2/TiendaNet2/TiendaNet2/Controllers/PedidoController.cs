@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
+using System.Transactions;
 using TiendaNet2.Models;
 using TiendaNet2.Servicios;
 
@@ -20,9 +22,10 @@ namespace TiendaNet2.Controllers
         private readonly INegocioService negocioService;
         private readonly IProductoService productoService;
         private readonly IUsuarioService usuarioService;
+        private readonly IMonederoService monederoService;
         private readonly IDetallePedidoService detallesPedidoService;
 
-        public PedidoController(ILogger<PedidoController> logger, PedidoService pedidoService,  INegocioService negocioService,
+        public PedidoController(ILogger<PedidoController> logger, PedidoService pedidoService,  INegocioService negocioService, IMonederoService monederoService,
                 IProductoService productoService,
                 IUsuarioService usuarioService, IDetallePedidoService detallesPedidoService)
         {
@@ -31,8 +34,9 @@ namespace TiendaNet2.Controllers
             this.negocioService = negocioService;
             this.productoService = productoService;
             this.usuarioService = usuarioService;
-            this.usuarioService = usuarioService;
+            this.monederoService = monederoService;
             this.detallesPedidoService = detallesPedidoService;
+            
         }
 
 
@@ -88,50 +92,21 @@ namespace TiendaNet2.Controllers
         }
 
 
-       /* [AllowAnonymous]
-        [HttpGet("Pedido/ResumenPedidos")]
-        public async Task<IActionResult> ResumenPedidos()
-        {
-            // Obtener el nombre del usuario logueado desde la sesión
-            string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
-
-            if (string.IsNullOrEmpty(nombreUsuario))
-            {
-                // Si el usuario no está logueado, redirigir a la página de inicio
-                return RedirectToAction("Index", "Home");
-            }
-
-            // Obtener los pedidos del usuario logueado
-            var pedidos = await pedidoService.ObtenerPedidosPorUsuario(nombreUsuario);
-            if (pedidos == null || !pedidos.Any())
-            {
-                // Si no hay pedidos, redirigir a otra página o mostrar un mensaje
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                // Crear un ViewModel para enviar a la vista
-                var viewModel = new ListaPedidosViewModel
-                {
-                    ListaPedidos = pedidos,
-                    NombreUsuario = nombreUsuario
-                    // Aquí podrías agregar más datos si es necesario, como detalles adicionales
-                };
-
-                // Retornar la vista con el ViewModel
-                return View(viewModel);
-            }
-        }*/
-
-
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> HacerPedido(int id)
         {
             string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
-
-            
-                var negocio = await negocioService.ObtenerNegocioPorIdNegocio(id.ToString());
+            var monederoActualizado = await monederoService.ObtenerMonederosPorUsuario(nombreUsuario);
+            HttpContext.Session.SetString("Puntos", monederoActualizado.SaldoPuntos.ToString("N2"));
+            string saldoString = HttpContext.Session.GetString("Puntos").Replace(".", "").Replace(",", ".");
+            double saldo;
+            if (!double.TryParse(saldoString, NumberStyles.Any, CultureInfo.InvariantCulture, out saldo))
+            {
+                // Manejar el error de conversión si es necesario
+                saldo = 0.0; // O el valor predeterminado que desees
+            }
+            var negocio = await negocioService.ObtenerNegocioPorIdNegocio(id.ToString());
                 if (negocio == null)
                 {
                     return RedirectToAction("Index", "Home");
@@ -141,7 +116,8 @@ namespace TiendaNet2.Controllers
                     var viewModel = new ProductoNegocioViewModel
                     {
                         Negocio = negocio,
-                        Producto = await productoService.ObtenerProductosPorIdNegocio(id.ToString())
+                        Producto = await productoService.ObtenerProductosPorIdNegocio(id.ToString()),
+                        SaldoDisponible = saldo
                     };
                     return View(viewModel);
                 }
@@ -172,6 +148,10 @@ namespace TiendaNet2.Controllers
                 {
                     return BadRequest();
                 }
+                // Guardar la transacción en el histórico
+
+                var monederoActualizado = await monederoService.ObtenerMonederosPorUsuario(nombreUsuario);
+                HttpContext.Session.SetString("Puntos", monederoActualizado.SaldoPuntos.ToString("N2"));
                 return Ok(response);
             }
             return BadRequest();

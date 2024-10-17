@@ -11,7 +11,7 @@ namespace TiendaNet2.Servicios
 {
     public interface IHistoricoTransaccionesService
     {
-        Task<List<HistoricoTransacciones>> ObtenerHistoricoTransaccionessPorUsuario(string nombreUsuario);
+        Task<List<HistoricoTransacciones>> ObtenerHistoricoTransaccionesPorUsuario(string nombreUsuario);
         Task<bool> CrearHistoricoTransaccionesAsync(HistoricoTransacciones transaccion);
     }
 
@@ -29,11 +29,11 @@ namespace TiendaNet2.Servicios
             this._httpClientFactory = _httpClientFactory;
         }
 
-        public async Task<List<HistoricoTransacciones>> ObtenerHistoricoTransaccionessPorUsuario(string nombreUsuario)
+        public async Task<List<HistoricoTransacciones>> ObtenerHistoricoTransaccionesPorUsuario(string nombreUsuario)
         {
             List<HistoricoTransacciones> transacciones = new List<HistoricoTransacciones>();
 
-            string srv = _config.GetValue<string>("_historicoTransaccionesURL") +"usuario/" + nombreUsuario;
+            string srv = _config.GetValue<string>("_historicoTransaccionesURL") +"usuario/nombre/" + nombreUsuario;
 
             using (var httpClient = new HttpClient())
             {
@@ -87,6 +87,7 @@ namespace TiendaNet2.Servicios
 
             return creadoExitosamente;
         }
+
     }
 
   

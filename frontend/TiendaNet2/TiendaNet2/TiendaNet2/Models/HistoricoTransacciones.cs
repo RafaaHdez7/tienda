@@ -11,7 +11,7 @@ namespace TiendaNet2.Models
         [JsonProperty("id")]
         public long Id { get; set; }
 
-        [JsonProperty("usuario")]
+        [JsonProperty("usuarioDTO")]
         public Usuario Usuario { get; set; }
 
         [JsonProperty("puntos")]
@@ -21,6 +21,13 @@ namespace TiendaNet2.Models
 
         [JsonProperty("tipoTransaccion")]
         public String TipoTransaccion { get; set; }
+
+        [JsonProperty("descripcion")]
+        public String Descripcion { get; set; }
+
+        [JsonProperty("fechaCreacion")]
+        public String FechaCreacion { get; set; }
+
 
     }
 }

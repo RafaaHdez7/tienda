@@ -29,7 +29,7 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item" >Nombre: @p.Nombre_Producto</li>
                                     <li class="list-group-item">Categoría: @p.Categoria_Producto.NombreCategoria</li>
-                                    <li class="list-group-item">Precio: @p.Precio €</li>
+                                    <li class="list-group-item">Precio: @p.Precio Puntos</li>
                                     <li class="list-group-item">
                                         <div class="input-group">
                                             <span class="input-group-btn">
@@ -54,7 +54,7 @@
                     <button type="button" class="btn btn-danger mt-3 ml-2" onclick="confirmarLimpiarCarrito()">Limpiar Carrito</button>
                 </div>
                 <div class="col-md-6 text-right">
-                    <h5>Total: <span id="totalPrecio">0.00</span> €</h5>
+                    <h5>Total: <span id="totalPrecio">0.00</span> Puntos</h5>
                 </div>
             </div>
         </form>
@@ -68,6 +68,7 @@
         </div>
     }
 </div>
+<input type="hidden" id="saldoDisponible" value="@Model.SaldoDisponible" />
 
 <!-- Pie de página fijo -->
 <div class="footer">
@@ -79,7 +80,7 @@
         </div>
         <div>
             <!-- Precio total -->
-            <h5>Total: <span id="totalPrecioFixed">0.00</span> €</h5>
+            <h5>Total: <span id="totalPrecioFixed">0.00</span> Puntos</h5>
         </div>
     </div>
 </div>
@@ -92,7 +93,7 @@
         <h2>Resumen del Pedido en @Model.Negocio.Nombre</h2>
         <div id="resumenPedidoContent"></div>
         <footer>
-            <h4>Total: <span id="resumenTotalPrecio">0.00</span> €</h4>
+            <h4>Total: <span id="resumenTotalPrecio">0.00</span> Puntos</h4>
             <button type="button" class="btn btn-primary mt-3" id="confirmarPedido" onclick="enviarFormulario()">Confirmar Pedido</button>
         </footer>
     </div>
@@ -104,8 +105,9 @@
             // Obtener los datos del formulario principal
             var productos = [];
             var inputs = document.querySelectorAll('.cantidad-producto');
+            var totalPedido = 0.0; // Definir e inicializar totalPedido
+
             inputs.forEach(function (input) {
-                var precioProducto = input.getAttribute
                 var idProducto = input.getAttribute('id').split('_')[1];
                 var cantidad = parseInt(input.value);
                 var precio = parseFloat(input.getAttribute('data-precio'));
@@ -115,8 +117,18 @@
                         Cantidad: cantidad,
                         Precio_unitario: precio
                     });
+                    totalPedido += cantidad * precio; // Sumar el precio total del producto al totalPedido
                 }
             });
+
+            // Obtener el saldo disponible desde el modelo
+            var saldoDisponible = parseFloat(document.getElementById("saldoDisponible").value);
+
+            // Verificar si el totalPedido excede el saldo disponible
+            if (totalPedido > saldoDisponible) {
+                alert("El total del pedido excede tu saldo disponible. No puedes realizar el pedido.");
+                return; // Salir de la función sin enviar el pedido
+            }
 
             var body = JSON.stringify(productos);
             // Configurar la solicitud AJAX
@@ -134,16 +146,16 @@
                     return response.json();
                 })
                 .then(data => {
-                    // Manejar la respuesta del servidor (puedes redirigir, mostrar un mensaje, etc.)
                     alert('Pedido confirmado con éxito!');
-                    // Puedes redirigir al usuario o mostrar un mensaje de éxito
-                    window.location.href = '/Pedido/ResumenPedido/' + data.pedidoId; // Ejemplo de redirección
+                    // Redirigir al usuario a la página de resumen del pedido
+                    window.location.href = '/Pedido/ResumenPedido/' + data.pedidoId;
                 })
                 .catch(error => {
                     console.error('Error al enviar el pedido:', error);
                     alert('Error al enviar el pedido. Inténtalo más tarde.');
                 });
         }
+
 
         function incrementCantidad(id) {
             var input = document.getElementById('cantidad_' + id);
@@ -219,8 +231,8 @@
                     productosHtml += '<p> <strong> Nombre del Producto: </strong>' + nombreProducto + '</p>';
                     productosHtml += '<ul>';
                     productosHtml += '<li><strong>Cantidad: </strong> ' + cantidad + '</li>';
-                    productosHtml += '<li><strong>Precio por unidad: </strong> ' + precioUnitario.toFixed(2) + ' €</li>';
-                    productosHtml += '<li><strong>Precio total: </strong> ' + precioTotalProducto.toFixed(2) + ' €</li>';
+                    productosHtml += '<li><strong>Precio por unidad: </strong> ' + precioUnitario.toFixed(2) + ' Puntos</li>';
+                    productosHtml += '<li><strong>Precio total: </strong> ' + precioTotalProducto.toFixed(2) + ' Puntos</li>';
                     productosHtml += '</ul>';
                     productosHtml += '</div>';
                 }

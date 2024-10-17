@@ -35,6 +35,7 @@
                     @{
                         var nombreUsuario = Context.Session.GetString("NombreUsuario");
                         var rol = Context.Session.GetString("Rol");
+                        var puntos = Context.Session.GetString("Puntos");
                     }
 
 
@@ -48,7 +49,9 @@
                     
                     else
                     {
-                        <a href="@Url.Action("Logout", "Usuario")" class="btn btn-primary-top mb-2" style=" color: #6f4a31; "><i class="bi bi-door-open-fill"></i> @nombreUsuario</a>
+                        <a href="@Url.Action("VerHistorico", "HistoricoTransacciones")" class="btn btn-primary-top mb-2" style=" color: #6f4a31; "> Saldo: @puntos Puntos </a>
+                        <a href="@Url.Action("Logout", "Usuario")" class="btn btn-primary-top mb-2" style=" color: #6f4a31; "><i class="bi bi-door-open-fill"></i> @nombreUsuario </a>
+                        
                     }
                 </div>
             </div>

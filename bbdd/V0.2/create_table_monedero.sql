@@ -18,7 +18,6 @@ CREATE TABLE tfg.HistoricoTransacciones (
     usuario_id INT NOT NULL,
     tipo_transaccion VARCHAR(50) NOT NULL,
     puntos NUMERIC(10, 2) NOT NULL,
-    fecha_transaccion TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     descripcion TEXT,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,

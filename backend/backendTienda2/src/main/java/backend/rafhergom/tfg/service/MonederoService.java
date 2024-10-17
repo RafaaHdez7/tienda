@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import backend.rafhergom.tfg.model.dtos.HistoricoTransaccionesDTO;
 import backend.rafhergom.tfg.model.dtos.MonederoDTO;
+import backend.rafhergom.tfg.model.dtos.PedidoDTO;
 import backend.rafhergom.tfg.model.dtos.UsuarioDTO;
 import backend.rafhergom.tfg.model.entity.Monedero;
 import backend.rafhergom.tfg.model.entity.Usuario;
@@ -26,13 +28,15 @@ public class MonederoService {
     private final UsuarioRepository usuarioRepository;
 
     private final ModelMapper modelMapper;
+    private final DetallesPedidoService detallesPedidoService;
 
     @Autowired
     public MonederoService(MonederoRepository monederoRepository,UsuarioRepository usuarioRepository,
-    		@Qualifier("modelMapper") ModelMapper modelMapper) {
+    		@Qualifier("modelMapper") ModelMapper modelMapper, DetallesPedidoService detallesPedidoService) {
         this.monederoRepository = monederoRepository;
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
+        this.detallesPedidoService = detallesPedidoService;
         
     }
 
@@ -126,6 +130,33 @@ public class MonederoService {
                   return null;
               }
           }
+    
+			public MonederoDTO actualizarMonederoPorTransaccion(HistoricoTransaccionesDTO historicoDTO) {
+		Monedero monederoLoaded = monederoRepository.findMonederoPorNombreUsuario(historicoDTO.getUsuarioDTO().getNombre());
+          if (monederoLoaded != null) {
+          	Monedero monedero = modelMapper.map( monederoLoaded, Monedero.class);
+          	monedero.setFechaCreacion(monederoLoaded.getFechaCreacion());
+          	monedero.setUsuarioCreacion(monederoLoaded.getUsuarioCreacion());
+          	 // Establecer campos de auditoría
+              Date fechaActual = new Date();
+              monedero.setFechaModificacion(fechaActual);
+              // Aquí deberías establecer los valores correctos para usuarioCreacion y usuarioModificacion,
+              // según el contexto de tu aplicación
+              monedero.setUsuarioModificacion(monederoLoaded.getUsuario().getId()); 
+              if (historicoDTO.getTipoTransaccion().equals("Ingreso")) {
+            	    monedero.setSaldoPuntos(monedero.getSaldoPuntos().add(historicoDTO.getPuntos()));
+            	} else {
+            	    monedero.setSaldoPuntos(monedero.getSaldoPuntos().subtract(historicoDTO.getPuntos()));
+            	}
+
+              return modelMapper.map(monederoRepository.save(monedero), MonederoDTO.class);
+          } else {
+              // Manejo cuando el negocio con el ID proporcionado no existe
+              return null;
+          }
+      }
+
+
 
     public void eliminarMonedero(Long id) {
     	monederoRepository.deleteById(id);

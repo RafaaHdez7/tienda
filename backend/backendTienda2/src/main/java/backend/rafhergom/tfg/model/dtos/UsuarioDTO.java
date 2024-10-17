@@ -20,5 +20,5 @@ public class UsuarioDTO {
 	//@JsonAlias({"Rol", "rol"})
     private String rol;
 	//@JsonAlias({"Activo", "activo"})
-    private Boolean activo = true;
+    //private Boolean activo = true;
 }

@@ -15,6 +15,7 @@ import backend.rafhergom.tfg.repository.DetallesPedidoRepository;
 import backend.rafhergom.tfg.repository.PedidoRepository;
 import backend.rafhergom.tfg.repository.ProductoRepository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,6 +61,33 @@ public class DetallesPedidoService {
     	return detallePedidoDTO;
     }
     
+    public BigDecimal calcularPrecioTotalDetallesPedidoPorIdPedido(Long idPedido) {
+    	
+    	List<DetallesPedido> detallePedidoList = detallesPedidoRepository.getByPedidoId(idPedido);
+        BigDecimal total = BigDecimal.ZERO; 
+
+        for (DetallesPedido detalle : detallePedidoList) {
+            BigDecimal subtotal = BigDecimal.valueOf(detalle.getCantidad())
+                    .multiply(detalle.getPrecioUnitario());
+            total = total.add(subtotal);
+        }
+
+        return total;
+    }
+    
+    public BigDecimal calcularPrecioTotalPorListDetallesPedidoDTO(List<DetallesPedidoDTO> detallePedidoList) {
+    	
+        BigDecimal total = BigDecimal.ZERO; 
+
+        for (DetallesPedidoDTO detalle : detallePedidoList) {
+            BigDecimal subtotal = BigDecimal.valueOf(detalle.getCantidad())
+                    .multiply(detalle.getPrecioUnitario());
+            total = total.add(subtotal);
+        }
+
+        return total;
+    }
+
     public List<DetallesPedidoDTO> obtenerDetallesPedidoPorIdPedido(Long idPedido) {
         // Obtener la lista de DetallesPedido a partir del idPedido
 		List<DetallesPedido> detallePedidoList = detallesPedidoRepository.getByPedidoId(idPedido);
@@ -87,7 +115,7 @@ public class DetallesPedidoService {
         // Retornar la lista de DetallesPedidoDTO
         return detallePedidoDTOList;
     }
-
+ 
 
     public DetallesPedidoDTO crearDetallesPedido(DetallesPedidoDTO detallesPedidoDTO) {
         // Utiliza ModelMapper para mapear de DetallesPedidoDTO a DetallesPedido

@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "HistoricoTransacciones")
+@Table(name = "historicotransacciones")
 public class HistoricoTransacciones {
 
     @Id
@@ -23,9 +23,6 @@ public class HistoricoTransacciones {
 
     @Column(name = "puntos", nullable = false, columnDefinition = "NUMERIC(10, 2)")
     private Double puntos;
-
-    @Column(name = "fecha_transaccion", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date fechaTransaccion;
 
     @Column(name = "descripcion", length = 500)
     private String descripcion;

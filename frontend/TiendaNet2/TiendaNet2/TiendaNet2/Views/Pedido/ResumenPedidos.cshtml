@@ -10,35 +10,7 @@
         </h1>
         <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
     </div>
-    
-    <script>
-        function redirectToPedido(pedidoId) {
-            window.location.href = `/Pedido/ResumenPedido/${pedidoId}`;
-        }
 
-        function filterTable() {
-            const filter = document.getElementById("filterInput").value.toLowerCase();
-            const rows = document.querySelectorAll("tbody tr");
-
-            rows.forEach(row => {
-                const cells = row.getElementsByTagName("td");
-                let match = false;
-
-                for (let i = 0; i < cells.length; i++) {
-                    if (cells[i].innerText.toLowerCase().includes(filter)) {
-                        match = true;
-                        break;
-                    }
-                }
-
-                if (match) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        }
-    </script>
 </head>
 
 <body>
@@ -84,3 +56,33 @@
         }
     </div>
 </body>
+
+            
+    <script>
+        function redirectToPedido(pedidoId) {
+            window.location.href = `/Pedido/ResumenPedido/${pedidoId}`;
+        }
+
+        function filterTable() {
+            const filter = document.getElementById("filterInput").value.toLowerCase();
+            const rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                const cells = row.getElementsByTagName("td");
+                let match = false;
+
+                for (let i = 0; i < cells.length; i++) {
+                    if (cells[i].innerText.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                if (match) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    </script>
