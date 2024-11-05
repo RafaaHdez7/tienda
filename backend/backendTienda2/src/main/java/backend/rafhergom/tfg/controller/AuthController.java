@@ -16,11 +16,14 @@ import backend.rafhergom.tfg.service.AuthService;
 import backend.rafhergom.tfg.service.UsuarioService;
 import backend.rafhergom.tfg.model.entity.Usuario;
 import backend.rafhergom.tfg.security.JwtUtils;
-import io.swagger.annotations.Api;
-
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "AuthController")
+@Tag(name = "AuthController", description = "Controlador para la autenticación y autorización de usuarios")
 @RequestMapping("/api/autorizacion")
 public class AuthController {
 	
@@ -45,7 +48,8 @@ public class AuthController {
     			return jwtToken;
     }
     
-    @PostMapping("/registro")
+    @Operation(summary = "Iniciar sesión", description = "Permite a los usuarios iniciar sesión en la aplicación")
+    @GetMapping("/login")
     @PermitAll
     public String registro(@RequestBody LoginRequestDTO loginRequestDTO) {
     	Usuario nuevoUsuario = new Usuario();
