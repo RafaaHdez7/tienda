@@ -41,6 +41,8 @@ public class AuthController {
     private UsuarioService usuarioService;
 
     @PostMapping("/login")
+    @Operation(summary = "Iniciar sesión", description = "Permite a los usuarios iniciar sesión en la aplicación")
+    
     @PermitAll
     public String login(@RequestBody LoginRequestDTO loginRequestDTO) {
     	Usuario usuario = authService.authenticate(loginRequestDTO);
@@ -48,8 +50,8 @@ public class AuthController {
     			return jwtToken;
     }
     
-    @Operation(summary = "Iniciar sesión", description = "Permite a los usuarios iniciar sesión en la aplicación")
-    @GetMapping("/login")
+    @Operation(summary = "Registrar", description = "Permite a los usuarios crear una cuenta de acceso")
+    @PostMapping("/registro")
     @PermitAll
     public String registro(@RequestBody LoginRequestDTO loginRequestDTO) {
     	Usuario nuevoUsuario = new Usuario();
