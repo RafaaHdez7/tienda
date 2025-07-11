@@ -7,4 +7,5 @@ public class LoginRequestDTO {
 
 		String username;
 		String password;
+		String email;
 }

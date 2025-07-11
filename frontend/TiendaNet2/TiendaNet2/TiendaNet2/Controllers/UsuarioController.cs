@@ -14,11 +14,13 @@ namespace TiendaNet2.Controllers
     {
         private readonly String ERROR = "-1";
         private UsuarioService usuarioService;
+        private MonederoService monederoService;
 
-        public UsuarioController(UsuarioService usuarioService)
+        public UsuarioController(UsuarioService usuarioService, MonederoService monederoService)
         {
 
             this.usuarioService = usuarioService;
+            this.monederoService = monederoService;
         }
         [AllowAnonymous]
         public IActionResult Registro()
@@ -38,7 +40,7 @@ namespace TiendaNet2.Controllers
 
             var usuario = new Usuario() { Nombre = modelo.Nombre };
 
-            var resultadoSingIn = await usuarioService.Registrar(modelo.Nombre, modelo.Contrasena);
+            var resultadoSingIn = await usuarioService.Registrar(modelo.Nombre, modelo.Contrasena, modelo.Email);
 
             if (!resultadoSingIn.Equals(ERROR))
             {
@@ -81,9 +83,11 @@ namespace TiendaNet2.Controllers
                 {
                     var nombreUsuario = nombreUsuarioClaim.Value;
                     var rol = rolClaim.Value;
+                    Monedero monedero = await monederoService.ObtenerMonederosPorUsuario(nombreUsuario);
                     // Autenticación exitosa, guardar el nombre de usuario y el rol en la sesión
                     HttpContext.Session.SetString("NombreUsuario", nombreUsuario);
                     HttpContext.Session.SetString("Rol", rol);
+                    HttpContext.Session.SetString("Puntos", monedero.SaldoPuntos.ToString("N2"));
 
                     // Haz lo que necesites con el nombre de usuario y el rol
 
@@ -127,5 +131,23 @@ namespace TiendaNet2.Controllers
         }
 
 
+        [AllowAnonymous]
+        [HttpGet("Usuario/Perfil")]
+        public async Task<IActionResult> Perfil()
+        {
+            string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+
+            if (nombreUsuario == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var viewModel = new UsuarioMonederoViewModel
+            {
+                Usuario = await usuarioService.ObtenerUser(nombreUsuario),
+                Monedero = await monederoService.ObtenerMonederosPorUsuario(nombreUsuario)
+            };
+
+            return View(viewModel);
+        }
     }
 }

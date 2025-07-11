@@ -6,12 +6,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using Newtonsoft.Json;
 namespace TiendaNet2.Servicios
 {
     public interface IUsuarioService
     {
         Task<AuthResult> Authenticate(string username, string password);
-        Task<string> Registrar(string username, string password);
+        Task<string> Registrar(string username, string password, string email);
+        Task<Usuario> ObtenerUser(string username);
     }
 
     public class UsuarioService : IUsuarioService
@@ -19,9 +22,9 @@ namespace TiendaNet2.Servicios
         private readonly HttpClient httpClient;
         private readonly IConfiguration config;
         private readonly IHttpClientFactory _httpClientFactory;
-        
 
-        public UsuarioService(HttpClient httpClient, IConfiguration config, IHttpClientFactory _httpClientFactory )
+
+        public UsuarioService(HttpClient httpClient, IConfiguration config, IHttpClientFactory _httpClientFactory)
         {
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             this.config = config;
@@ -58,7 +61,7 @@ namespace TiendaNet2.Servicios
         }
 
 
-        public async Task<string> Registrar(string username, string password)
+        public async Task<string> Registrar(string username, string password, string email)
         {
             try
             {
@@ -66,7 +69,8 @@ namespace TiendaNet2.Servicios
                 var authenticationRequest = new
                 {
                     username,
-                    password
+                    password,
+                    email
                 };
                 string srv = config.GetValue<string>("_authURL");
                 var response = await httpClient.PostAsJsonAsync($"{srv}registro", authenticationRequest);
@@ -85,7 +89,37 @@ namespace TiendaNet2.Servicios
                 throw new InvalidOperationException("Error al registrar al usuario", ex);
             }
         }
-    }
 
-  
+
+        public async Task<Usuario> ObtenerUser(string username)
+        {
+            try
+            {
+                string srv = config.GetValue<string>("_usuarioURL")+ "nombre/"+username;
+
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(srv);
+                    var response = await httpClient.GetAsync(srv);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Lee y deserializa la respuesta JSON en un objeto Usuario
+                        var jsonResponse = await response.Content.ReadAsStringAsync();
+                        var usuario = JsonConvert.DeserializeObject<Usuario>(jsonResponse);
+                        return usuario; // Retorna el usuario obtenido
+                    }
+                }
+               
+                return null;
+                
+            }
+            catch (Exception ex)
+            {
+                // Ocurrió un error, retorna null
+                return null;
+            }
+        }
+
+    }
 }

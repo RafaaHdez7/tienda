@@ -15,7 +15,9 @@ import backend.rafhergom.tfg.repository.DetallesPedidoRepository;
 import backend.rafhergom.tfg.repository.PedidoRepository;
 import backend.rafhergom.tfg.repository.ProductoRepository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,23 +53,89 @@ public class DetallesPedidoService {
     }
 
     public DetallesPedidoDTO obtenerDetallesPedidoPorId(Long id) {
-        return detallesPedidoRepository.findById(id).map(detallesPedido -> {
+    	DetallesPedidoDTO detallePedidoDTO =  detallesPedidoRepository.findById(id).map(detallesPedido -> {
            return modelMapper.map(detallesPedido, DetallesPedidoDTO.class);
         }).orElse(null);
+    	detallePedidoDTO.getProducto().setImagenURL(null);
+    	detallePedidoDTO.getPedido().getNegocioDTO().setImagenURL(null);
+    	return detallePedidoDTO;
     }
+    
+    public BigDecimal calcularPrecioTotalDetallesPedidoPorIdPedido(Long idPedido) {
+    	
+    	List<DetallesPedido> detallePedidoList = detallesPedidoRepository.getByPedidoId(idPedido);
+        BigDecimal total = BigDecimal.ZERO; 
+
+        for (DetallesPedido detalle : detallePedidoList) {
+            BigDecimal subtotal = BigDecimal.valueOf(detalle.getCantidad())
+                    .multiply(detalle.getPrecioUnitario());
+            total = total.add(subtotal);
+        }
+
+        return total;
+    }
+    
+    public BigDecimal calcularPrecioTotalPorListDetallesPedidoDTO(List<DetallesPedidoDTO> detallePedidoList) {
+    	
+        BigDecimal total = BigDecimal.ZERO; 
+
+        for (DetallesPedidoDTO detalle : detallePedidoList) {
+            BigDecimal subtotal = BigDecimal.valueOf(detalle.getCantidad())
+                    .multiply(detalle.getPrecioUnitario());
+            total = total.add(subtotal);
+        }
+
+        return total;
+    }
+
+    public List<DetallesPedidoDTO> obtenerDetallesPedidoPorIdPedido(Long idPedido) {
+        // Obtener la lista de DetallesPedido a partir del idPedido
+		List<DetallesPedido> detallePedidoList = detallesPedidoRepository.getByPedidoId(idPedido);
+
+        // Crear una nueva lista de DetallesPedidoDTO
+        List<DetallesPedidoDTO> detallePedidoDTOList = new ArrayList<>(); // Usamos ArrayList aquí
+
+        // Convertir cada DetallesPedido a DetallesPedidoDTO
+        for (DetallesPedido dp : detallePedidoList) {
+            DetallesPedidoDTO detallePedidoDTO = detallesPedidoRepository.findById(dp.getId()).map(detallesPedido -> {
+                return modelMapper.map(detallesPedido, DetallesPedidoDTO.class);
+            }).orElse(null);
+            
+            detallePedidoDTO.getPedido().setEstadoPedidoDTO(detallePedidoList.get(0).getPedido().getEstadoPedido());
+            if (detallePedidoDTO != null) {
+                // Ocultar información sensible o innecesaria
+                detallePedidoDTO.getProducto().setImagenURL(null);
+                detallePedidoDTO.getPedido().getNegocioDTO().setImagenURL(null);
+
+                // Agregar el DTO a la lista
+                detallePedidoDTOList.add(detallePedidoDTO);
+            }
+        }
+
+        // Retornar la lista de DetallesPedidoDTO
+        return detallePedidoDTOList;
+    }
+ 
 
     public DetallesPedidoDTO crearDetallesPedido(DetallesPedidoDTO detallesPedidoDTO) {
         // Utiliza ModelMapper para mapear de DetallesPedidoDTO a DetallesPedido
-        DetallesPedido nuevoDetallesPedido = modelMapper.map(detallesPedidoDTO, DetallesPedido.class);
+        //DetallesPedido nuevoDetallesPedido = modelMapper.map(detallesPedidoDTO, DetallesPedido.class);
+    	DetallesPedido nuevoDetallesPedido = new DetallesPedido();
+        
+
 
         // Busca el pedido correspondiente y el producto correspondiente por sus IDs
-        Optional<Pedido> pedidoOptional = pedidoRepository.findById(detallesPedidoDTO.getPedidoId());
-        Optional<Producto> productoOptional = productoRepository.findById(detallesPedidoDTO.getProductoId());
+        Optional<Pedido> pedidoOptional = pedidoRepository.findById(detallesPedidoDTO.getPedido().getId());
+        Optional<Producto> productoOptional = productoRepository.findById(detallesPedidoDTO.getProducto().getId());
 
         if (pedidoOptional.isPresent() && productoOptional.isPresent()) {
             Pedido pedido = pedidoOptional.get();
             Producto producto = productoOptional.get();
+            nuevoDetallesPedido.setCantidad(detallesPedidoDTO.getCantidad());
+            nuevoDetallesPedido.setFechaCreacion(new Date());
+            nuevoDetallesPedido.setFechaModificacion(new Date());
 
+            nuevoDetallesPedido.setPrecioUnitario(detallesPedidoDTO.getPrecioUnitario());
             nuevoDetallesPedido.setPedido(pedido);
             nuevoDetallesPedido.setProducto(producto);
 

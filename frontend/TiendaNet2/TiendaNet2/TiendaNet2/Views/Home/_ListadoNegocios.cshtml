@@ -7,9 +7,9 @@
             @foreach (var negocio in Model)
             {
                 <div class="col">
-                    <a href="@negocio.Link">
+                    <a href="@Url.Action("HacerPedido", "Pedido", new { id = negocio.Id })">
                         <div class="card h-100 text-center">
-                        <img src="@negocio.ImagenURL" class="card-img-top" alt="imagen negocio" />
+                            <img src="@negocio.ImagenURL" class="card-img-top limited-img-list" alt="imagen negocio" />
                         <div class="card-body">
                             <h5 class="card-title text-center">@negocio.Nombre</h5>
                             <p class="card-text text-center">@negocio.Descripcion</p>
@@ -21,3 +21,4 @@
         </div>
     </div>
 }
+

@@ -1,0 +1,44 @@
+﻿@model CrearNegocioViewModel
+@{
+    ViewData["Title"] = "Crear negocio";
+}
+
+
+<div class="container">
+
+    <div class="text-center">
+        <h1 class="display-4" style="color: #6f4a31;">
+            Crear nuevo negocio
+        </h1>
+        <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+    </div>
+    <form method="post">
+        <div class="form-group">
+            <label for="nombre">Nombre Negocio:</label>
+            <input type="text" class="form-control" id="nombre" name="Nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="CategoriaNegocioId">Categoría del Negocio:</label>
+            <select class="form-control" id="CategoriaNegocioId" name="CategoriaNegocioId" required>
+                @foreach (var categoria in Model.CategoriasNegocio)
+                {
+                    <option value="@categoria.Id">@categoria.NombreCategoria</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea class="form-control" id="descripcion" name="Descripcion"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="link">Link:</label>
+            <input type="text" class="form-control" id="link" name="Link" required>
+        </div>
+        <div class="form-group">
+            <label for="imagen">URL de la imagen:</label>
+            <input type="text" class="form-control" id="imagen" name="ImagenURL" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Crear negocio</button>
+    </form>
+</div>
+

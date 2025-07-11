@@ -14,7 +14,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     // Métodos CRUD generados automáticamente
 
     // Ejemplo de método de consulta personalizado
-    List<Usuario> findByNombre(String nombre);
+    Usuario findByNombre(String nombre);
 
     // Otra consulta personalizada utilizando JPQL (Java Persistence Query Language)
     @Query("SELECT u FROM Usuario u WHERE u.rol = ?1")
@@ -25,6 +25,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     @Query("SELECT u.contrasena FROM Usuario u WHERE u.nombre = :username ")
     String findPasswordByUsername(@Param("username") String username);
+    
+ // Otra consulta personalizada utilizando JPQL (Java Persistence Query Language)
+    @Query("SELECT u FROM Usuario u WHERE u.nombre = ?1")
+    Usuario findUsuarioPorUsername(String nombre);
     
 }
 

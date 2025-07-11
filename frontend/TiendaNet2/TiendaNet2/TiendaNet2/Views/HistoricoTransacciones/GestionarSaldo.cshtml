@@ -1,0 +1,44 @@
+﻿@model UsuarioMonederoViewModel
+
+@{
+    ViewData["Title"] = "Gestionar Saldo del Monedero";
+}
+
+<div class="container mt-4">
+    <h2>Gestionar Saldo del Monedero</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Información del Monedero</h4>
+            <div class="form-group">
+                <label>Saldo Actual:</label>
+                <p>@Model.Monedero?.SaldoPuntos.ToString("N2") Puntos</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Realizar Transacción</h4>
+            <form method="post" asp-action="RealizarTransaccion">
+                <div class="form-group">
+                    <label>Tipo de Transacción:</label>
+                    <select class="form-control" id="tipoTransaccion" name="tipoTransaccion">
+                        <option value="Ingreso">Ingreso</option>
+                        <option value="Deducción">Deducción</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Cantidad:</label>
+                    <input type="number" class="form-control" id="cantidad" name="cantidad" min="0" step="0.01" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción (Obligatoria):</label>
+                    <input type="text" class="form-control" id="descripcion" name="descripcion" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Realizar Transacción</button>
+            </form>
+        </div>
+    </div>
+</div>

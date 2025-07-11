@@ -1,0 +1,88 @@
+﻿@model HistoricoTransaccionesViewModel
+
+@{
+    ViewData["Title"] = "Histórico de Transacciones de @Model.NombreUsuario";
+}
+
+<div class="container mt-4">
+    <div class="text-center">
+        <h1 class="display-4" style="color: #6f4a31;">
+            Histórico de Transacciones de @Model.NombreUsuario
+        </h1>
+        <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+    </div>
+
+    <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Buscar por columnas..." class="form-control mb-3" />
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID Transacción</th>
+                <th>Usuario</th>
+                <th>Tipo de Transacción</th>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Puntos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaccion in Model.Transacciones)
+            {
+                <tr>
+                    <td>@transaccion.Id</td>
+                    <td>@transaccion.Usuario.Nombre</td>
+                    <td>@transaccion.TipoTransaccion</td>
+                    <td>@transaccion.Descripcion</td>
+                    <td>@transaccion.FechaCreacion</td>
+                    <td>@transaccion.Puntos.ToString("N2") Puntos</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between">
+        @if (Model.PageNumber > 1)
+        {
+            <a href="/HistoricoTransacciones/VerHistorico?pageNumber=@(Model.PageNumber - 1)" class="btn btn-secondary">Anterior</a>
+        }
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <a href="/HistoricoTransacciones/VerHistorico?pageNumber=@i" class="btn @(i == Model.PageNumber ? "btn-primary" : "btn-light")">@i</a>
+        }
+
+        @if (Model.PageNumber < Model.TotalPages)
+        {
+            <a href="/HistoricoTransacciones/VerHistorico?pageNumber=@(Model.PageNumber + 1)" class="btn btn-secondary">Siguiente</a>
+        }
+    </div>
+</div>
+<div class="text-center mt-4">
+    <a href="/HistoricoTransacciones/GestionarSaldo" class="btn btn-primary">Gestionar Saldo</a>
+</div>
+
+
+<script>
+    function filterTable() {
+        const filter = document.getElementById("filterInput").value.toLowerCase();
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            const cells = row.getElementsByTagName("td");
+            let match = false;
+
+            for (let i = 0; i < cells.length; i++) {
+                if (cells[i].innerText.toLowerCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+
+            if (match) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+</script>

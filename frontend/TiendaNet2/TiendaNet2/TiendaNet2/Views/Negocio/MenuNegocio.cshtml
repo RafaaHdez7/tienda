@@ -1,0 +1,32 @@
+﻿@model CrearNegocioViewModel
+
+@{
+    ViewData["Title"] = "Opciones de Editar Proyecto";
+}
+
+<div class="text-center">
+    <img src="@Model.Negocio.ImagenURL" class="card-img-top limited-img-small" alt="Imagen del negocio">
+    <h1 class="display-4" style="color: #6f4a31;">
+        Menú de Editar Negocio
+    </h1>
+    <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+</div>
+<div class="card">
+    <div class="card-body text-center">
+        <form>
+            <div class="text-danger"></div>
+
+            <div class="mb-3">
+                <p>Elige una opción para continuar con la edición del negocio:</p>
+            </div>
+
+            <div class="mb-3">
+                <a href="@Url.Action("EditarNegocio", "Negocio", new { id = Model.Negocio.Id })" class="btn btn-primary">Editar Detalles del Negocio</a>
+            </div>
+
+            <div class="mb-3">
+                <a href="@Url.Action("EditarCarta", "Negocio", new { id = Model.Negocio.Id })" class="btn btn-secondary">Editar Carta</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -18,4 +18,11 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     // Otra consulta personalizada utilizando JPQL (Java Persistence Query Language)
     @Query("SELECT p FROM Pedido p WHERE p.usuario.id = ?1")
     List<Pedido> findPedidosPorUsuario(Long usuarioId);
+    
+ // Otra consulta personalizada utilizando JPQL (Java Persistence Query Language)
+    @Query("SELECT p FROM Pedido p WHERE p.usuario.nombre = ?1")
+    List<Pedido> findPedidosPorNombreUsuario(String nombreUsuario);
+    
+    // Consulta personalizada para encontrar pedidos por usuario_id
+    List<Pedido> findByUsuarioId(Long usuarioId);
 }

@@ -2,8 +2,15 @@ package backend.rafhergom.tfg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import backend.rafhergom.tfg.model.dtos.LoginRequestDTO;
+import backend.rafhergom.tfg.model.entity.Usuario;
 import backend.rafhergom.tfg.repository.UsuarioRepository;
 import backend.rafhergom.tfg.security.JwtUtils;
 
@@ -14,41 +21,32 @@ public class AuthService {
 	@Autowired
     private UsuarioRepository usuarioRepository;
 	private JwtUtils jwtUtils = new JwtUtils(); 
+	private final PasswordEncoder passwordEncoder;
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final AuthenticationManager authenticationManager;
+    
+    public AuthService(
+    		UsuarioRepository userRepository,
+            AuthenticationManager authenticationManager,
+            PasswordEncoder passwordEncoder
+        ) {
+            this.authenticationManager = authenticationManager;
+            this.usuarioRepository = userRepository;
+            this.passwordEncoder = passwordEncoder;
+        }
+    
+	
 
 	// Método para autenticar al usuario
-	public String authenticate(String username, String password) {
-	    try {
-	    	String passwordEncoded = usuarioRepository.findPasswordByUsername(username);
-
-	    	if (passwordEncoded != null && encoder.matches(password, passwordEncoded)) {
-	    	    // Autenticación exitosa
-	    	    String rol = usuarioRepository.findRoleByUsernameAndPassword(username, passwordEncoded);
-
-	        if (rol != null) {
-	            // Verifica que el rol sea válido antes de generar el token
-	            if (isValidRole(rol)) {
-	                // Generar token JWT
-	                return jwtUtils.generateToken(username, rol);
-	            } else {
-	                // El rol no es válido
-	                throw new RuntimeException("Rol no válido");
-	            }
-	        } else {
-	            // Las credenciales no son válidas
-	            throw new RuntimeException("Credenciales no válidas");
-	        }
-	    	}
-	    	else {
-	    		// Las credenciales no son válidas
-	            throw new RuntimeException("Usuario no válido");
-	    	}
-	    } catch (Exception e) {
-	        // Manejar errores de conexión o consultas JPA
-	        throw new RuntimeException("Error al autenticar al usuario", e);
-	    }
-	}
-
+    public Usuario authenticate(LoginRequestDTO input) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        input.getUsername(),
+                        input.getPassword()
+                )
+        );
+        return usuarioRepository.findByNombre(input.getUsername());
+    }
 
 
     private boolean isValidRole(String role) {

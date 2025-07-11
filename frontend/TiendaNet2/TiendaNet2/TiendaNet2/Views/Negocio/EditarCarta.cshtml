@@ -1,0 +1,61 @@
+﻿@model ProductoNegocioViewModel
+@{
+    ViewData["Title"] = "Productos de la carta";
+}
+
+<div class="container">
+
+    <div class="text-center">
+        <img src="@Model.Negocio.ImagenURL" class="card-img-top limited-img-small" alt="Imagen del negocio">
+        <h1 class="display-4" style="color: #6f4a31;">
+            Editar productos del negocio @Model.Negocio.Nombre
+        </h1>
+        <div style="margin-top: 20px; border-top: 1px solid #6f4a31; padding-top: 10px;"></div>
+    </div>
+    <div class="row">
+        <div class="mb-3">
+            <a href="@Url.Action("AgregarProducto", "Producto", new { id = Model.Negocio.Id })" class="btn btn-secondary">Añadir Producto</a>
+        </div>
+        <!-- Mostrar productos en formato de carta -->
+        @if (Model.Producto != null && Model.Producto.Any())
+        {
+        
+            @foreach (var p in Model.Producto)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="@p.ImagenURL" class="card-img-top limited-img-list" alt="Imagen del Producto">
+                        <div class="card-body">
+                            <h5 class="card-title">@p.Nombre_Producto</h5>
+                            <p class="card-text">@p.Descripcion</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Categoría: @p.Categoria_Producto.NombreCategoria</li>
+                                <li class="list-group-item">Stock Disponible: @p.Stock_Disponible</li>
+                                <li class="list-group-item">Precio: @p.Precio</li>
+                            </ul>
+                            <!-- Botón Editar con formulario -->
+                            <form method="post" asp-controller="Producto" asp-action="EditarProducto">
+                                <input type="hidden" name="Id" value="@p.Id" />
+                                <input type="hidden" name="Nombre_Producto" value="@p.Nombre_Producto" />
+                                <input type="hidden" name="Descripcion" value="@p.Descripcion" />
+                                <input type="hidden" name="Precio" value="@p.Precio" />
+                                <input type="hidden" name="Stock_Disponible" value="@p.Stock_Disponible" />
+                                <input type="hidden" name="Categoria_Producto.Id" value="@p.Categoria_Producto.Id" />
+                                <input type="hidden" name="Categoria_Producto" value="@p.Categoria_Producto" />
+                                <input type="hidden" name="Negocio.Id" value="@Model.Negocio.Id" />
+                                <input type="hidden" name="Negocio" value="@Model.Negocio" />
+                                <input type="hidden" name="ImagenURL" value="@p.ImagenURL" />
+                                <button type="submit" class="btn btn-primary mt-3">Editar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        
+        }
+        else
+        {
+            <p>No hay productos disponibles.</p>
+        }
+    </div>
+</div>
